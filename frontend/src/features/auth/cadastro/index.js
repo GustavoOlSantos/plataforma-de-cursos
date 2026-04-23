@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import {authService} from "../services/authService";
 
-import "./style.css";
+import "../style.css";
 import ButtonText from '../../../components/buttonText';
 
 function Cadastro(){

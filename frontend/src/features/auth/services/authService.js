@@ -4,13 +4,10 @@ import axios from "axios";
 import api from "../../../services/api";
 
 function login(email, password){
-    // Simulação de autenticação
-    if(user === 'admin' && password === '1234'){
-        localStorage.setItem(AUTH_USER, user);
-        localStorage.setItem(AUTH_KEY, 'true');
-        return true;
-    }
-    return false;
+    return api.post('/users/login', 
+      { email, 
+        password 
+      })
 }
 
 function logout(){

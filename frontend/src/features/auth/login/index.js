@@ -1,14 +1,16 @@
 import React, {useState} from 'react';
-//import FormLogin from '../components/login/FormLogin';
 import { useNavigate } from 'react-router-dom';
 import {authService} from "../services/authService";
+
+import ButtonText from '../../../components/buttonText';
+import "../style.css";
 
 function Login(){
 
     const navigate = useNavigate();
    //=> State do Formulário
     let [formData, setFormData] = useState({
-        user: "",
+        email: "",
         password: ""
     });
 
@@ -25,24 +27,53 @@ function Login(){
         setError(null);
         e.preventDefault();
 
-        if(formData.user === "" || formData.password === ""){
+        if(formData.email === "" || formData.password === ""){
             setError("Por favor, preencha todos os campos.");
             return;
         }
 
-        let success = authService.login(formData.user, formData.password);
-        if(!success){
-            setError("Usuário ou senha inválidos.");
+        if(!isEmailValido(formData.email)){
+            setError("Por favor, insira um email válido.");
             return;
         }
-        navigate("/Dashboard");
+
+       authService.login(formData.email, formData.password)
+       .then(res => {
+            console.log("Sucesso ao fazer login:", res.data);
+            navigate("/Dashboard");
+        })
+        .catch(err => {
+            const msg = err.response?.data?.message || "Erro inesperado";
+            console.error(msg);
+            setError(msg);
+        });
+
+    }
+
+    function isEmailValido(email) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     }
 
     return(
-        <div className="login-page">
-            login
+        <div className="double-container">
+            <div className="register-image">
+               <img src="/Full.png" alt="Logo Completo"/>
+            </div>
+
+            <div className="register-form">
+                <h1>Bem-vindo de volta</h1>
+                <p>Entre para acessar seus cursos e continuar aprendendo.</p>
+                <form onSubmit={handleSubmit}>
+                    <input type="text" name="email" placeholder="Email" value={formData.email} onChange={handleChange}/>
+                    <input type="password" name="password" placeholder="Senha" value={formData.password} onChange={handleChange}/>
+
+                    {error && <p className="error">{error}</p>}
+
+                    <ButtonText className="btn full" text="Entrar" type="submit"/>
+                </form>
+
+            </div>
         </div>
     )
-    // <FormLogin handleChange={handleChange} submit={handleSubmit} error={error}/>
 }
 export default Login;
