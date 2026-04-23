@@ -1,8 +1,9 @@
 const AUTH_KEY = 'isAuthenticated';
 const AUTH_USER = 'authenticatedUser';
+import axios from "axios";
 import api from "../../../services/api";
 
-function login(user, password){
+function login(email, password){
     // Simulação de autenticação
     if(user === 'admin' && password === '1234'){
         localStorage.setItem(AUTH_USER, user);
@@ -17,6 +18,14 @@ function logout(){
     localStorage.removeItem(AUTH_KEY);
 }
 
+function register(nome, email, password){
+    return api.post('/users', 
+      { nome, 
+        email, 
+        password 
+      });
+}
+
 function getAuthenticatedUser() {
   return localStorage.getItem(AUTH_USER);
 }
@@ -28,6 +37,7 @@ function isAuthenticated() {
 export const authService = {
   login,
   logout,
+  register,
   getAuthenticatedUser,
   isAuthenticated
 };

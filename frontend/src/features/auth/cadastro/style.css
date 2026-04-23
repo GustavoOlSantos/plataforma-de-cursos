@@ -1,0 +1,59 @@
+h1{
+    margin: 0;
+}
+
+p{
+    width: 70%;
+    margin-bottom: 40px;
+    padding: 0 50px !important;
+    color: #868686;
+    font-size: 12pt !important;
+    text-align: left !important;
+}
+.double-container{
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+
+    width: 100vw;
+    height: 80%;
+}
+
+.register-form{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    justify-content: center;
+}
+
+form{
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 25px
+}
+
+input{
+    width: 80%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+}
+
+.register-image{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.register-image img{
+    margin-top: 50px;
+    width: 75%;
+    height: auto;
+}

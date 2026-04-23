@@ -7,9 +7,12 @@ import Home from './features/home';
 import Perfil from './features/perfil';
 import NotFound from './features/not-found';
 
+import NavBar from './components/navbar';
+
 function App(){
   return(
     <div className="App">
+      <NavBar/>
       <AppRoutes />
     </div>
   )
