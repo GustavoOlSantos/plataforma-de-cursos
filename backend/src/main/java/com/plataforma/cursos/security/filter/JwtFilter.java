@@ -31,10 +31,10 @@ public class JwtFilter extends OncePerRequestFilter {
             String token = header.substring(7);
 
             if (tokenService.isValid(token)) {
-                String email = tokenService.getEmail(token);
+                Long id = tokenService.getId(token);
 
                 UsernamePasswordAuthenticationToken auth =
-                new UsernamePasswordAuthenticationToken(email, null, List.of(new SimpleGrantedAuthority("USER")));
+                new UsernamePasswordAuthenticationToken(id, null, List.of(new SimpleGrantedAuthority("USER")));
                 SecurityContextHolder.getContext().setAuthentication(auth);
             }
         }

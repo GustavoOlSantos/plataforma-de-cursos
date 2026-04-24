@@ -32,7 +32,7 @@ public class UserService {
             throw new BusinessException("Credenciais inválidas", true);
         }
 
-        return tokenService.generateToken(user.getEmail());
+        return tokenService.generateToken(user);
     }
 
     public User register(User user) {

@@ -7,6 +7,7 @@ import java.security.Key;
 import java.util.Date;
 import javax.crypto.spec.SecretKeySpec;
 import io.jsonwebtoken.SignatureAlgorithm;
+import com.plataforma.cursos.domain.User;
 
 @Service
 public class TokenService {
@@ -17,13 +18,24 @@ public class TokenService {
         this.key = new SecretKeySpec(secret.getBytes(), "HmacSHA384");
     }
 
-    public String generateToken(String email) {
+    public String generateToken(User user) {
         return Jwts.builder()
-                .setSubject(email)
+                .setSubject(user.getId().toString())
+                .claim("nome", user.getNome())
+                .claim("email", user.getEmail())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60)) // 1h
                 .signWith(key, SignatureAlgorithm.HS384)
                 .compact();
+    }
+
+    public Long getId(String token) {
+        return Long.valueOf(Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .getSubject());
     }
 
     public String getEmail(String token) {
@@ -32,7 +44,16 @@ public class TokenService {
                 .build()
                 .parseClaimsJws(token)
                 .getBody()
-                .getSubject();
+                .get("email", String.class);
+    }
+
+    public String getNome(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .get("nome", String.class);
     }
 
     public boolean isValid(String token) {

@@ -32,7 +32,7 @@ backend/target/
 backend/build/
 backend/out/
 backend/*.log
-backend/src/main/resources/application*properties
+backend/src/main/resources/application.properties
 
 *.class
 *.jar
