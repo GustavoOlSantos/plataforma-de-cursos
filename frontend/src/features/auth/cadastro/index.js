@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useEffect } from "react";
 import {authService} from "../services/authService";
 
 import "../style.css";
@@ -8,6 +9,15 @@ import ButtonText from '../../../components/buttonText';
 function Cadastro(){
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+
+        if (token) {
+            navigate("/dashboard");
+        }
+    }, [navigate]);
+
    //=> State do Formulário
     let [formData, setFormData] = useState({
         nome: "",

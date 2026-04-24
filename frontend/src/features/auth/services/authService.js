@@ -4,7 +4,7 @@ import axios from "axios";
 import api from "../../../services/api";
 
 function login(email, password){
-    return api.post('/users/login', 
+    return api.post('/auth/login', 
       { email, 
         password 
       })
@@ -16,7 +16,7 @@ function logout(){
 }
 
 function register(nome, email, password){
-    return api.post('/users', 
+    return api.post('/auth/cadastro', 
       { nome, 
         email, 
         password 

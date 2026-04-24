@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useEffect } from "react";
 import {authService} from "../services/authService";
 
 import ButtonText from '../../../components/buttonText';
@@ -8,6 +9,15 @@ import "../style.css";
 function Login(){
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+
+        if (token) {
+            navigate("/dashboard");
+        }
+    }, [navigate]);
+
    //=> State do Formulário
     let [formData, setFormData] = useState({
         email: "",
@@ -39,7 +49,7 @@ function Login(){
 
        authService.login(formData.email, formData.password)
        .then(res => {
-            console.log("Sucesso ao fazer login:", res.data);
+            localStorage.setItem("token", res.data);
             navigate("/Dashboard");
         })
         .catch(err => {
