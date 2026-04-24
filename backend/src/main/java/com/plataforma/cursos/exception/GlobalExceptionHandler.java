@@ -10,8 +10,12 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(BusinessException.class)
     public ResponseEntity<?> handleBusiness(BusinessException ex) {
+        String responseMessage = ex.isExposeMessage()
+                ? ex.getMessage()
+                : "Não foi possível completar a operação";
+
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
-                .body(new ErrorResponse("Não foi possível completar a operação"));
+                .body(new ErrorResponse(responseMessage));
     }
 }

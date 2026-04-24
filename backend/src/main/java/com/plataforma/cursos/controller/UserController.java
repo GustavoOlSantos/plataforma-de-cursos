@@ -6,7 +6,7 @@ import com.plataforma.cursos.domain.User;
 import com.plataforma.cursos.service.UserService;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/auth")
 public class UserController {
 
     private final UserService service;
@@ -20,8 +20,13 @@ public class UserController {
         return service.findAll();
     }
 
-    @PostMapping
+    @PostMapping("/cadastro")
     public User create(@RequestBody User user) {
         return service.save(user);
+    }
+
+    @PostMapping("/login")
+    public String login(@RequestBody User user) {
+        return service.login(user.getEmail(), user.getPassword());
     }
 }

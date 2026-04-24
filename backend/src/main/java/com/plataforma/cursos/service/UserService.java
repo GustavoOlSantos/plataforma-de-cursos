@@ -3,6 +3,7 @@ package com.plataforma.cursos.service;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import com.plataforma.cursos.domain.User;
+import com.plataforma.cursos.service.security.TokenService;
 import com.plataforma.cursos.exception.BusinessException;
 import com.plataforma.cursos.repository.UserRepository;
 import com.plataforma.cursos.service.PasswordService;
@@ -12,10 +13,12 @@ public class UserService {
 
     private final UserRepository repository;
     private final PasswordService passwordService;
+    private final TokenService tokenService;
 
-    public UserService(UserRepository repository, PasswordService passwordService) {
+    public UserService(UserRepository repository, PasswordService passwordService, TokenService tokenService) {
         this.repository = repository;
         this.passwordService = passwordService;
+        this.tokenService = tokenService;
     }
 
     public List<User> findAll() {
@@ -26,19 +29,19 @@ public class UserService {
         User user = repository.findByEmail(email);
 
         if (user == null || !passwordService.matches(password, user.getPassword())) {
-            throw new BusinessException("Email ou senha inválidos");
+            throw new BusinessException("Credenciais inválidas", true);
         }
 
-        return "Funcionou!";
+        return tokenService.generateToken(user.getEmail());
     }
 
     public User save(User user) {
         if(user.getNome() == null || user.getEmail() == null || user.getPassword() == null){
-             throw new BusinessException("Dados incompletos para cadastro");
+            throw new BusinessException("Dados incompletos para cadastro", true);
         }
 
         if(repository.findByEmail(user.getEmail()) != null){
-            throw new BusinessException("Erro ao processar cadastro");
+            throw new BusinessException("Usuário já cadastrado no sistema", false);
         }
 
         user.setPassword(passwordService.hash(user.getPassword()));
