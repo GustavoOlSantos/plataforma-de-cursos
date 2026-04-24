@@ -22,7 +22,7 @@ public class UserController {
 
     @PostMapping("/cadastro")
     public User create(@RequestBody User user) {
-        return service.save(user);
+        return service.register(user);
     }
 
     @PostMapping("/login")

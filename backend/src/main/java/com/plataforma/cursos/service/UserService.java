@@ -3,10 +3,10 @@ package com.plataforma.cursos.service;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import com.plataforma.cursos.domain.User;
-import com.plataforma.cursos.service.security.TokenService;
+import com.plataforma.cursos.security.service.TokenService;
+import com.plataforma.cursos.security.service.PasswordService;
 import com.plataforma.cursos.exception.BusinessException;
 import com.plataforma.cursos.repository.UserRepository;
-import com.plataforma.cursos.service.PasswordService;
 
 @Service
 public class UserService {
@@ -35,7 +35,7 @@ public class UserService {
         return tokenService.generateToken(user.getEmail());
     }
 
-    public User save(User user) {
+    public User register(User user) {
         if(user.getNome() == null || user.getEmail() == null || user.getPassword() == null){
             throw new BusinessException("Dados incompletos para cadastro", true);
         }

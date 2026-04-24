@@ -1,4 +1,4 @@
-package com.plataforma.cursos.service;
+package com.plataforma.cursos.security.service;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;

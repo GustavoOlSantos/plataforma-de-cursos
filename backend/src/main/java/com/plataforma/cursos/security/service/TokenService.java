@@ -1,12 +1,12 @@
-package com.plataforma.cursos.service.security;
-
+package com.plataforma.cursos.security.service;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Value;
-
 import java.security.Key;
 import java.util.Date;
+import javax.crypto.spec.SecretKeySpec;
+import io.jsonwebtoken.SignatureAlgorithm;
 
 @Service
 public class TokenService {
@@ -14,7 +14,7 @@ public class TokenService {
     private final Key key;
 
     public TokenService(@Value("${jwt.secret}") String secret) {
-        this.key = Keys.hmacShaKeyFor(secret.getBytes());
+        this.key = new SecretKeySpec(secret.getBytes(), "HmacSHA384");
     }
 
     public String generateToken(String email) {
@@ -22,7 +22,7 @@ public class TokenService {
                 .setSubject(email)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60)) // 1h
-                .signWith(key)
+                .signWith(key, SignatureAlgorithm.HS384)
                 .compact();
     }
 
