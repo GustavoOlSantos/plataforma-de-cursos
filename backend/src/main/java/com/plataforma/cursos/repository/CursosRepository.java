@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface CursosRepository extends JpaRepository<Cursos, Long> {
     List<Cursos> findByNomeContainingIgnoreCase(String nome);
+    List<Cursos> findTop10ByOrderByAlunosMatriculadosDesc();
 }

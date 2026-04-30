@@ -21,6 +21,10 @@ public class CursosService {
         return repository.findAll();
     }
 
+    public List<Cursos> findBestSellers(){
+        return repository.findTop10ByOrderByAlunosMatriculadosDesc();
+    }
+
     public Cursos findById(Long id) {
         Optional<Cursos> curso = repository.findById(id);
         if (curso.isEmpty()) {

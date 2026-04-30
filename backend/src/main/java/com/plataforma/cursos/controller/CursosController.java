@@ -20,6 +20,11 @@ public class CursosController {
         return service.findAll();
     }
 
+    @GetMapping("/maisVendidos")
+    public List<Cursos> getMaisVendidos() {
+        return service.findBestSellers();
+    }
+
     @GetMapping("/nome/{name}")
     public List<Cursos> getByName(@PathVariable String name) {
         return service.findByName(name);
