@@ -13,7 +13,7 @@ function NavBar(){
     useEffect(() => {
         const jwt = getToken();
         setToken(jwt);
-    }, [token] );
+    }, []);
 
     return(
         <header>

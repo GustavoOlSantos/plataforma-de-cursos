@@ -8,12 +8,14 @@ import Perfil from './features/perfil';
 import NotFound from './features/not-found';
 
 import NavBar from './components/navbar';
+import Footer from './components/footerSection'
 
 function App(){
   return(
     <div className="App">
       <NavBar/>
       <AppRoutes />
+      <Footer />
     </div>
   )
 }

@@ -1,0 +1,81 @@
+.card-curso{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 20px;
+    flex: 0 0 12%; 
+    max-width: 12%;
+    box-sizing: border-box;
+
+    background-color: #fff;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0b0;
+    box-shadow: 0 2px 4px #00000027;
+    padding: 20px;
+    margin-right: 25px;
+    cursor: pointer;
+}
+
+.card-image{
+    width: 100%;
+    height: 180px;
+    overflow: hidden;
+    background-color: bisque;
+    border-radius: 8px;
+}
+
+.card-image img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.card-curso h2{
+    font-size: 20px;
+    color: #2a2b3f;
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.curso-infos{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 15px;
+    color: #666;
+    margin-top: 5px;
+}
+
+.curso-avaliacao{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.tag{
+    display: inline-block;
+    background-color: #f0f0f0;
+    border: 1px solid #cccccc6e;
+    color: #333;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+.mais-vendidos{
+    background-color: #125dff;
+    color: white;
+    font-weight: bold;
+}
+
+.star{
+    color: #f8b600;
+}
+
+.curso-preco{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}

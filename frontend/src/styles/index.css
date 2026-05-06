@@ -33,6 +33,10 @@ header button, header i{
   padding: 10px;
 }
 
+.logo-white{
+  filter: brightness(0) invert(1);
+}
+
 .search-container {
     position: relative;
     margin-right: 20px;
@@ -125,4 +129,356 @@ header button, header i{
     margin: 0;
 }
 
+main{
+  margin: 0 40px;
+}
+
+.colored-banner {
+  position: relative;
+  height: 50vh;
+  background-color: #063997;
+  overflow: hidden;
+}
+
+.colored-banner::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background-image: url('../assets/banner-img.jpg');
+  background-size: cover;
+  background-position: right;
+
+  transform: scaleX(-1);
+  z-index: 0;
+}
+
+.colored-banner > * {
+  position: relative;
+  z-index: 1;
+}
+
+.carousel {
+    position: relative;
+    overflow: hidden;
+}
+.carousel.banner-cards {
+    width: 35%;
+    margin: 50px;
+}
+
+
+.carousel-track {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.card {
+  min-width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  background: white;
+  box-shadow: 0px 5px 13px #0003;
+  border-radius: 10px;
+
+  box-sizing: border-box;
+  padding: 40px 40px 50px 40px;
+}
+
+.card h2{
+  color: #2a2b3f;
+  margin-top: 2px;
+  margin-bottom: 10px;
+  font-size: 24pt;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  max-inline-size: 80rem;
+  padding-block: 0;
+  margin-block-end: .8rem;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.card p{
+  font-size: 12pt;
+  width: 100%;
+  color: #0000007c;
+  text-align: left !important;
+  margin: 0 0 15px 0;
+  padding: 0 !important;
+}
+
+.carousel button{
+    background: #00000049;
+    color: white;
+    border: none;
+    border-radius: 5rem;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+
+.carousel footer {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    padding-top: 20px;
+}
+
+.indicator {
+    width: 8px;
+    height: 8px;
+    color: #6b6b6b86;
+    border-radius: 50%;
+}
+
+.indicator.active {
+    color: #000;
+    transform: scale(1.2);
+}
+
+.em-alta {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    padding-bottom: 20px;
+    gap: 20px;
+}
+
+.em-alta h2{
+    font-size: 24px;
+    color: #2a2b3f;
+    margin-bottom: 0;
+}
+
+.carousel.cursos-em-alta {
+    display: flex;
+    width: 100%;
+    padding: 0 0px;
+}
+
+.carousel.cursos-em-alta button{
+    height: 30px;
+    width: 30px;
+    background: #ffffff;
+    color: #000000;
+    border: none;
+    border-radius: 5rem;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.btn-next.cursos, .btn-prev.cursos{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+}
+.btn-prev.cursos{
+    left: -10px;
+}
+.btn-next.cursos{
+    right: 10px;
+}
+
+.evolucao{
+  width: 100%;
+  background-color: #07131f;
+  color: #fff;
+  margin-top: 20px;
+  border-radius: 2rem;
+}
+
+.evolucao img{
+  border-radius: 2.5rem;
+  padding: 20px 0 20px 20px;
+}
+
+.evolucao article{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px 40px 0 0;
+}
+
+.evolucao article p{
+  text-align: left !important;
+  margin: 5px;
+  width: 100% !important;
+  padding: 0 !important;
+}
+
+h1.bigger{
+  font-size: 35pt;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+h1 span{
+  color: #0b62fe;
+}
+
+.features-section {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    padding: 60px 40px;
+    flex-wrap: wrap;
+}
+
+.feature-card {
+    width: 300px;
+    padding: 30px 25px;
+    text-align: center;
+    color: #2a2b3f;
+
+    border: 1px solid #5252529c;
+    border-radius: 15px;
+
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+    border-color: #0b62fe;
+    box-shadow: 0 0 20px #00000052;
+}
+
+.feature-card .icon {
+    font-size: 40px;
+    margin-bottom: 20px;
+    color: #00d4ff;
+}
+
+.feature-card h3 {
+    font-size: 18px;
+    margin-bottom: 15px;
+    color: #1a1a1a;
+    letter-spacing: 1px;
+}
+
+.feature-card p {
+    font-size: 14px;
+    color: #2a2b3f;
+    line-height: 1.5;
+}
+
+footer.main {
+  width: 100%;
+  color: #cccccc;
+  box-shadow: 0px 5px 13px #0003;
+
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: space-between;
+}
+
+footer.main h3{
+  font-size: 12.5pt;
+}
+
+footer.main .footer-dark{
+  background-color: #07131f;
+  padding: 0 20px;
+}
+footer.main .footer-darker{
+  height: 35vh;
+  background-color: #040c14;
+  padding: 0 20px;
+}
+footer.main .social{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+footer.main .social figure{
+  display: flex;
+  margin: 15px 0px;
+  gap: 15px;
+}
+
+footer.main .social figure img{
+  padding: 0;
+}
+
+footer.main .social-icons{
+  display: flex;
+  gap: 15px;
+  margin-right: 20px;
+}
+
+a.social-btn{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background-color: #fff;
+  color: #07131f;
+  border-radius:  25px;
+  text-decoration: none;
+}
+
+a.social-btn i{
+  font-size: 18pt;
+  
+}
+
+footer.main hr{
+  width: 100%;
+  margin: 0;
+  color: #6464642d;
+}
+footer.main .infos{
+  display: flex;
+  margin: 20px;
+  gap: 180px;
+}
+
+footer.main .categories{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px 100px;
+  margin: 20px;
+}
+
+footer.main .footer-end{
+  margin: 10px 0px;
+}
+
+footer.main .footer-end div{
+  display: flex;
+  justify-content: left;
+}
+
+footer.main .footer-end div h4{
+   color: #e9e9e96c !important;
+   font-weight: 100;
+}
+
+ul.unstyled-list{
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-inline-size: none;
+}
+
+ul.unstyled-list li, ul.unstyled-list li a{
+  margin: 10px 0;
+  color: #e9e9e96c;
+  font-size: 11pt !important;
+  text-decoration: none;
+}
 

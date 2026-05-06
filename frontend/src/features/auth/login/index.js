@@ -14,7 +14,7 @@ function Login(){
         const token = localStorage.getItem("token");
 
         if (token) {
-            navigate("/dashboard");
+            navigate("/");
         }
     }, [navigate]);
 
@@ -50,7 +50,7 @@ function Login(){
        authService.login(formData.email, formData.password)
        .then(res => {
             localStorage.setItem("token", res.data);
-            navigate("/Dashboard");
+            navigate("/");
         })
         .catch(err => {
             const msg = err.response?.data?.message || "Erro inesperado";
