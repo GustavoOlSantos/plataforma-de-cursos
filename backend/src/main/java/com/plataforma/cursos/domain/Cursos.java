@@ -3,8 +3,10 @@ import jakarta.persistence.*;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
-import com.plataforma.cursos.domain.Categoria;
+import com.plataforma.cursos.domain.Subcategoria;
 
 @Entity
 @Table(name = "cursos")
@@ -25,14 +27,8 @@ public class Cursos {
     private int alunosMatriculados;
     private float preco;
 
-    //=> Faz o Join com a tabela curso_categoria
-    @ManyToMany
-    @JoinTable(
-        name = "curso_categoria",
-        joinColumns = @JoinColumn(name = "curso_id"),
-        inverseJoinColumns = @JoinColumn(name = "categoria_id")
-    )
-    private Set<Categoria> categorias = new HashSet<>();
+    @ManyToMany(mappedBy = "cursos")
+    private List<Subcategoria> subcategorias = new ArrayList<>();
 
     @ElementCollection
     @CollectionTable(
@@ -158,12 +154,12 @@ public class Cursos {
         this.preco = preco;
     }
 
-    public Set<Categoria> getCategorias() {
-        return categorias;
+    public List<Subcategoria> getSubcategorias() {
+        return subcategorias;
     }
 
-    public void setCategorias(Set<Categoria> categorias) {
-        this.categorias = categorias;
+    public void setSubcategorias(List<Subcategoria> subcategorias) {
+        this.subcategorias = subcategorias;
     }
 
     public Set<String> getRequisitos() {

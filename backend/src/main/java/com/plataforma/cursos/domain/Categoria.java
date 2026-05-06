@@ -3,8 +3,11 @@ import jakarta.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.plataforma.cursos.domain.Cursos;
+import com.plataforma.cursos.domain.Subcategoria;
 
 @Entity
 @Table(name = "categorias")
@@ -13,12 +16,11 @@ public class Categoria {
     @Id
     @GeneratedValue
     private Long id;
-
     private String nome;
+    private String slug;
 
-    @JsonIgnore
-    @ManyToMany(mappedBy = "categorias")
-    private Set<Cursos> cursos = new HashSet<>();
+    @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL)
+    private Set<Subcategoria> subcategorias;
 
     public Long getId() {
         return id;
@@ -28,8 +30,12 @@ public class Categoria {
         return nome;
     }
 
-    public Set<Cursos> getCursos() {
-        return cursos;
+    public String getSlug() {
+        return slug;
+    }
+
+    public Set<Subcategoria> getSubcategorias() {
+        return subcategorias;
     }
 
     public void setId(Long id) {
@@ -41,7 +47,11 @@ public class Categoria {
         this.nome = nome;
     }
 
-    public void setCursos(Set<Cursos> cursos) {
-        this.cursos = cursos;
+    public void setSlug(String slug) {
+        this.slug = slug;
+    }
+
+    public void setSubcategorias(Set<Subcategoria> subcategorias) {
+        this.subcategorias = subcategorias;
     }
 }

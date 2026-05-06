@@ -1,8 +1,10 @@
 package com.plataforma.cursos.controller;
 
 import org.springframework.web.bind.annotation.*;
+import com.fasterxml.jackson.annotation.JsonView;
 import java.util.List;
 import com.plataforma.cursos.domain.Cursos;
+import com.plataforma.cursos.DTO.CursosDTO;
 import com.plataforma.cursos.service.CursosService;
 
 @RestController
@@ -16,22 +18,22 @@ public class CursosController {
     }
 
     @GetMapping
-    public List<Cursos> list() {
+    public List<CursosDTO> list() {
         return service.findAll();
     }
 
     @GetMapping("/maisVendidos")
-    public List<Cursos> getMaisVendidos() {
+    public List<CursosDTO> getMaisVendidos() {
         return service.findBestSellers();
     }
 
     @GetMapping("/nome/{name}")
-    public List<Cursos> getByName(@PathVariable String name) {
+    public List<CursosDTO> getByName(@PathVariable String name) {
         return service.findByName(name);
     }
 
     @GetMapping("/id/{id}")
-    public Cursos getById(@PathVariable Long id) {
+    public CursosDTO getById(@PathVariable Long id) {
         return service.findById(id);
     }
 
