@@ -18,6 +18,7 @@ public class Subcategoria {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
+    private String slug;
 
     @ManyToOne
     @JoinColumn(name = "categoria_id")
@@ -44,6 +45,11 @@ public class Subcategoria {
         return categoria;
     }
 
+    public String getSlug() {
+        return slug;
+    }
+
+
     public Set<Cursos> getCursos() {
         return cursos;
     }
@@ -59,6 +65,10 @@ public class Subcategoria {
 
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
+    }
+
+    public void setSlug(String slug) {
+        this.slug = slug;
     }
 
     public void setCursos(Set<Cursos> cursos) {

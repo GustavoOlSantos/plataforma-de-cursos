@@ -11,6 +11,7 @@ import com.plataforma.cursos.DTO.SubcategoriaDTO;
 public class CursosDTO {
 
     public Long id;
+    public String slug;
     public String nome;
     public String subtitulo;
     public String descricao;
@@ -33,6 +34,7 @@ public class CursosDTO {
         CursosDTO dto = new CursosDTO();
 
         dto.id = curso.getId();
+        dto.slug = curso.getSlug();
         dto.nome = curso.getNome();
         dto.subtitulo = curso.getSubtitulo();
         dto.descricao = curso.getDescricao();
@@ -48,13 +50,14 @@ public class CursosDTO {
         dto.requisitos = curso.getRequisitos();
 
         dto.subcategorias = curso.getSubcategorias().stream()
-            .map(sub -> new SubcategoriaDTO(sub.getId(), sub.getNome()))
+            .map(sub -> new SubcategoriaDTO(sub.getId(), sub.getNome(), sub.getSlug()))
             .toList();
 
             return dto;
     }
 
     public Long getId() { return id; }
+    public String getSlug() {return slug; }
     public String getNome() { return nome; }
     public String getSubtitulo() { return subtitulo; }
     public String getDescricao() { return descricao; }

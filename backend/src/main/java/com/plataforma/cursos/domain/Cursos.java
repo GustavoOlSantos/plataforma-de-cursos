@@ -14,6 +14,7 @@ public class Cursos {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String slug;
     private String nome;
     private String subtitulo;
     private String descricao;
@@ -40,6 +41,7 @@ public class Cursos {
 
     public boolean isValido(){
         return nome != null && !nome.isEmpty() && 
+               slug != null && !slug.isEmpty() && 
                descricao != null && !descricao.isEmpty() && 
                duracao != null && !duracao.isEmpty() &&
                instrutor != null && !instrutor.isEmpty() &&
@@ -56,6 +58,14 @@ public class Cursos {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public void setSlug(String slug) {
+        this.slug = slug;
+    }
+
+    public String getSlug() {
+        return slug;
     }
 
     public String getNome() {

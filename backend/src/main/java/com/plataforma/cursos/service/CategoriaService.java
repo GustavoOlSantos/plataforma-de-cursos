@@ -25,7 +25,8 @@ public class CategoriaService {
             List<SubcategoriaDTO> subcategorias = cat.getSubcategorias().stream()
                 .map(sub -> new SubcategoriaDTO(
                     sub.getId(),
-                    sub.getNome()
+                    sub.getNome(),
+                    sub.getSlug()
                 ))
                 .distinct()
                 .toList();
@@ -47,7 +48,8 @@ public class CategoriaService {
         List<SubcategoriaDTO> subcategorias = cat.getSubcategorias().stream()
         .map(sub -> new SubcategoriaDTO(
             sub.getId(),
-            sub.getNome()
+            sub.getNome(),
+            sub.getSlug()
         ))
         .distinct()
         .limit(4)
