@@ -3,6 +3,11 @@ h1{
 }
 
 p{
+    padding: 0;
+    margin :0;
+}
+
+p.dimmed{
     width: 70%;
     margin-bottom: 40px;
     padding: 0 50px !important;
@@ -10,6 +15,7 @@ p{
     font-size: 12pt !important;
     text-align: center !important;
 }
+
 .double-container{
     display: flex;
     flex-direction: row;

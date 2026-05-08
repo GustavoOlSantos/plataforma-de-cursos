@@ -31,7 +31,7 @@ function FooterCategorias(){
                 <ul className="unstyled-list">
                     {cat.subcategorias?.map((sub, i) => (
                     <li key={i}>
-                        <a href={`/categoria?cat=${sub.id}`}>{sub.nome}</a>
+                        <a href={`/categoria/${sub.slug}`}>{sub.nome}</a>
                     </li>
                     ))}
                 </ul>

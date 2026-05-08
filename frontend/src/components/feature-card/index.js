@@ -5,7 +5,7 @@ function FeatureCard({icon, title, text}){
         <div className="feature-card">
             <div className="icon">{icon}</div>
             <h3>{title}</h3>
-            <p>
+            <p className='dimmed'>
                 {text}
             </p>
         </div>

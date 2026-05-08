@@ -19,7 +19,6 @@ function Home(){
         api.get("/cursos/maisVendidos")
         .then(res => {
             setCursos(res.data);
-            console.log(res.data)
         })
         .catch(err => {
             console.error("Erro ao carregar cursos em alta:", err);
@@ -71,9 +70,9 @@ function Home(){
 
                 <article>
                     <h1 className='bigger'> <span>Evolua</span> na <span>sua carreira</span> com habilidades que o mercado realmente exige</h1>
-                    <p>Na SkillUp, você aprende com cursos práticos, atualizados e direto ao ponto — focados em desenvolvimento, tecnologia e tudo que impulsiona seu crescimento profissional.</p>
-                    <p>Sem mensalidade, sem pressão: você adquire o curso uma vez e tem acesso vitalício para aprender no seu ritmo, revisitar conteúdos e evoluir sempre que quiser.</p>
-                    <p>Invista no seu futuro. Comece hoje com a SkillUp.</p>
+                    <p className='dimmed'>Na SkillUp, você aprende com cursos práticos, atualizados e direto ao ponto — focados em desenvolvimento, tecnologia e tudo que impulsiona seu crescimento profissional.</p>
+                    <p className='dimmed'>Sem mensalidade, sem pressão: você adquire o curso uma vez e tem acesso vitalício para aprender no seu ritmo, revisitar conteúdos e evoluir sempre que quiser.</p>
+                    <p className='dimmed'>Invista no seu futuro. Comece hoje com a SkillUp.</p>
                 </article>
             </section>
 

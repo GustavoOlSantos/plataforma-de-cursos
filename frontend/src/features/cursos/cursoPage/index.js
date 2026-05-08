@@ -1,0 +1,193 @@
+import react, {useState, useEffect} from "react"
+import { useNavigate, useParams } from "react-router-dom";
+import { Navigate } from "react-router-dom";
+import ReactMarkdown from "react-markdown";
+
+import api from "../../../services/api";
+import ButtonText from "../../../components/buttonText";
+import Tags from "../../../components/tags-cursos";
+import Loading from "../../../components/loading";
+import NotFound from "../../../features/not-found/";
+
+function CursoPage() {
+  const { slug } = useParams();
+  const navigate = useNavigate();
+
+  const [curso, setCurso] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [notFound, setNotFound] = useState(false);
+
+  useEffect(() => {
+
+    setLoading(true);
+
+    api.get(`cursos/slug/${slug}`)
+    .then(res =>{
+      setCurso(res.data[0]);
+      setLoading(false);
+
+    })
+    .catch(err => {
+      console.error("Falha ao obter curso: ", err);
+      setLoading(false);
+      setNotFound(true)
+    });
+
+  }, [slug])
+
+  if (loading) {
+    return <Loading texto="curso"/>;
+  }
+
+  if(notFound){
+    return <NotFound />
+  }
+  
+
+  return (
+    <main className="curso-page">
+
+      <section>
+        <section className="curso-hero">
+
+          <figure className="curso-banner">
+            <img
+              src={`http://localhost:8080/uploads/${curso.imagemUrl}`}
+              alt={curso.nome}
+            />
+          </figure>
+
+          <div className="curso-hero-content">
+
+            <span> 
+              <h1>{curso.nome}</h1>
+
+              <p className="curso-subtitulo">
+                {curso.subtitulo}
+              </p>
+
+              <div className="curso-tags">
+                <Tags icone="fa-solid fa-award" texto={curso.nivel} 
+                className={curso.nivel.normalize("NFD")               // 1. Decompose characters (e.g., 'á' -> 'a' + '´')
+                  .replace(/[\u0300-\u036f]/g, "") // 2. Remove the "accent" marks only
+                  .toLowerCase()                  // 3. Convert to lowercase
+                  .replace(/[^a-z0-9 ]/g, "")} />
+
+                {curso.subcategorias.map(categoria => (
+                  <Tags texto={categoria.nome} />
+                ))}
+              </div>
+
+              <div className="curso-atualizacao">
+                <i className="fa-solid fa-chalkboard-user"></i>
+                <span>Instruído por  <u>{curso.instrutor}</u></span>
+              </div>
+
+              <div className="curso-atualizacao">
+                <i className="fa-solid fa-user"></i>
+                <span>Se junte a {curso.alunosMatriculados} alunos</span>
+              </div>
+            </span>
+            
+            <div className="curso-atualizacao">
+              <i className="fa-regular fa-calendar-days"></i>
+              <span>Última atualização em  {new Date(curso.ultimaAtualizacao).toLocaleDateString("pt-BR")}</span>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <div className="curso-info">
+            <h2>Requisitos:</h2>
+            
+            <ul>
+              {curso.requisitos.map(req =>(
+                  <li>{req}</li>
+              ))}
+            </ul>
+
+            <h2>Descrição:</h2>
+
+              <div className="curso-descricao">
+                <ReactMarkdown>
+                  {curso.descricao}
+                </ReactMarkdown>
+              </div>
+          </div>
+
+          <div className="curso-avaliacoes">
+            <h2>Avaliação do curso: <i className="fa-solid fa-star star"></i>  |  Avaliações</h2>  
+            <h2>Avaliações:</h2>
+          </div>
+
+          <div className="cursos-relacionados">
+
+          </div>
+        </section>
+      </section>
+
+      <aside className="curso-sidebar">
+
+        <div className="curso-card-compra">
+          
+          <div>
+            <span className="curso-card-label">
+              Adquira este curso
+            </span>
+
+            <h1 className="curso-preco">
+              R$ {curso.preco.toLocaleString()}
+            </h1>
+          
+
+            <div className="curso-beneficio">
+
+              <span className="beneficio-row">
+                <i className="fa-solid fa-chalkboard"></i>
+                <span>{curso.numeroAulas} aulas</span>
+              </span>
+
+              <span className="beneficio-row">
+                <i className="fa-solid fa-film"></i>
+                <span>{curso.duracao} horas de vídeo</span>
+              </span>
+
+              <span className="beneficio-row">
+                <i className="fa-solid fa-infinity"></i>
+                <span>Acesso vitalício</span>
+              </span>
+
+              <span className="beneficio-row">
+                <i className="fa-solid fa-certificate"></i>
+                <span>Certificado de conclusão</span>
+              </span>
+
+              <span className="beneficio-row">
+                <i className="fa-regular fa-clock"></i>
+                <span>Cancelamento gratuito em até 7 dias</span>
+              </span>
+            </div>
+          </div>
+
+          <div className="curso-actions">
+            <ButtonText className="btn full full-sized" text="Comprar agora" onClick={null}/>
+            <ButtonText className="btn regular full-sized" text="Adicionar ao carrinho" onClick={null} />
+          </div>
+        </div>
+
+        <hr style={{marginBottom: 15}}></hr>
+
+        <div className="outras-actions">
+          <div className="action-row">
+            <i className="fa-solid fa-share-nodes"></i>
+            <span>Compartilhe este curso</span>
+          </div>
+        </div>
+
+      </aside>
+
+    </main>
+  );
+}
+
+export default CursoPage;

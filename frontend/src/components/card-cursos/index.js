@@ -7,7 +7,7 @@ function CardCursos({ curso, maisVendidos }) {
     const navigate = useNavigate();
     
     return (
-        <article key={curso.id} className="card-curso" onClick={() => navigate(`/curso?id=${curso.id}`)}>
+        <article key={curso.id} className="card-curso" onClick={() => navigate(`/cursos/${curso.slug}`)}>
 
             <section className="card-image">
                 <img src={`http://localhost:8080/uploads/${curso.imagemUrl}`} />
@@ -25,7 +25,7 @@ function CardCursos({ curso, maisVendidos }) {
             </section>
 
             <section className="curso-preco">
-                <h2>R$ {curso.preco}</h2>
+                <h2>R$ {curso.preco.toLocaleString()}</h2>
             </section>
 
         </article>
