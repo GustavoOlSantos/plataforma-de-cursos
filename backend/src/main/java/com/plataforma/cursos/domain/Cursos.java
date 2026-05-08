@@ -1,4 +1,5 @@
 package com.plataforma.cursos.domain;
+
 import jakarta.persistence.*;
 import java.util.Date;
 import java.util.HashSet;
@@ -15,8 +16,11 @@ public class Cursos {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String slug;
+    @Column(columnDefinition = "VARCHAR(255)")
     private String nome;
+    @Column(columnDefinition = "VARCHAR(500)")
     private String subtitulo;
+    @Column(columnDefinition = "TEXT")
     private String descricao;
     private String instrutor;
     private String duracao;

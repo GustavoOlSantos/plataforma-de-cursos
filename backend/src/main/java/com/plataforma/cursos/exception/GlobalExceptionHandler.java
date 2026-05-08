@@ -15,7 +15,7 @@ public class GlobalExceptionHandler {
                 : "Não foi possível completar a operação";
 
         return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
+                .status(ex.getStatus())
                 .body(new ErrorResponse(responseMessage));
     }
 }

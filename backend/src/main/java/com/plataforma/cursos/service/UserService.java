@@ -1,6 +1,7 @@
 package com.plataforma.cursos.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.http.*;
 import java.util.List;
 import com.plataforma.cursos.domain.User;
 import com.plataforma.cursos.security.service.TokenService;
@@ -29,7 +30,7 @@ public class UserService {
         User user = repository.findByEmail(email);
 
         if (user == null || !passwordService.matches(password, user.getPassword())) {
-            throw new BusinessException("Credenciais inválidas", true);
+            throw new BusinessException("Credenciais inválidas", true, HttpStatus.BAD_REQUEST);
         }
 
         return tokenService.generateToken(user);
@@ -37,11 +38,11 @@ public class UserService {
 
     public User register(User user) {
         if(user.getNome() == null || user.getEmail() == null || user.getPassword() == null){
-            throw new BusinessException("Dados incompletos para cadastro", true);
+            throw new BusinessException("Dados incompletos para cadastro", true,HttpStatus.BAD_REQUEST);
         }
 
         if(repository.findByEmail(user.getEmail()) != null){
-            throw new BusinessException("Usuário já cadastrado no sistema", false);
+            throw new BusinessException("Usuário já cadastrado no sistema", false, HttpStatus.BAD_REQUEST);
         }
 
         user.setPassword(passwordService.hash(user.getPassword()));
