@@ -7,6 +7,7 @@ import org.springframework.web.cors.*;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.http.HttpMethod;
 import com.plataforma.cursos.security.service.TokenService;
 import com.plataforma.cursos.security.filter.JwtFilter;
 
@@ -28,6 +29,8 @@ public class SecurityConfig {
             .cors(cors -> {})
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
+                .requestMatchers(HttpMethod.POST, "/avaliacoes/curso").permitAll()
+                .requestMatchers(HttpMethod.GET, "/avaliacoes/curso/**").permitAll()
                 .requestMatchers("/uploads/**", "/auth/login", "/auth/cadastro", "/cursos", "/cursos/**", "/categorias", "/categorias/**").permitAll()
                 .anyRequest().authenticated()
             )
