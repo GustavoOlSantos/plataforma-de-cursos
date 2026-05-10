@@ -1,4 +1,4 @@
-package com.plataforma.cursos.domain;
+package com.plataforma.cursos.domain.entities;
 import jakarta.persistence.*;
     
 @Entity

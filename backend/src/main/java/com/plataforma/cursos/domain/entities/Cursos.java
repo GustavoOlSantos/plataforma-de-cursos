@@ -1,4 +1,4 @@
-package com.plataforma.cursos.domain;
+package com.plataforma.cursos.domain.entities;
 
 import jakarta.persistence.*;
 import java.util.Date;
@@ -7,7 +7,7 @@ import java.util.Set;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.plataforma.cursos.domain.Subcategoria;
+import com.plataforma.cursos.domain.entities.Subcategoria;
 
 @Entity
 @Table(name = "cursos")

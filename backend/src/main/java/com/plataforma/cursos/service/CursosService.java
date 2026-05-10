@@ -6,7 +6,7 @@ import org.springframework.http.*;
 import java.util.List;
 import java.util.Arrays;
 import java.util.stream.Stream;
-import com.plataforma.cursos.domain.Cursos;
+import com.plataforma.cursos.domain.entities.Cursos;
 import com.plataforma.cursos.DTO.CursosDTO;
 import com.plataforma.cursos.DTO.SubcategoriaDTO;
 import com.plataforma.cursos.utils.NullPropertyUtils;

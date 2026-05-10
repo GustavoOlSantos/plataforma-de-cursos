@@ -2,7 +2,7 @@ package com.plataforma.cursos.service;
 
 import org.springframework.stereotype.Service;
 import java.util.List;
-import com.plataforma.cursos.domain.Categoria;
+import com.plataforma.cursos.domain.entities.Categoria;
 import com.plataforma.cursos.DTO.CategoriaDTO;
 import com.plataforma.cursos.DTO.SubcategoriaDTO;
 import com.plataforma.cursos.exception.BusinessException;

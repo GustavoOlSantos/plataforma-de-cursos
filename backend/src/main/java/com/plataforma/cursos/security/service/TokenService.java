@@ -7,7 +7,7 @@ import java.security.Key;
 import java.util.Date;
 import javax.crypto.spec.SecretKeySpec;
 import io.jsonwebtoken.SignatureAlgorithm;
-import com.plataforma.cursos.domain.User;
+import com.plataforma.cursos.domain.entities.User;
 
 @Service
 public class TokenService {

@@ -3,7 +3,7 @@ package com.plataforma.cursos.service;
 import org.springframework.stereotype.Service;
 import org.springframework.http.*;
 import java.util.List;
-import com.plataforma.cursos.domain.User;
+import com.plataforma.cursos.domain.entities.User;
 import com.plataforma.cursos.security.service.TokenService;
 import com.plataforma.cursos.security.service.PasswordService;
 import com.plataforma.cursos.exception.BusinessException;

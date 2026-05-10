@@ -2,7 +2,7 @@ package com.plataforma.cursos.controller;
 
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-import com.plataforma.cursos.domain.Categoria;
+import com.plataforma.cursos.domain.entities.Categoria;
 import com.plataforma.cursos.DTO.CategoriaDTO;
 import com.plataforma.cursos.service.CategoriaService;
 

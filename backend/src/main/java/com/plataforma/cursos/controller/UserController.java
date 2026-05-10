@@ -2,7 +2,7 @@ package com.plataforma.cursos.controller;
 
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-import com.plataforma.cursos.domain.User;
+import com.plataforma.cursos.domain.entities.User;
 import com.plataforma.cursos.service.UserService;
 
 @RestController

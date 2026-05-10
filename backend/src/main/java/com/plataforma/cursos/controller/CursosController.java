@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 import com.fasterxml.jackson.annotation.JsonView;
 import java.util.List;
-import com.plataforma.cursos.domain.Cursos;
+import com.plataforma.cursos.domain.entities.Cursos;
 import com.plataforma.cursos.DTO.CursosDTO;
 import com.plataforma.cursos.service.CursosService;
 

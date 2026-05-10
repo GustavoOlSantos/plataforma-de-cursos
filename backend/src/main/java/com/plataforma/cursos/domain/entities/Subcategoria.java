@@ -1,4 +1,4 @@
-package com.plataforma.cursos.domain;
+package com.plataforma.cursos.domain.entities;
 
 import jakarta.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import com.plataforma.cursos.domain.Cursos;
-import com.plataforma.cursos.domain.Categoria;
+import com.plataforma.cursos.domain.entities.Cursos;
+import com.plataforma.cursos.domain.entities.Categoria;
 
 @Entity
 @Table(name = "subcategorias")

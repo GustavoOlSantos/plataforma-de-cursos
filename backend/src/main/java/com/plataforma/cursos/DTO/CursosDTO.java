@@ -5,7 +5,7 @@ import java.util.Set;
 import java.util.ArrayList;
 import java.util.Date;
 
-import com.plataforma.cursos.domain.Cursos;
+import com.plataforma.cursos.domain.entities.Cursos;
 import com.plataforma.cursos.DTO.SubcategoriaDTO;
 
 public class CursosDTO {
