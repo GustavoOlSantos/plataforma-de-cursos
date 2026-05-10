@@ -6,14 +6,22 @@ import ReactMarkdown from "react-markdown";
 import api from "../../../services/api";
 import ButtonText from "../../../components/buttonText";
 import Tags from "../../../components/tags-cursos";
+import AvaliacoesCard from "../../../components/card-avaliacoes";
 import Loading from "../../../components/loading";
 import NotFound from "../../../features/not-found/";
+
+import "../../../styles/cards-avaliacao.css";
 
 function CursoPage() {
   const { slug } = useParams();
   const navigate = useNavigate();
 
   const [curso, setCurso] = useState(null);
+  const [avaliacoes, setAvaliacoes] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [nota, setNota] = useState(0);
+  const [avaliacoesNum, setAvaliacoesNum] = useState(0);
+
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
 
@@ -24,7 +32,6 @@ function CursoPage() {
     api.get(`cursos/slug/${slug}`)
     .then(res =>{
       setCurso(res.data[0]);
-      setLoading(false);
 
     })
     .catch(err => {
@@ -32,8 +39,30 @@ function CursoPage() {
       setLoading(false);
       setNotFound(true)
     });
-
   }, [slug])
+
+  useEffect(() => {
+     if (!curso) return;
+
+     api.get(`avaliacoes/curso/id-curso/${curso.id}`)
+    .then(res =>{
+      setAvaliacoes(res.data);
+      setLoading(false);
+    })
+    .catch(err => {
+      console.error("Falha ao obter avaliações do curso: ", err);
+      setLoading(false);
+    });
+  }, [curso])
+
+  useEffect(() => {
+    if(!avaliacoes || avaliacoes.length === 0 ) return;
+
+    const total = avaliacoes.reduce((acc, avaliacao) => acc + avaliacao.nota, 0);
+    setAvaliacoesNum(avaliacoes.length);
+    setNota((total / avaliacoes.length).toFixed(1));
+
+  }, [avaliacoes])
 
   if (loading) {
     return <Loading texto="curso"/>;
@@ -42,6 +71,22 @@ function CursoPage() {
   if(notFound){
     return <NotFound />
   }
+
+  const visibleCards = 3;
+    const step = 1;
+    const maxIndex = avaliacoes.length - visibleCards;
+
+    const nextSlide = () => {
+        setCurrentIndex((prev) =>
+            prev + step > maxIndex ? 0 : prev + step
+        );
+    };
+
+    const prevSlide = () => {
+        setCurrentIndex((prev) =>
+            prev - step < 0 ? maxIndex : prev - step
+        );
+    };
   
 
   return (
@@ -68,9 +113,9 @@ function CursoPage() {
 
               <div className="curso-tags">
                 <Tags icone="fa-solid fa-award" texto={curso.nivel} 
-                className={curso.nivel.normalize("NFD")               // 1. Decompose characters (e.g., 'á' -> 'a' + '´')
-                  .replace(/[\u0300-\u036f]/g, "") // 2. Remove the "accent" marks only
-                  .toLowerCase()                  // 3. Convert to lowercase
+                className={curso.nivel.normalize("NFD")
+                  .replace(/[\u0300-\u036f]/g, "") 
+                  .toLowerCase()                 
                   .replace(/[^a-z0-9 ]/g, "")} />
 
                 {curso.subcategorias.map(categoria => (
@@ -96,6 +141,10 @@ function CursoPage() {
           </div>
         </section>
 
+        <section className="curso-avaliacoes">
+          <h2>Avaliação do curso: <i className="fa-solid fa-star star"></i> <span className="h2-slim"> {nota} |  {avaliacoesNum} Avaliações</span></h2>  
+        </section>
+
         <section>
           <div className="curso-info">
             <h2>Requisitos:</h2>
@@ -115,13 +164,26 @@ function CursoPage() {
               </div>
           </div>
 
+          <hr></hr>
+
           <div className="curso-avaliacoes">
-            <h2>Avaliação do curso: <i className="fa-solid fa-star star"></i>  |  Avaliações</h2>  
             <h2>Avaliações:</h2>
+            <div className="carousel card-avaliacoes">
+              
+              <button onClick={prevSlide} className="btn-prev avaliacoes">‹</button>
+                
+              <div className="carousel-track-avaliacoes" style={{ transform: `translateX(-${currentIndex * 300}px)` }}>
+                {avaliacoes.map(avaliacao => (
+                    <AvaliacoesCard avaliacao={avaliacao} />
+                  ))}
+              </div>
+
+              <button onClick={nextSlide} className="btn-next avaliacoes">›</button>
+            </div>
           </div>
 
           <div className="cursos-relacionados">
-
+              
           </div>
         </section>
       </section>

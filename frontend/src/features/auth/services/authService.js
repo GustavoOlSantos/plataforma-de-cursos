@@ -13,6 +13,7 @@ function login(email, password){
 function logout(){
     localStorage.removeItem(AUTH_USER);
     localStorage.removeItem(AUTH_KEY);
+    window.dispatchEvent(new Event("user-logout"));
 }
 
 function register(nome, email, password){

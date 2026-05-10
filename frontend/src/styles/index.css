@@ -12,6 +12,11 @@ body {
   height: 100%;
 }
 
+h2 span.h2-slim{
+  font-weight: 500;
+  font-size: 18pt;
+}
+
 header {
   height: 50px;
   background-color: #ffffff;
@@ -126,7 +131,11 @@ header button, header i{
 }
 
 .user-icon{
-  font-size: 30px;
+  width: 45px;
+  height: 45px;
+  border-radius: 100rem;
+  object-fit: cover;
+  display: block;
 }
 
 .error{
@@ -168,16 +177,26 @@ main{
 .carousel {
     position: relative;
     overflow: hidden;
+     width: 100%;
+     min-width: 0;
 }
 .carousel.banner-cards {
     width: 35%;
     margin: 50px;
 }
 
-
 .carousel-track {
     display: flex;
     transition: transform 0.5s ease-in-out;
+}
+
+.carousel-track-avaliacoes{
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+  gap: 16px;
+  padding-left: 35px;
+  will-change: transform;
+
 }
 
 .card {
@@ -295,6 +314,20 @@ main{
     left: -10px;
 }
 .btn-next.cursos{
+    right: 10px;
+}
+
+.btn-next.avaliacoes, .btn-prev.avaliacoes{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+}
+
+.btn-prev.avaliacoes{
+    left: 0px;
+}
+.btn-next.avaliacoes{
     right: 10px;
 }
 
@@ -495,12 +528,13 @@ ul.unstyled-list.black li{
 
 .curso-page{
   display: grid;
-  grid-template-columns: 1fr 360px;
+  grid-template-columns: minmax(0, 1fr) 360px;
   gap: 2rem;
 }
 
 .curso-content{
   flex: 1;
+  min-width: 0;
 }
 
 .curso-hero{
@@ -575,7 +609,6 @@ ul.unstyled-list.black li{
 .tag.avancado{
   background-color:#ff4949;
 }
-
 
 .curso-atualizacao{
   display: flex;

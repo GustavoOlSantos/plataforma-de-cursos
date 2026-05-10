@@ -50,6 +50,7 @@ function Login(){
        authService.login(formData.email, formData.password)
        .then(res => {
             localStorage.setItem("token", res.data);
+            window.dispatchEvent(new Event("user-login"));
             navigate("/");
         })
         .catch(err => {
