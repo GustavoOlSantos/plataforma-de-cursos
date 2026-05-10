@@ -3,6 +3,7 @@ package com.plataforma.cursos.controller;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import com.plataforma.cursos.domain.entities.User;
+import com.plataforma.cursos.DTO.UserDTO;
 import com.plataforma.cursos.service.UserService;
 
 @RestController
@@ -16,8 +17,13 @@ public class UserController {
     }
 
     @GetMapping
-    public List<User> list() {
+    public List<UserDTO> list() {
         return service.findAll();
+    }
+
+    @GetMapping("/id/{id}")
+    public UserDTO findById(@PathVariable Long id) {
+        return service.findById(id);
     }
 
     @PostMapping("/cadastro")

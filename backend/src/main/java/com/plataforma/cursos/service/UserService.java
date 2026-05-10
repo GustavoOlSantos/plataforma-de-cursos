@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.http.*;
 import java.util.List;
 import com.plataforma.cursos.domain.entities.User;
+import com.plataforma.cursos.DTO.UserDTO;
 import com.plataforma.cursos.security.service.TokenService;
 import com.plataforma.cursos.security.service.PasswordService;
 import com.plataforma.cursos.exception.BusinessException;
@@ -22,8 +23,19 @@ public class UserService {
         this.tokenService = tokenService;
     }
 
-    public List<User> findAll() {
-        return repository.findAll();
+    public List<UserDTO> findAll() {
+        List<User> users = repository.findAll();
+
+        return users.stream()
+        .map(UserDTO::fromEntity)
+        .toList();
+    }
+
+    public UserDTO findById(Long id) {
+        User user = repository.findById(id)
+        .orElseThrow(() -> new BusinessException("Usuário não encontrado", true, HttpStatus.NOT_FOUND));
+
+        return UserDTO.fromEntity(user);
     }
 
     public String login(String email, String password) {
