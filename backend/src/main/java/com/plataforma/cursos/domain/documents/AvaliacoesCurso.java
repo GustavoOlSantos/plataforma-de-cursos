@@ -3,6 +3,7 @@ package com.plataforma.cursos.domain.documents;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
+import java.util.Date;
 
 @Document (collection  = "avaliacoes_curso")
 public class AvaliacoesCurso {
@@ -13,6 +14,7 @@ public class AvaliacoesCurso {
     private Integer userId;
     private int nota;
     private String mensagem;
+    private Date dataAvaliacao;
 
     public String getId() {
         return id;
@@ -33,6 +35,10 @@ public class AvaliacoesCurso {
     public String getMensagem() {
         return mensagem;
     }
+    
+    public Date getDataAvaliacao() {
+        return dataAvaliacao;
+    }
 
     public void setId(String id) {
         this.id = id;
@@ -52,5 +58,9 @@ public class AvaliacoesCurso {
 
     public void setMensagem(String mensagem) {
         this.mensagem = mensagem;
+    }
+
+    public void setDate(Date dataAvaliacao) {
+        this.dataAvaliacao = dataAvaliacao;
     }
 }
