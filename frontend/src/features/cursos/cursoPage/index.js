@@ -1,7 +1,9 @@
-import react, {useState, useEffect} from "react"
+import react, {useState, useEffect, useContext} from "react"
 import { useNavigate, useParams } from "react-router-dom";
 import { Navigate } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
+
+import { UserContext } from "../../../app/providers/user-context";
 
 import api from "../../../services/api";
 import ButtonText from "../../../components/buttonText";
@@ -15,6 +17,7 @@ import "../../../styles/cards-avaliacao.css";
 function CursoPage() {
   const { slug } = useParams();
   const navigate = useNavigate();
+  const {user} = useContext(UserContext);
 
   const [curso, setCurso] = useState(null);
   const [avaliacoes, setAvaliacoes] = useState([]);
@@ -232,8 +235,10 @@ function CursoPage() {
           </div>
 
           <div className="curso-actions">
-            <ButtonText className="btn full full-sized" text="Comprar agora" onClick={null}/>
-            <ButtonText className="btn regular full-sized" text="Adicionar ao carrinho" onClick={null} />
+
+
+            <ButtonText className="btn full full-sized" text="Comprar agora" onClick={user==null ? ()=> {navigate("/entrar")} : null}/>
+            <ButtonText disabled={true} className="btn regular full-sized" text="Adicionar ao carrinho" onClick={user==null ? ()=> {navigate("/entrar")} : null} />
           </div>
         </div>
 

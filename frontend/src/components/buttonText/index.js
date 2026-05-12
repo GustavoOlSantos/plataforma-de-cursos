@@ -1,12 +1,8 @@
 import React from "react";
-import { useNavigate } from 'react-router-dom';
 
-function ButtonText({ className, text, onClick }){
-
-    const navigate = useNavigate();
-
+function ButtonText({ className, text, onClick, disabled}){
     return(
-        <button className={className} onClick={onClick}>
+        <button className={className} onClick={onClick} disabled={disabled}>
             {text}
         </button>
     )
