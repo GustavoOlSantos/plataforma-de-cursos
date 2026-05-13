@@ -1,0 +1,66 @@
+package com.plataforma.cursos.service;
+
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.*;
+import java.util.List;
+import java.time.LocalDateTime;
+import com.plataforma.cursos.domain.entities.Compra;
+import com.plataforma.cursos.domain.entities.User;
+import com.plataforma.cursos.domain.entities.Cursos;
+import com.plataforma.cursos.repository.CompraRepository;
+import com.plataforma.cursos.repository.UserRepository;
+import com.plataforma.cursos.repository.CursosRepository;
+
+import com.plataforma.cursos.exception.BusinessException;
+
+@Service
+public class CompraService {
+
+    @Autowired
+    private CompraRepository compraRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private CursosRepository cursoRepository;
+
+    public void comprarCurso(Long userId, Long cursoId) {
+        User usuario = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+                
+
+        Cursos curso = cursoRepository.findById(cursoId)
+                .orElseThrow(() -> new RuntimeException("Curso não encontrado"));
+
+        boolean jaComprou = compraRepository
+                .existsByUsuarioIdAndCursoId(usuario.getId(), cursoId);
+
+        if (jaComprou) {
+            throw new BusinessException("Esse usuário já comprou este curso", true,  HttpStatus.BAD_REQUEST);
+        }
+
+        Compra compra = new Compra();
+
+        compra.setUsuario(usuario);
+        compra.setCurso(curso);
+        compra.setDataCompra(LocalDateTime.now());
+
+        compraRepository.save(compra);
+    }
+
+    public boolean jaComprouCurso(Long userId, Long cursoId){
+        User usuario = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+                
+
+        Cursos curso = cursoRepository.findById(cursoId)
+                .orElseThrow(() -> new RuntimeException("Curso não encontrado"));
+
+        boolean jaComprou = compraRepository
+                .existsByUsuarioIdAndCursoId(usuario.getId(), cursoId);
+
+        return jaComprou;
+    }
+}
