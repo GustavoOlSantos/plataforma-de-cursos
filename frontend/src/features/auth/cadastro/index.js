@@ -75,7 +75,7 @@ function Cadastro(){
             <div className="register-form">
                 <h1>Cadastre-se e comece a aprender</h1>
                 <p>Tenha acesso a cursos vitalícios para aprender
-                no seu ritmo e desenvolver habilidades que fazem a diferença no seu futuro.</p>
+                no seu ritmo e desenvolver habilidades que fazem a diferença.</p>
                 <form onSubmit={handleSubmit}>
                     <input type="text" name="nome" placeholder="Nome Completo" value={formData.nome} onChange={handleChange}/>
                     <input type="text" name="email" placeholder="Email" value={formData.email} onChange={handleChange}/>

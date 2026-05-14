@@ -32,10 +32,16 @@ p.dimmed{
     justify-content: center;
     align-items: center;
     justify-content: center;
+    padding: 0 80px !important;
+}
+
+.register-form p{
+    margin-bottom: 30px !important;
+    text-align: center;
 }
 
 form{
-    width: 70%;
+    width: 80%;
     display: flex;
     flex-direction: column;
     align-items: center;
