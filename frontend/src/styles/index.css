@@ -141,6 +141,15 @@ header button, header i{
 .error{
     color: red;
     font-size: 14px;
+    font-weight: 600;
+    text-align: center !important;
+    margin: 0;
+}
+
+.success{
+    color: rgb(32, 112, 0);
+    font-size: 14px;
+    font-weight: 600;
     text-align: center !important;
     margin: 0;
 }
@@ -679,4 +688,19 @@ ul.unstyled-list.black li{
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+.pagamentos{
+  margin: 10px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.pagamentos .btn{
+  margin: 10px 10px 0px 10px;
+}
+.pagamentos i{
+  color: #0000007c;
+  font-size: 18pt !important;
 }

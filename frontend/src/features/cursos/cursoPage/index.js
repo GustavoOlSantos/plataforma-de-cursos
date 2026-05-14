@@ -6,7 +6,9 @@ import ReactMarkdown from "react-markdown";
 import { UserContext } from "../../../app/providers/user-context";
 
 import api from "../../../services/api";
+import Modal from "../../../components/modal";
 import ButtonText from "../../../components/buttonText";
+import ButtonIcon from "../../../components/buttonIcon";
 import Tags from "../../../components/tags-cursos";
 import AvaliacoesCard from "../../../components/card-avaliacoes";
 import Loading from "../../../components/loading";
@@ -24,10 +26,13 @@ function CursoPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [nota, setNota] = useState(0);
   const [avaliacoesNum, setAvaliacoesNum] = useState(0);
+  const [jaComprou, setJaComprou] = useState(null);
+  const [modalAberto, setModalAberto] = useState(false);
 
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
-
+  const [compraReturn, setCompraReturn] = useState("");
+  const [compraReturnClass, setCompraReturnClass] = useState("");
   useEffect(() => {
 
     setLoading(true);
@@ -46,6 +51,16 @@ function CursoPage() {
 
   useEffect(() => {
      if (!curso) return;
+
+      if(user != null){
+        api.get(`compras/${curso.id}`)
+        .then(res => {
+            setJaComprou(res.data);
+        })
+        .catch(err => {
+            console.error("Não foi possível verificar se o usuário ja comprou este curso", err);
+        })
+      }
 
      api.get(`avaliacoes/curso/id-curso/${curso.id}`)
     .then(res =>{
@@ -67,6 +82,10 @@ function CursoPage() {
 
   }, [avaliacoes])
 
+  if(jaComprou){
+    navigate(`/ver-curso/${slug}`);
+  }
+
   if (loading) {
     return <Loading texto="curso"/>;
   }
@@ -75,7 +94,7 @@ function CursoPage() {
     return <NotFound />
   }
 
-  const visibleCards = 3;
+    const visibleCards = 3;
     const step = 1;
     const maxIndex = avaliacoes.length - visibleCards;
 
@@ -90,6 +109,36 @@ function CursoPage() {
             prev - step < 0 ? maxIndex : prev - step
         );
     };
+
+    function ConfirmarCompra(){
+      if(jaComprou){
+        console.error("Esse usuário já comprou esse curso anteriormente.");
+        return;
+      }
+
+      if(user == null || curso == null){
+        console.error("Usuário ou curso não existem");
+        return;
+      }
+
+      api.post(`compras/${curso.id}`)
+      .then(res =>{
+        if(res.status == 200){
+          setCompraReturn("Compra efetuada com sucesso!");
+          setCompraReturnClass("success");
+
+          setTimeout(() => {
+            navigate(`/ver-curso/${slug}`);
+          }, 2000);
+        }
+
+      })
+      .catch(err =>{
+        setCompraReturn("Falha ao comprar curso!");
+        setCompraReturnClass("error");
+        console.error("Falha ao comprar o curso: ", err);
+      })
+    }
   
 
   return (
@@ -235,9 +284,7 @@ function CursoPage() {
           </div>
 
           <div className="curso-actions">
-
-
-            <ButtonText className="btn full full-sized" text="Comprar agora" onClick={user==null ? ()=> {navigate("/entrar")} : null}/>
+            <ButtonText className="btn full full-sized" text="Comprar agora" onClick={user==null ? ()=> {navigate("/entrar")} : () => setModalAberto(true)}/>
             <ButtonText disabled={true} className="btn regular full-sized" text="Adicionar ao carrinho" onClick={user==null ? ()=> {navigate("/entrar")} : null} />
           </div>
         </div>
@@ -252,6 +299,25 @@ function CursoPage() {
         </div>
 
       </aside>
+
+      <Modal titulo="Deseja comprar este curso?" aberto={modalAberto} onFechar={() => setModalAberto(false)}>
+        
+        <section className="pagamentos">
+          <ButtonIcon icon="fa-brands fa-pix"></ButtonIcon>
+          <ButtonIcon icon="fa-brands fa-cc-visa"></ButtonIcon>
+          <ButtonIcon icon="fa-brands fa-cc-mastercard"></ButtonIcon>
+          <ButtonIcon icon="fa-brands fa-cc-paypal"></ButtonIcon>
+        </section>
+
+        <section className="pagamentos">
+          <p className={compraReturnClass}>{compraReturn}</p>
+        </section>
+
+        <section className="pagamentos">
+          <ButtonText text="Comprar"  className="btn full" onClick={ConfirmarCompra}></ButtonText>
+          <ButtonText text="Desistir" className="btn regular" onClick={() => setModalAberto(false)}></ButtonText>
+        </section>
+      </Modal>
 
     </main>
   );

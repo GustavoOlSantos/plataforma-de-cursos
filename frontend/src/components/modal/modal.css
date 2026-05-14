@@ -1,0 +1,22 @@
+.modal-heading{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.modal-heading h2{
+    margin: 0;
+}
+
+.modal-heading button{
+    font-size: 13pt;
+    cursor: pointer;
+    height: 20px;
+    border: none;
+    background-color: transparent;
+}
+
+.modal hr{
+    margin-bottom: 10px;
+}
