@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.stream.Stream;
 import com.plataforma.cursos.domain.entities.Cursos;
 import com.plataforma.cursos.DTO.CursosDTO;
+import com.plataforma.cursos.DTO.ViewCursosDTO;
 import com.plataforma.cursos.DTO.SubcategoriaDTO;
 import com.plataforma.cursos.utils.NullPropertyUtils;
 import com.plataforma.cursos.exception.BusinessException;
@@ -76,6 +77,19 @@ public class CursosService {
 
         return cursos.stream()
         .map(CursosDTO::fromEntity)
+        .toList();
+    }
+
+    public List<ViewCursosDTO> findAulasBySlug(String name) {
+
+        List<Cursos> cursos = repository.findBySlugContainingIgnoreCase(name);
+
+        if (cursos.isEmpty()) {
+            throw new BusinessException("Nenhum curso encontrado", true,  HttpStatus.NOT_FOUND);
+        }
+
+        return cursos.stream()
+        .map(ViewCursosDTO::fromEntity)
         .toList();
     }
 

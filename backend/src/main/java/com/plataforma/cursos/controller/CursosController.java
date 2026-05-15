@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import java.util.List;
 import com.plataforma.cursos.domain.entities.Cursos;
 import com.plataforma.cursos.DTO.CursosDTO;
+import com.plataforma.cursos.DTO.ViewCursosDTO;
 import com.plataforma.cursos.service.CursosService;
 
 @RestController
@@ -41,6 +42,11 @@ public class CursosController {
     @GetMapping("/id/{id}")
     public CursosDTO getById(@PathVariable Long id) {
         return service.findById(id);
+    }
+
+    @GetMapping("aulas/slug/{slug}")
+    public List<ViewCursosDTO> getAulasBySlug(@PathVariable String slug) {
+        return service.findAulasBySlug(slug);
     }
 
     @PostMapping("/registrar")

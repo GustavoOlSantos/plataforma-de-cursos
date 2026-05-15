@@ -7,6 +7,7 @@ import java.util.Set;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.plataforma.cursos.domain.entities.ModuloCurso;
 import com.plataforma.cursos.domain.entities.Subcategoria;
 
 @Entity
@@ -42,6 +43,9 @@ public class Cursos {
     )
     @Column(name = "descricao")
     private Set<String> requisitos;
+
+    @OneToMany(mappedBy = "curso")
+    private List<ModuloCurso> modulos;
 
     public boolean isValido(){
         return nome != null && !nome.isEmpty() && 
@@ -182,5 +186,13 @@ public class Cursos {
 
     public void setRequisitos(Set<String> requisitos) {
         this.requisitos = requisitos;
+    }
+
+        public List<ModuloCurso> getModulos() {
+        return modulos;
+    }
+
+    public void setModulos(List<ModuloCurso> modulos) {
+        this.modulos = modulos;
     }
 }
