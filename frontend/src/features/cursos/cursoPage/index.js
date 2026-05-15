@@ -82,9 +82,11 @@ function CursoPage() {
 
   }, [avaliacoes])
 
-  if(jaComprou){
+ useEffect(() => {
+  if (jaComprou) {
     navigate(`/ver-curso/${slug}`);
   }
+}, [jaComprou, navigate, slug]);
 
   if (loading) {
     return <Loading texto="curso"/>;

@@ -1,27 +1,32 @@
-const AUTH_KEY = 'isAuthenticated';
-const AUTH_USER = 'authenticatedUser';
-import axios from "axios";
 import api from "../../../services/api";
 
+const AUTH_KEY = 'isAuthenticated';
+const AUTH_USER = 'authenticatedUser';
+
 function login(email, password){
-    return api.post('/auth/login', 
-      { email, 
-        password 
-      })
+  return api.post('/auth/login', 
+    { email, 
+      password 
+    })
 }
 
 function logout(){
+  localStorage.removeItem(AUTH_USER);
+  localStorage.removeItem(AUTH_KEY);
+  window.dispatchEvent(new Event("manual-logout"));
+}
+function autoLogout(){
     localStorage.removeItem(AUTH_USER);
     localStorage.removeItem(AUTH_KEY);
-    window.dispatchEvent(new Event("user-logout"));
+    window.dispatchEvent(new Event("session-expired"));
 }
 
 function register(nome, email, password){
-    return api.post('/auth/cadastro', 
-      { nome, 
-        email, 
-        password 
-      });
+  return api.post('/auth/cadastro', 
+    { nome, 
+      email, 
+      password 
+    });
 }
 
 function getAuthenticatedUser() {
@@ -35,6 +40,7 @@ function isAuthenticated() {
 export const authService = {
   login,
   logout,
+  autoLogout,
   register,
   getAuthenticatedUser,
   isAuthenticated

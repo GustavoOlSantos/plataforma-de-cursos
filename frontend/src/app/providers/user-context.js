@@ -40,9 +40,11 @@ function UserProvider({ children }) {
         function removeUser() {
             setUser(null);
         }
-        window.addEventListener("user-logout", removeUser);
+        window.addEventListener("manual-logout", removeUser);
+        window.addEventListener("session-expired", removeUser);
         return () => {
-            window.removeEventListener("user-logout", removeUser);
+            window.removeEventListener("manual-logout", removeUser);
+            window.removeEventListener("session-expired",removeUser);
         };
     }, []);
 

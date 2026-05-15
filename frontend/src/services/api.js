@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { authService, isAuthenticated } from '../features/auth/services/authService';
 
 const api = axios.create({
     baseURL: 'http://localhost:8080/'
@@ -14,6 +15,29 @@ api.interceptors.request.use(config => {
 
     return config;
 });
+
+api.interceptors.response.use(
+  (response) => response,
+
+  (error) => {
+    const status = error.response?.status;
+    const url = error.config?.url || "";
+
+    const isAuthRoute =
+      url.includes("/auth/login") ||
+      url.includes("/auth/cadastro");
+
+    if (
+      (status === 401 || status === 403) &&
+      !isAuthRoute &&
+      authService.isAuthenticated
+    ) {
+      authService.autoLogout();
+    }
+
+    return Promise.reject(error);
+  }
+);
 
 
 export default api;

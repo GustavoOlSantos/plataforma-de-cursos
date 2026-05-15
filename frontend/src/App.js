@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import AppRoutes from './app/routes';
 
 import UserProvider from './app/providers/user-context';
+import {AuthListener} from  './features/auth/services/authListener';
 import Login from './features/auth/login';
 import Home from './features/home';
 import Perfil from './features/perfil';
@@ -14,6 +15,7 @@ import Footer from './components/footerSection'
 function App(){
   return(
     <UserProvider>
+      <AuthListener />
       <div className="App">
         <NavBar/>
         <AppRoutes />
