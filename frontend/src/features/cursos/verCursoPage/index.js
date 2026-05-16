@@ -189,8 +189,8 @@ function VerCurso(){
 
     useEffect(() => {
         if (curso == null) return;
+        if(user == null) return;
 
-        if(user != null){
         api.get(`compras/${curso.id}`)
         .then(res => {
             setJaComprou(res.data);
@@ -199,21 +199,25 @@ function VerCurso(){
             console.error("Não foi possível verificar se o usuário ja comprou este curso", err);
             navigate(-1);
             return;
-        })
-        }
+        });
+
+        curso.modulos.forEach(modulo => {
+            if (modulo == null || modulo.ordem != 1) return;
+            setMenorAulaId(modulo.aulas[0].id);
+        });
     }, [curso])
    
     useEffect(() => {
         if(curso == null) return;
         if(jaComprou == null) return;
-        if(setMenorAulaId == null) return;
+        if(menorAulaId == null) return;
 
         if(jaComprou !== true){
             navigate(-1);
             return;
         }
 
-        api.get(`progresso/ultima-aula`)
+        api.get(`progresso/ultima-aula/${curso.id}`)
         .then(res => {
             if(res.data == ""){
                 setAulaAtual(menorAulaId);
@@ -463,7 +467,7 @@ function VerCurso(){
                     </div>
                     
                     {curso.modulos.map((modulo) => (
-                        <PlaylistModulo modulo={modulo} aulasConcluidas={aulasConcluidas} moduloAtual={moduloAtual} setModuloAtual={setModuloAtual} aulaAtual={aulaAtual} setAulaAtual={setAulaAtual} setAulaAtualDados={setAulaAtualDados} setMenorAulaId={setMenorAulaId} />
+                        <PlaylistModulo key={modulo.id} modulo={modulo} aulasConcluidas={aulasConcluidas} moduloAtual={moduloAtual} setModuloAtual={setModuloAtual} aulaAtual={aulaAtual} setAulaAtual={setAulaAtual} setAulaAtualDados={setAulaAtualDados} />
                     ))}
 
                 </div>

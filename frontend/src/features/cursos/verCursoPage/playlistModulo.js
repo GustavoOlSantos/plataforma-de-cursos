@@ -8,12 +8,7 @@ function closeOrOpenModule(event) {
     iconElement.classList.toggle("fa-chevron-up");
 }
 
-function PlaylistModulo({modulo, aulasConcluidas, moduloAtual, setModuloAtual, aulaAtual, setAulaAtual, setAulaAtualDados, setMenorAulaId}) {
-
-    useEffect(() => {
-    if (modulo == null || modulo.ordem != 1) return;
-        setMenorAulaId(modulo.aulas[0].id);
-    }, []);
+function PlaylistModulo({modulo, aulasConcluidas, moduloAtual, setModuloAtual, aulaAtual, setAulaAtual, setAulaAtualDados }) {
 
     return (
         <div className={`playlist-modulo ${modulo.id === moduloAtual ? 'open' : 'closed'}`} key={modulo.id}>
@@ -51,19 +46,4 @@ function PlaylistModulo({modulo, aulasConcluidas, moduloAtual, setModuloAtual, a
         </div>
     );
 }
-
-/* Para a aula sendo assistida
-playlist-item active
-fa-solid fa-circle-play
-*/
-
-/* Para a aula já assistida e completa
-playlist-item
-fa-solid fa-circle-check
-*/
-
-/* Para aulas não assistidas
-fa-regular fa-circle
-*/
-
 export default PlaylistModulo;
