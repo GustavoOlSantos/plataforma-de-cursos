@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from 'react-router-dom';
 
-function buttonIcon({ icon, onClick, alt, className}){
+function buttonIcon({ icon, onClick, alt, className, children }) {
 
     const navigate = useNavigate();
 
@@ -9,6 +9,7 @@ function buttonIcon({ icon, onClick, alt, className}){
         <>
             <button className={`btn-icon ${className || ''}`} onClick={onClick} alt={alt}>
                 <i className={icon}></i>
+                {children}
             </button>
         </>
     )

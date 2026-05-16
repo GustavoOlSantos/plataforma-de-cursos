@@ -2,6 +2,7 @@ import api from "../../../services/api";
 
 const AUTH_KEY = 'isAuthenticated';
 const AUTH_USER = 'authenticatedUser';
+const AUTH_TOKEN = 'token';
 
 function login(email, password){
   return api.post('/auth/login', 
@@ -13,11 +14,13 @@ function login(email, password){
 function logout(){
   localStorage.removeItem(AUTH_USER);
   localStorage.removeItem(AUTH_KEY);
+  localStorage.removeItem(AUTH_TOKEN);
   window.dispatchEvent(new Event("manual-logout"));
 }
 function autoLogout(){
     localStorage.removeItem(AUTH_USER);
     localStorage.removeItem(AUTH_KEY);
+    localStorage.removeItem(AUTH_TOKEN);
     window.dispatchEvent(new Event("session-expired"));
 }
 

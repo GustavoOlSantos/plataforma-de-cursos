@@ -86,6 +86,12 @@ header button, header i{
   text-overflow: ellipsis;
 }
 
+.btn-icon.btn.with-text{
+  width: auto;
+  display: flex;
+  gap: 5px;
+}
+
 .btn.textOnly{
   width: auto;
   text-wrap: nowrap;
@@ -96,7 +102,7 @@ header button, header i{
 }
 
 .btn.regular{
-   background-color: transparent;
+  background-color: transparent;
   border-color: #0b62fe;
   color: #0b62fe !important;
 }
@@ -105,6 +111,9 @@ header button, header i{
   background-color: #0b62fe;
   border-color: #0143be;
   color: #ffffff !important;
+}
+.btn.border{
+  border: 1px solid !important;
 }
 
 
@@ -703,4 +712,400 @@ ul.unstyled-list.black li{
 .pagamentos i{
   color: #0000007c;
   font-size: 18pt !important;
+}
+
+.assistir-curso-page{
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 380px;
+  gap: 24px;
+
+  margin: 0;
+  padding: 24px;
+
+  background: #f8fafc;
+  min-height: calc(100vh - 70px);
+}
+
+.assistir-main-content{
+  min-width: 0;
+}
+
+.video-player-container{
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.video-topbar{
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.video-topbar h1{
+  margin: 8px 0 0 0;
+  font-size: 28pt;
+  color: #0f172a;
+}
+
+.curso-path{
+  color: #0B62FE;
+  font-size: 11pt;
+  font-weight: 600;
+}
+
+.video-wrapper{
+  width: 100%;
+  aspect-ratio: 16 / 9;
+
+  overflow: hidden;
+  border-radius: 24px;
+
+  background: #000;
+  box-shadow: 0 10px 40px #00000015;
+}
+
+.video-wrapper #player{
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.video-infos{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+
+  flex-wrap: wrap;
+
+  background: white;
+  padding: 24px;
+  border-radius: 20px;
+
+  box-shadow: 0px 5px 13px #00000008;
+}
+
+.video-stats{
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.video-stats span{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  color: #475569;
+  font-size: 11pt;
+}
+
+.video-actions{
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.video-descricao{
+  background: white;
+  padding: 32px;
+  border-radius: 20px;
+
+  box-shadow: 0px 5px 13px #00000008;
+}
+
+.video-descricao h2{
+  margin-top: 0;
+  color: #0f172a;
+}
+
+.video-descricao p{
+  color: #475569;
+  line-height: 1.8;
+  font-size: 11pt;
+}
+
+.assistir-sidebar{
+  position: sticky;
+  top: 20px;
+
+  height: fit-content;
+
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.curso-progresso-card{
+  background: linear-gradient(
+    135deg,
+    #0B62FE,
+    #0143be
+  );
+
+  color: white;
+
+  padding: 24px;
+  border-radius: 24px;
+
+  box-shadow: 0 10px 30px rgba(11, 98, 254, 0.25);
+}
+
+.progresso-header{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.progresso-label{
+  font-size: 11pt;
+  opacity: 0.8;
+}
+
+.progresso-header h2{
+  margin: 6px 0 0 0;
+  font-size: 28pt;
+}
+
+.progresso-header i{
+  font-size: 30px;
+  opacity: 0.9;
+}
+
+.progress-bar{
+  width: 100%;
+  height: 10px;
+
+  background: rgba(255,255,255,0.2);
+
+  border-radius: 999px;
+  overflow: hidden;
+
+  margin-top: 20px;
+}
+
+.progress-fill{
+  height: 100%;
+  border-radius: inherit;
+
+  background: white;
+
+  transition: width 0.4s ease;
+}
+
+.progresso-completo{
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.btn.progress{
+  background-color: transparent;
+  border-color: transparent;
+  color: #fff !important;
+  width: fit-content;
+  text-decoration: underline #fff !important;
+  cursor: pointer;
+}
+
+.playlist-container{
+  background: white;
+  border-radius: 24px;
+
+  overflow: hidden;
+
+  box-shadow: 0px 5px 13px #00000008;
+}
+
+.playlist-header{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 24px;
+
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.playlist-header h2{
+  margin: 0;
+  font-size: 18pt;
+}
+
+.playlist-header span{
+  color: #64748b;
+  font-size: 10pt;
+  font-weight: 600;
+}
+
+.playlist-modulo{
+  border-bottom: 1px solid #e2e8f0;
+  transition: max-height 0.5s ease-in-out;
+}
+
+.playlist-modulo.closed{
+  max-height: 100px;
+  overflow: hidden;
+}
+.playlist-modulo.closed > .playlist-item{
+  opacity: 0;
+}
+
+.playlist-modulo.open{
+  max-height: 1000px;
+  overflow: visible;
+}
+
+.playlist-modulo.open > .playlist-item{
+  opacity: 1;
+}
+
+.modulo-header{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 20px 24px;
+
+  background: #f8fafc;
+}
+
+.modulo-header h3{
+  margin: 0;
+  font-size: 12pt;
+  color: #0f172a;
+}
+
+.modulo-header span{
+  font-size: 10pt;
+  color: #64748b;
+}
+
+.playlist-aulas{
+  display: flex;
+  flex-direction: column;
+}
+
+.playlist-item{
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 16px;
+
+  padding: 18px 24px;
+
+  border: none;
+  background: white;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    opacity 0.5s ease,
+    transform 0.2s ease;
+}
+
+.playlist-item:hover{
+  background: #f8fafc;
+}
+
+.playlist-item.active{
+  background: #eff6ff;
+  border-left: 4px solid #0B62FE;
+}
+
+.playlist-item.completed strong{
+  color: #0B62FE;
+}
+
+.playlist-left{
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  text-align: left;
+}
+
+.playlist-left i{
+  font-size: 18px;
+  color: #0B62FE;
+}
+
+.playlist-left div{
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.playlist-left strong{
+  font-size: 10.5pt;
+  color: #0f172a;
+}
+
+.playlist-left span{
+  font-size: 9pt;
+  color: #64748b;
+}
+
+.playlist-item > i{
+  color: #94a3b8;
+}
+
+.curso-descricao-text {
+  width: 100%;
+  -webkit-line-clamp: 0;
+}
+
+.collapsed  {
+  display: -webkit-box;
+  -webkit-line-clamp: 7;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+@media(max-width: 1200px){
+
+  .assistir-curso-page{
+    grid-template-columns: 1fr;
+  }
+
+  .assistir-sidebar{
+    position: static;
+  }
+}
+
+@media(max-width: 768px){
+
+  .assistir-curso-page{
+    padding: 16px;
+  }
+
+  .video-topbar{
+    flex-direction: column;
+  }
+
+  .video-topbar h1{
+    font-size: 22pt;
+  }
+
+  .video-infos{
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .video-actions{
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .video-actions .btn{
+    width: 100%;
+  }
 }
