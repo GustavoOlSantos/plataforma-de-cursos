@@ -1,6 +1,7 @@
 package com.plataforma.cursos.domain.entities;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.ArrayList;
 import java.util.List;
 import com.plataforma.cursos.domain.entities.ModuloCurso;
@@ -100,8 +101,12 @@ public class AulaCurso {
         this.publicada = publicada;
     }
 
-    public ModuloCurso getModulo() {
+    private ModuloCurso getModulo() {
         return modulo;
+    }
+
+    public Long getModuloId() {
+        return modulo != null ? modulo.getId() : null;
     }
 
     public void setModulo(ModuloCurso modulo) {

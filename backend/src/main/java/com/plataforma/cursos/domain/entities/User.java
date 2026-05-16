@@ -1,5 +1,6 @@
 package com.plataforma.cursos.domain.entities;
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
     
 @Entity
 @Table(name = "users")
@@ -10,6 +11,7 @@ public class User {
     private Long  id;
     private String nome;
     private String email;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
     private String telefone;
     private String userImagePath;
