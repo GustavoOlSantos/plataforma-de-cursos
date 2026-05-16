@@ -21,49 +21,31 @@ public class ProgressoAulaController {
     }
 
     @GetMapping("/aula/{aulaId}")
-    public ResponseEntity<ProgressoAula> getProgresso(
-        @PathVariable Long aulaId,
-        Authentication authentication
-    ) {
-
+    public ResponseEntity<ProgressoAula> getProgresso( @PathVariable Long aulaId, Authentication authentication) {
         Long userId = Long.parseLong(authentication.getName());
 
-        ProgressoAula progresso =
-            service.getProgresso(aulaId, userId);
-
+        ProgressoAula progresso = service.getProgresso(aulaId, userId);
         return ResponseEntity.ok(progresso);
     }
 
     @PostMapping("/aula")
-    public ResponseEntity<?> salvar(
-        @RequestBody ProgressoRequestDTO progresso,
-        Authentication authentication
-    ){
+    public ResponseEntity<?> salvar(@RequestBody ProgressoRequestDTO progresso, Authentication authentication){
         Long userId = Long.parseLong(authentication.getName());
 
         service.salvar(progresso, userId);
-
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/ultima-aula")
-    public ProgressoAula getUltimaAula(
-            Authentication authentication
-    ){
+    @GetMapping("/ultima-aula/{cursoId}")
+    public ProgressoAula getUltimaAula(@PathVariable Integer cursoId, Authentication authentication){
+        Long userId = Long.parseLong(authentication.getName());
 
-        Long userId =
-            Long.parseLong(authentication.getName());
-
-        return service.getUltimaAulaAssistida(userId);
+        return service.getUltimaAulaAssistida(userId, cursoId);
     }
 
     @GetMapping("/aulas-concluidas/{cursoId}")
-    public List<Integer> getAulasConcluidas(@PathVariable Integer cursoId,
-            Authentication authentication
-    ){
-
-        Long userId =
-            Long.parseLong(authentication.getName());
+    public List<Integer> getAulasConcluidas(@PathVariable Integer cursoId, Authentication authentication){
+        Long userId = Long.parseLong(authentication.getName());
 
         return service.getAulasConcluidas(userId, cursoId);
     }

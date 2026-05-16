@@ -12,7 +12,7 @@ public interface ProgressoAulaRepository
 extends JpaRepository<ProgressoAula, Long> {
 
     Optional<ProgressoAula> findByUsuarioIdAndAulaId(Long usuarioId, Long aulaId);
-    Optional<ProgressoAula> findTopByUsuarioIdOrderByUltimaVisualizacaoDesc(Long usuarioId);
+    Optional<ProgressoAula> findTopByUsuarioIdAndAulaModuloCursoIdOrderByUltimaVisualizacaoDesc(Long usuarioId, Integer cursoId);
     @Query("""
     SELECT pa.aula.id
     FROM ProgressoAula pa

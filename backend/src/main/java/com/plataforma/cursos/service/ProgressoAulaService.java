@@ -18,24 +18,24 @@ import com.plataforma.cursos.repository.UserRepository;
 @Service
 public class ProgressoAulaService {
 
-    @Autowired
-    private ProgressoAulaRepository progressoAulaRepository;
+        @Autowired
+        private ProgressoAulaRepository progressoAulaRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+        @Autowired
+        private UserRepository userRepository;
 
-    @Autowired
-    private AulaCursoRepository aulaCursoRepository;
+        @Autowired
+        private AulaCursoRepository aulaCursoRepository;
 
 
-    public ProgressoAula getProgresso(Long aulaId, Long userId) {
+        public ProgressoAula getProgresso(Long aulaId, Long userId) {
 
         return progressoAulaRepository
-            .findByUsuarioIdAndAulaId(userId, aulaId)
-            .orElse(null);
-    }
+                .findByUsuarioIdAndAulaId(userId, aulaId)
+                .orElse(null);
+        }
 
-    public boolean salvar(ProgressoRequestDTO progresso, Long userId){
+        public boolean salvar(ProgressoRequestDTO progresso, Long userId){
 
         User usuario = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
@@ -71,14 +71,12 @@ public class ProgressoAulaService {
         progressoAulaRepository.save(progressoAula);
 
         return true;
-    }
+        }
 
-    public ProgressoAula getUltimaAulaAssistida(Long userId){
+        public ProgressoAula getUltimaAulaAssistida(Long userId, Integer cursoId) {
 
-        return progressoAulaRepository
-                .findTopByUsuarioIdOrderByUltimaVisualizacaoDesc(userId)
-                .orElse(null
-                );
+                return progressoAulaRepository.findTopByUsuarioIdAndAulaModuloCursoIdOrderByUltimaVisualizacaoDesc(userId, cursoId)
+                .orElse(null);
         }
 
         public List<Integer> getAulasConcluidas(Long userId, Integer cursoId) {
