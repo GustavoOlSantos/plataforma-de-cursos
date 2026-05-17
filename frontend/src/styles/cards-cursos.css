@@ -80,3 +80,97 @@
     justify-content: flex-start;
     align-items: center;
 }
+
+
+.cursos-adquiridos  .card-curso{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 20px;
+    flex: 0 0 22%; 
+    max-width: 22%;
+    max-height: 70%;
+    box-sizing: border-box;
+
+    background-color: #fff;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0b0;
+    box-shadow: 0 2px 4px #00000027;
+    padding: 20px;
+    margin-right: 25px;
+    cursor: pointer;
+}
+
+.cursos-adquiridos .card-image{
+    width: 100%;
+    height: 50%;
+    overflow: hidden;
+    background-color: bisque;
+    border-radius: 8px;
+}
+
+.cursos-adquiridos .card-image img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.cursos-adquiridos .card-curso h2{
+    font-size: 20px;
+    color: #2a2b3f;
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cursos-adquiridos .curso-infos{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 15px;
+    color: #666;
+    margin-top: 5px;
+}
+
+.cursos-adquiridos .curso-avaliacao{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.cursos-adquiridos .tag{
+    display: inline-block;
+    background-color: #f0f0f0;
+    border: 1px solid #cccccc6e;
+    color: #333;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+.cursos-adquiridos  .mais-vendidos{
+    background-color: #125dff;
+    color: white;
+    font-weight: bold;
+}
+
+.cursos-adquiridos .curso-preco{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.cursos-adquiridos .curso-progress{
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+}
+
+.cursos-adquiridos .curso-progress i {
+    color: #125dff;
+}
+
+.cursos-adquiridos .progress-fill{
+    background-color: #125dff;
+}
+

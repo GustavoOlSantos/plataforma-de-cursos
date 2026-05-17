@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import api from "../../services/api";
 import Tags from "../tags-cursos";
 
-function CardCursos({ curso, maisVendidos }) {
+function CardCursos({ curso, maisVendidos, origin, aulasConcluidas }) {
 
     const navigate = useNavigate();
     const [avaliacoes, setAvaliacoes] = useState(null);
@@ -50,9 +50,20 @@ function CardCursos({ curso, maisVendidos }) {
                <Tags dado={avaliacoesNum} texto="Avaliações"/>
             </section>
 
-            <section className="curso-preco">
-                <h2>R$ {curso.preco.toLocaleString()}</h2>
-            </section>
+            {origin == null || origin == undefined ?
+                <section className="curso-preco">
+                    <h2>R$ {curso.preco.toLocaleString()}</h2>
+                </section>
+            : 
+                <section className="curso-progress">
+                    <i className="fa-solid fa-trophy"></i>
+                    <div className="progress-bar">
+                        <div className="progress-fill" style={{ width: `${((aulasConcluidas / curso.numeroAulas) * 100).toFixed(0)}%` }} ></div>
+                    </div>
+                    <p>{((aulasConcluidas / curso.numeroAulas) * 100).toFixed(0)}%</p>
+                </section>
+            }
+           
 
         </article>
     );

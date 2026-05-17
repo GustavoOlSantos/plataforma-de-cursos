@@ -1,5 +1,6 @@
 import ProtectedRoute from "./ProtectedRoute";
 import Perfil from "../../features/perfil/";
+import MeusCursos from "../../features/cursos/meusCursos/";
 import VerCurso from "../../features/cursos/verCursoPage/";
 import Certificado from "../../features/cursos/certificadoPage/";
 
@@ -25,6 +26,14 @@ export const protectedRoutes = [
     element: (
       <ProtectedRoute>
         <Certificado />
+      </ProtectedRoute>
+    )
+  },
+  { 
+    path: "/meus-cursos",
+    element: (
+      <ProtectedRoute>
+        <MeusCursos />
       </ProtectedRoute>
     )
   }

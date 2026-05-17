@@ -1070,6 +1070,21 @@ ul.unstyled-list.black li{
   overflow: hidden;
 }
 
+.meus-cursos{
+  padding: 20px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.cursos-adquiridos{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  width: calc(100vw - 40px);
+}
+
+
 @media(max-width: 1200px){
 
   .assistir-curso-page{
