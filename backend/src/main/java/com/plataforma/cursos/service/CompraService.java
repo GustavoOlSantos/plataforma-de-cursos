@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import com.plataforma.cursos.domain.entities.Compra;
 import com.plataforma.cursos.domain.entities.User;
 import com.plataforma.cursos.domain.entities.Cursos;
+import com.plataforma.cursos.DTO.CursosDTO;
 import com.plataforma.cursos.repository.CompraRepository;
 import com.plataforma.cursos.repository.UserRepository;
 import com.plataforma.cursos.repository.CursosRepository;
@@ -25,6 +26,13 @@ public class CompraService {
 
     @Autowired
     private CursosRepository cursoRepository;
+
+    public List<CursosDTO> getCursoByUserId(Long userId) {
+        List<Compra> compras = compraRepository.findByUsuarioId(userId);
+        return compras.stream()
+                .map(compra -> CursosDTO.fromEntity(compra.getCurso()))
+                .toList();
+}
 
     public void comprarCurso(Long userId, Long cursoId) {
         User usuario = userRepository.findById(userId)

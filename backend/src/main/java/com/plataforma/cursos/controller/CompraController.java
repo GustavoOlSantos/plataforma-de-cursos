@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import com.plataforma.cursos.domain.entities.Compra;
+import com.plataforma.cursos.DTO.CursosDTO;
 import com.plataforma.cursos.service.CompraService;
 
 @RestController
@@ -14,6 +15,12 @@ public class CompraController {
 
     @Autowired
     private CompraService compraService;
+
+    @GetMapping
+    public List<CursosDTO> getCursoByUserId(Authentication authentication){
+        Long userId = Long.parseLong(authentication.getName());
+        return compraService.getCursoByUserId(userId);
+    }
 
     @PostMapping("/{cursoId}")
     public ResponseEntity<?> comprarCurso(@PathVariable Long cursoId, Authentication authentication) {
