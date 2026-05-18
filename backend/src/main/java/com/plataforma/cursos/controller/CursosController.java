@@ -7,7 +7,9 @@ import java.util.List;
 import com.plataforma.cursos.domain.entities.Cursos;
 import com.plataforma.cursos.DTO.CursosDTO;
 import com.plataforma.cursos.DTO.ViewCursosDTO;
+import com.plataforma.cursos.DTO.CriarCursoDTO;
 import com.plataforma.cursos.service.CursosService;
+import org.springframework.http.HttpStatus;
 
 @RestController
 @RequestMapping("/cursos")
@@ -50,8 +52,9 @@ public class CursosController {
     }
 
     @PostMapping("/registrar")
-    public Cursos create(@RequestBody Cursos curso) {
-        return service.register(curso);
+    public ResponseEntity<CursosDTO> create(@RequestBody CriarCursoDTO dto) {
+        CursosDTO criado = service.registerCompleto(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(criado);
     }
 
     @PatchMapping("/id/{id}")

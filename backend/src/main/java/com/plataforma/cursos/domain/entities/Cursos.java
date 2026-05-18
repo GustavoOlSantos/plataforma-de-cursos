@@ -44,7 +44,7 @@ public class Cursos {
     @Column(name = "descricao")
     private Set<String> requisitos;
 
-    @OneToMany(mappedBy = "curso")
+    @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ModuloCurso> modulos;
 
     public boolean isValido(){

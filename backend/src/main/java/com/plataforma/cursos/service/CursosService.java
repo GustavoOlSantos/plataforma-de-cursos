@@ -10,6 +10,13 @@ import com.plataforma.cursos.domain.entities.Cursos;
 import com.plataforma.cursos.DTO.CursosDTO;
 import com.plataforma.cursos.DTO.ViewCursosDTO;
 import com.plataforma.cursos.DTO.SubcategoriaDTO;
+import com.plataforma.cursos.domain.entities.ModuloCurso;
+import com.plataforma.cursos.domain.entities.Subcategoria;
+import com.plataforma.cursos.domain.entities.AulaCurso;
+import com.plataforma.cursos.DTO.CriarCursoDTO;
+import com.plataforma.cursos.DTO.CriarModuloDTO;
+import com.plataforma.cursos.DTO.CriarAulaDTO;
+import com.plataforma.cursos.repository.SubcategoriaRepository;
 import com.plataforma.cursos.utils.NullPropertyUtils;
 import com.plataforma.cursos.exception.BusinessException;
 import com.plataforma.cursos.repository.CursosRepository;
@@ -20,9 +27,11 @@ import java.util.List;
 public class CursosService {
 
     private final CursosRepository repository;
+    private final SubcategoriaRepository subcategoriaRepository;
 
-    public CursosService(CursosRepository repository) {
+    public CursosService(CursosRepository repository, SubcategoriaRepository subcategoriaRepository) {
         this.repository = repository;
+        this.subcategoriaRepository = subcategoriaRepository;
     }
 
     public List<CursosDTO> findAll() {
@@ -91,6 +100,66 @@ public class CursosService {
         return cursos.stream()
         .map(ViewCursosDTO::fromEntity)
         .toList();
+    }
+
+    public CursosDTO registerCompleto(CriarCursoDTO dto) {
+
+        Cursos curso = new Cursos();
+        curso.setSlug(dto.slug);
+        curso.setNome(dto.nome);
+        curso.setSubtitulo(dto.subtitulo);
+        curso.setDescricao(dto.descricao);
+        curso.setInstrutor(dto.instrutor);
+        curso.setDuracao(dto.duracao);
+        curso.setNumeroAulas(dto.numeroAulas);
+        curso.setImagemUrl(dto.imagemUrl);
+        curso.setUltimaAtualizacao(dto.ultimaAtualizacao);
+        curso.setIdioma(dto.idioma);
+        curso.setNivel(dto.nivel);
+        curso.setAlunosMatriculados(dto.alunosMatriculados);
+        curso.setPreco(dto.preco);
+        curso.setRequisitos(dto.requisitos);
+
+        if (dto.subcategorias != null) {
+            List<Subcategoria> subcategorias = dto.subcategorias.stream()
+                .map(ref -> subcategoriaRepository.findById(ref.id)
+                    .orElseThrow(() -> new BusinessException(
+                        "Subcategoria informada não encontrada: " + ref.id, true, HttpStatus.BAD_REQUEST)))
+                .toList();
+            curso.setSubcategorias(subcategorias);
+        }
+
+        if (dto.modulos != null) {
+            List<ModuloCurso> modulos = dto.modulos.stream().map(moduloDTO -> {
+                ModuloCurso modulo = new ModuloCurso();
+                modulo.setTitulo(moduloDTO.titulo);
+                modulo.setDescricao(moduloDTO.descricao);
+                modulo.setOrdem(moduloDTO.ordem);
+                modulo.setCurso(curso); // FK
+
+                if (moduloDTO.aulas != null) {
+                    List<AulaCurso> aulas = moduloDTO.aulas.stream().map(aulaDTO -> {
+                        AulaCurso aula = new AulaCurso();
+                        aula.setTitulo(aulaDTO.titulo);
+                        aula.setDescricao(aulaDTO.descricao);
+                        aula.setVideo_url(aulaDTO.videoUrl);
+                        aula.setThumbnail(aulaDTO.thumbnail);
+                        aula.setDuracao_segundos(aulaDTO.duracaoSegundos);
+                        aula.setOrdem(aulaDTO.ordem);
+                        aula.setGratuita(aulaDTO.gratuita);
+                        aula.setPublicada(aulaDTO.publicada);
+                        aula.setModulo(modulo); // FK
+                        return aula;
+                    }).toList();
+                    modulo.setAulas(aulas);
+                }
+                return modulo;
+            }).toList();
+            curso.setModulos(modulos);
+        }
+
+        Cursos salvo = repository.save(curso);
+        return CursosDTO.fromEntity(salvo);
     }
 
     public Cursos register(Cursos curso) {

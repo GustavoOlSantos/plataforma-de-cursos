@@ -24,7 +24,7 @@ public class ModuloCurso {
 
     private Integer ordem;
 
-    @OneToMany(mappedBy = "modulo")
+    @OneToMany(mappedBy = "modulo", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AulaCurso> aulas = new ArrayList<>();
 
     // CONSTRUTOR
