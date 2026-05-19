@@ -2,7 +2,7 @@ import axios from 'axios';
 import { authService, isAuthenticated } from '../features/auth/services/authService';
 
 const api = axios.create({
-    baseURL: 'http://localhost:8080/'
+    baseURL: 'https://plataforma-de-cursos-production.up.railway.app/'
 });
 
 api.interceptors.request.use(config => {
