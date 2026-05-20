@@ -1,8 +1,10 @@
 import axios from 'axios';
 import { authService, isAuthenticated } from '../features/auth/services/authService';
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 const api = axios.create({
-    baseURL: 'https://plataforma-de-cursos-production.up.railway.app/'
+    baseURL: API_URL
 });
 
 api.interceptors.request.use(config => {
