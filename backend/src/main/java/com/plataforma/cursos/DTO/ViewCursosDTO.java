@@ -1,11 +1,10 @@
 package com.plataforma.cursos.DTO;
 import java.util.List;
-import java.util.Set;
-import java.util.ArrayList;
 import java.util.Date;
 import com.plataforma.cursos.domain.entities.Cursos;
 import com.plataforma.cursos.DTO.ModuloCursoDTO;
 
+@SuppressWarnings("unused")
 public class ViewCursosDTO {
     public Long id;
     public String nome;

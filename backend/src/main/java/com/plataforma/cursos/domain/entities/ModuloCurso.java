@@ -6,6 +6,7 @@ import java.util.List;
 import com.plataforma.cursos.domain.entities.AulaCurso;
 import com.plataforma.cursos.domain.entities.Cursos;
 
+@SuppressWarnings("unused")
 @Entity
 @Table(name = "modulo_curso")
 public class ModuloCurso {

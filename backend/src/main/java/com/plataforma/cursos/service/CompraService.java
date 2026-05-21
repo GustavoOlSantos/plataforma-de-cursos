@@ -63,7 +63,7 @@ public class CompraService {
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
                 
 
-        Cursos curso = cursoRepository.findById(cursoId)
+        cursoRepository.findById(cursoId)
                 .orElseThrow(() -> new RuntimeException("Curso não encontrado"));
 
         boolean jaComprou = compraRepository

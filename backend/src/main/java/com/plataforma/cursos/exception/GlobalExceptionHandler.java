@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import com.plataforma.cursos.exception.BusinessException;
 import com.plataforma.cursos.exception.ErrorResponse;
 
+@SuppressWarnings("unused")
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 

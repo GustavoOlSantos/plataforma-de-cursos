@@ -9,8 +9,6 @@ import com.plataforma.cursos.DTO.SubcategoriaDTO;
 import com.plataforma.cursos.exception.BusinessException;
 import com.plataforma.cursos.repository.CategoriaRepository;
 import org.springframework.http.HttpStatus;
-import java.util.Optional;
-import java.util.List;
 
 @Service
 public class CategoriaService {

@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import com.plataforma.cursos.domain.entities.Compra;
 import com.plataforma.cursos.DTO.CursosDTO;
 import com.plataforma.cursos.service.CompraService;
 

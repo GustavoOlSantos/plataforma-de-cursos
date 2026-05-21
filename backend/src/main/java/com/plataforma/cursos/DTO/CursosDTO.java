@@ -8,6 +8,7 @@ import java.util.Date;
 import com.plataforma.cursos.domain.entities.Cursos;
 import com.plataforma.cursos.DTO.SubcategoriaDTO;
 
+@SuppressWarnings("unused")
 public class CursosDTO {
 
     public Long id;

@@ -2,14 +2,12 @@ package com.plataforma.cursos.domain.entities;
 
 import jakarta.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import java.util.HashSet;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 import com.plataforma.cursos.domain.entities.Cursos;
 import com.plataforma.cursos.domain.entities.Categoria;
 
+@SuppressWarnings("unused")
 @Entity
 @Table(name = "subcategorias")
 public class Subcategoria {

@@ -9,19 +9,15 @@ import java.util.stream.Stream;
 import com.plataforma.cursos.domain.entities.Cursos;
 import com.plataforma.cursos.DTO.CursosDTO;
 import com.plataforma.cursos.DTO.ViewCursosDTO;
-import com.plataforma.cursos.DTO.SubcategoriaDTO;
 import com.plataforma.cursos.domain.entities.ModuloCurso;
 import com.plataforma.cursos.domain.entities.Subcategoria;
 import com.plataforma.cursos.domain.entities.AulaCurso;
 import com.plataforma.cursos.DTO.CriarCursoDTO;
-import com.plataforma.cursos.DTO.CriarModuloDTO;
-import com.plataforma.cursos.DTO.CriarAulaDTO;
 import com.plataforma.cursos.repository.SubcategoriaRepository;
 import com.plataforma.cursos.utils.NullPropertyUtils;
 import com.plataforma.cursos.exception.BusinessException;
 import com.plataforma.cursos.repository.CursosRepository;
 import java.util.Optional;
-import java.util.List;
 
 @Service
 public class CursosService {

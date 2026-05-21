@@ -1,11 +1,9 @@
 package com.plataforma.cursos.domain.entities;
 
 import jakarta.persistence.*;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import java.util.ArrayList;
-import java.util.List;
 import com.plataforma.cursos.domain.entities.ModuloCurso;
 
+@SuppressWarnings("unused")
 @Entity
 @Table(name = "aula_modulo")
 public class AulaCurso {

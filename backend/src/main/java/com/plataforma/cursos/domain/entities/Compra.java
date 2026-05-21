@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import com.plataforma.cursos.domain.entities.User;
 import com.plataforma.cursos.domain.entities.Cursos;
     
+@SuppressWarnings("unused")
 @Entity
 @Table( name = "compras",
         uniqueConstraints = {

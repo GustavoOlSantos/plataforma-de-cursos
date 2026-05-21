@@ -2,7 +2,6 @@ package com.plataforma.cursos.domain.entities;
 
 import jakarta.persistence.*;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +9,7 @@ import java.util.List;
 import com.plataforma.cursos.domain.entities.ModuloCurso;
 import com.plataforma.cursos.domain.entities.Subcategoria;
 
+@SuppressWarnings("unused")
 @Entity
 @Table(name = "cursos")
 public class Cursos {

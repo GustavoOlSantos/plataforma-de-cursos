@@ -2,7 +2,6 @@ package com.plataforma.cursos.security.service;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import io.jsonwebtoken.*;
-import io.jsonwebtoken.security.Keys;
 import java.security.Key;
 import java.util.Date;
 import javax.crypto.spec.SecretKeySpec;
