@@ -37,7 +37,7 @@ public class SecurityConfig {
                 .requestMatchers("/compras/**", "/compras").authenticated()
                 .requestMatchers(HttpMethod.POST, "/avaliacoes/curso").permitAll()
                 .requestMatchers(HttpMethod.GET, "/avaliacoes/curso/**").permitAll()
-                .requestMatchers("/uploads/**", "/auth/id/**", "/auth/login", "/auth/cadastro", "/cursos", "/cursos/**", "/categorias", "/categorias/**").permitAll()
+                .requestMatchers("/auth/id/**", "/auth/login", "/auth/cadastro", "/cursos", "/cursos/**", "/categorias", "/categorias/**").permitAll()
                 .anyRequest().authenticated()
             )
             .httpBasic(httpBasic -> httpBasic.disable())

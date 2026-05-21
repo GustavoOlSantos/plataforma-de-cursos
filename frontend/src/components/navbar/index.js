@@ -6,6 +6,8 @@ import ButtonIcon from "../buttonIcon";
 import ButtonText from "../buttonText";
 
 import { UserContext } from "../../app/providers/user-context";
+import {getCloudImageUrl} from "../../services/cloud_images";
+import defaultIcon from "../../assets/default-icon.jpg";
 
 function NavBar() {
 
@@ -87,13 +89,12 @@ function NavBar() {
                             className="user-icon"
                             src={
                                 user.userImagePath
-                                    ? `http://localhost:8080/uploads/${user.userImagePath}`
-                                    : "http://localhost:8080/uploads/default-icon.jpg"
+                                    ? getCloudImageUrl(user.userImagePath)
+                                    : defaultIcon
                             }
                             onError={(e) => {
                                 e.currentTarget.onerror = null;
-                                e.currentTarget.src =
-                                    "http://localhost:8080/uploads/default-icon.jpg";
+                                e.currentTarget.src = defaultIcon;
                             }}
                             onClick={() => navigate("/perfil")}
                         />

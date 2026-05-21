@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 
 import api from "../../services/api";
+import {getCloudImageUrl} from "../../services/cloud_images";
 import Tags from "../tags-cursos";
 
 function CardCursos({ curso, maisVendidos, origin, aulasConcluidas }) {
@@ -10,6 +11,8 @@ function CardCursos({ curso, maisVendidos, origin, aulasConcluidas }) {
     const [avaliacoes, setAvaliacoes] = useState(null);
     const [nota, setNota] = useState(0);
     const [avaliacoesNum, setAvaliacoesNum] = useState(0);
+    const [imgLoaded, setImgLoaded] = useState(false);
+    
 
     useEffect(() => {
         api.get(`avaliacoes/curso/id-curso/${curso.id}`)
@@ -35,8 +38,8 @@ function CardCursos({ curso, maisVendidos, origin, aulasConcluidas }) {
     return (
         <article key={curso.id} className="card-curso" onClick={() => navigate(`/cursos/${curso.slug}`)}>
 
-            <section className="card-image">
-                <img src={`http://localhost:8080/uploads/${curso.imagemUrl}`} />
+            <section className={`card-image ${imgLoaded ? "loaded" : ""}`}>
+                <img src={getCloudImageUrl(curso.imagemUrl)} alt={curso.nome} onLoad={() => setImgLoaded(true)}/>
             </section>
 
             <section>

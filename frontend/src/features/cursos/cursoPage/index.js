@@ -6,6 +6,7 @@ import ReactMarkdown from "react-markdown";
 import { UserContext } from "../../../app/providers/user-context";
 
 import api from "../../../services/api";
+import {getCloudImageUrl} from "../../../services/cloud_images";
 import Modal from "../../../components/modal";
 import ButtonText from "../../../components/buttonText";
 import ButtonIcon from "../../../components/buttonIcon";
@@ -149,9 +150,9 @@ function CursoPage() {
       <section>
         <section className="curso-hero">
 
-          <figure className="curso-banner">
+          <figure className="curso-banner image">
             <img
-              src={`http://localhost:8080/uploads/${curso.imagemUrl}`}
+              src={getCloudImageUrl(curso.imagemUrl)}
               alt={curso.nome}
             />
           </figure>

@@ -1,5 +1,7 @@
 import react, {useState, useEffect} from "react";
 import api from "../../services/api";
+import {getCloudImageUrl} from "../../services/cloud_images";
+import defaultIcon from "../../assets/default-icon.jpg";
 
 function AvaliacoesCard({avaliacao}){
 
@@ -23,12 +25,12 @@ function AvaliacoesCard({avaliacao}){
                 <figure className="user-card-pic">
                     <img src={
                         user.userImagePath
-                        ? `http://localhost:8080/uploads/${user.userImagePath}`
-                        : "http://localhost:8080/uploads/default-icon.jpg"
+                        ? getCloudImageUrl(user.userImagePath)
+                        : defaultIcon
                         }
                         onError={(e) => {
                             e.currentTarget.onerror = null; // evita loop
-                            e.currentTarget.src = "http://localhost:8080/uploads/default-icon.jpg";
+                            e.currentTarget.src = defaultIcon;
                         }}
                     />
                 </figure>
