@@ -3,6 +3,7 @@ package com.plataforma.cursos.service;
 import org.springframework.stereotype.Service;
 import org.springframework.http.*;
 import java.util.List;
+import java.util.Date;
 
 import com.plataforma.cursos.exception.BusinessException;
 import com.plataforma.cursos.domain.documents.AvaliacoesCurso;
@@ -17,10 +18,17 @@ public class AvaliacoesCursoService {
         this.repository = repository;
     }
 
-    public AvaliacoesCurso register(AvaliacoesCurso avaliacao) {
-        if(avaliacao == null){
-            throw new BusinessException("Preencha a sua avaliação", true,HttpStatus.BAD_REQUEST);
+    public AvaliacoesCurso register(AvaliacoesCurso avaliacao, int userId) {
+        if(avaliacao == null || avaliacao.getCursoId() == null || avaliacao.getMensagem() == null || avaliacao.getMensagem().trim().isEmpty()) {
+            throw new BusinessException("Preencha a sua avaliação", true,HttpStatus.UNPROCESSABLE_CONTENT);
         }
+
+        if(avaliacao.getNota() > 5 || avaliacao.getNota() <= 0){
+            throw new BusinessException("A nota deve ser entre 1 e 5", true,HttpStatus.UNPROCESSABLE_CONTENT);
+        }
+
+        avaliacao.setUserId(userId);
+        avaliacao.setDate(new Date());
 
         return repository.save(avaliacao);
     }

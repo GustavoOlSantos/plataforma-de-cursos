@@ -9,10 +9,11 @@ import java.util.List;
 import com.plataforma.cursos.domain.entities.ProgressoAula;
 import com.plataforma.cursos.DTO.ProgressoRequestDTO;
 import com.plataforma.cursos.service.ProgressoAulaService;
+import com.plataforma.cursos.controller.docs.ProgressoAulaControllerDocs;
 
 @RestController
 @RequestMapping("/progresso")
-public class ProgressoAulaController {
+public class ProgressoAulaController implements ProgressoAulaControllerDocs {
 
     private final ProgressoAulaService service;
 

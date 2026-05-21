@@ -65,6 +65,11 @@ public class CategoriaService {
     }
 
     public Categoria save(CategoriaRequestDTO dto) {
+
+        if(dto.getNome() == null || dto.getNome().isEmpty() || dto.getSlug() == null || dto.getSlug().isEmpty()){
+            throw new BusinessException("Dados incompletos para cadastro", true, HttpStatus.UNPROCESSABLE_CONTENT);
+        }
+
         Categoria categoria = new Categoria();
         categoria.setNome(dto.getNome());
         categoria.setSlug(dto.getSlug());

@@ -3,8 +3,10 @@ package com.plataforma.cursos.service;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.plataforma.cursos.exception.BusinessException;
 
 import com.plataforma.cursos.domain.entities.AulaCurso;
 import com.plataforma.cursos.domain.entities.ProgressoAula;
@@ -29,52 +31,50 @@ public class ProgressoAulaService {
 
 
         public ProgressoAula getProgresso(Long aulaId, Long userId) {
-
-        return progressoAulaRepository
-                .findByUsuarioIdAndAulaId(userId, aulaId)
-                .orElse(null);
+                return progressoAulaRepository
+                        .findByUsuarioIdAndAulaId(userId, aulaId)
+                        .orElse(null);
         }
 
         public boolean salvar(ProgressoRequestDTO progresso, Long userId){
 
-        User usuario = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+                User usuario = userRepository.findById(userId)
+                        .orElseThrow(() -> new BusinessException("Usuário não encontrado", true, HttpStatus.NOT_FOUND));
 
-        AulaCurso aula = aulaCursoRepository.findById(progresso.getAulaId())
-                .orElseThrow(() -> new RuntimeException("Aula não encontrada"));
+                AulaCurso aula = aulaCursoRepository.findById(progresso.getAulaId())
+                        .orElseThrow(() -> new BusinessException("Aula não encontrada", true, HttpStatus.NOT_FOUND));
 
-        ProgressoAula progressoAula = progressoAulaRepository
-                .findByUsuarioIdAndAulaId(userId, progresso.getAulaId())
-                .orElse(new ProgressoAula());
+                ProgressoAula progressoAula = progressoAulaRepository
+                        .findByUsuarioIdAndAulaId(userId, progresso.getAulaId())
+                        .orElse(new ProgressoAula());
 
-        progressoAula.setUsuario(usuario);
-        progressoAula.setAula(aula);
+                progressoAula.setUsuario(usuario);
+                progressoAula.setAula(aula);
 
-        Integer atual = progressoAula.getUltimoSegundo();
-        Integer novo = progresso.getUltimoSegundo();
+                Integer atual = progressoAula.getUltimoSegundo();
+                Integer novo = progresso.getUltimoSegundo();
 
-        if (atual == null || novo == null) {
-                progressoAula.setUltimoSegundo(novo);
-        } else if (novo > atual) {
-                progressoAula.setUltimoSegundo(novo);
-        }
+                if (atual == null || novo == null) {
+                        progressoAula.setUltimoSegundo(novo);
+                } else if (novo > atual) {
+                        progressoAula.setUltimoSegundo(novo);
+                }
 
-        progressoAula.setUltimaVisualizacao(LocalDateTime.now());
+                progressoAula.setUltimaVisualizacao(LocalDateTime.now());
 
-        Boolean concluida = progresso.getConcluida();
+                Boolean concluida = progresso.getConcluida();
 
-        if (concluida != null && concluida) {
-                progressoAula.setConcluida(true);
-                progressoAula.setDataConclusao(LocalDateTime.now());
-        }
+                if (concluida != null && concluida) {
+                        progressoAula.setConcluida(true);
+                        progressoAula.setDataConclusao(LocalDateTime.now());
+                }
 
-        progressoAulaRepository.save(progressoAula);
+                progressoAulaRepository.save(progressoAula);
 
-        return true;
+                return true;
         }
 
         public ProgressoAula getUltimaAulaAssistida(Long userId, Integer cursoId) {
-
                 return progressoAulaRepository.findTopByUsuarioIdAndAulaModuloCursoIdOrderByUltimaVisualizacaoDesc(userId, cursoId)
                 .orElse(null);
         }

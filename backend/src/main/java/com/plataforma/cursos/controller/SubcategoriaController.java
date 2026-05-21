@@ -7,9 +7,11 @@ import org.springframework.web.bind.annotation.*;
 import com.plataforma.cursos.DTO.SubcategoriaRequestDTO;
 import com.plataforma.cursos.domain.entities.Subcategoria;
 import com.plataforma.cursos.service.SubcategoriaService;
+import com.plataforma.cursos.controller.docs.SubcategoriaControllerDocs;
+
 @RestController
 @RequestMapping("/subcategorias")
-public class SubcategoriaController {
+public class SubcategoriaController implements SubcategoriaControllerDocs {
 
     @Autowired
     private SubcategoriaService service;
@@ -18,12 +20,10 @@ public class SubcategoriaController {
     public ResponseEntity<Subcategoria> findBySlug(@PathVariable String slug) {
         return ResponseEntity.ok(service.findBySlug(slug));
     }
-
     @PostMapping
     public ResponseEntity<Subcategoria> save(@RequestBody SubcategoriaRequestDTO dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.save(dto));
     }
-
     @PatchMapping("/{id}")
     public ResponseEntity<Subcategoria> update(@PathVariable Long id, @RequestBody SubcategoriaRequestDTO dto) {
         return ResponseEntity.ok(service.update(id, dto));

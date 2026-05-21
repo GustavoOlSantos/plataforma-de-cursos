@@ -33,6 +33,7 @@ public class SecurityConfig {
                 session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             )
             .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**", "/api-docs/**").permitAll()
                 .requestMatchers("/cursos/aulas/**").authenticated()
                 .requestMatchers("/compras/**", "/compras").authenticated()
                 .requestMatchers(HttpMethod.POST, "/avaliacoes/curso").permitAll()

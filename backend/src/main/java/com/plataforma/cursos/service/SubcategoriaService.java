@@ -20,6 +20,12 @@ public class SubcategoriaService {
     private CategoriaRepository categoriaRepository;
 
     public Subcategoria save(SubcategoriaRequestDTO dto) {
+
+        if(dto.getNome() == null || dto.getSlug() == null || dto.getCategoriaId() == null || dto.getNome().isEmpty() || dto.getSlug().isEmpty()
+        || dto.getCategoriaId() == 0) {
+            throw new BusinessException("Dados incompletos para cadastro", true, HttpStatus.UNPROCESSABLE_CONTENT);
+        }
+
         Categoria categoria = categoriaRepository.findById(dto.getCategoriaId())
             .orElseThrow(() -> new BusinessException("Categoria não encontrada", true, HttpStatus.NOT_FOUND));
 

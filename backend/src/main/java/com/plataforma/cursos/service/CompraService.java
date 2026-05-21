@@ -36,11 +36,11 @@ public class CompraService {
 
     public void comprarCurso(Long userId, Long cursoId) {
         User usuario = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
-                
+                .orElseThrow(() -> new BusinessException("Usuário não encontrado", true, HttpStatus.NOT_FOUND));
+
 
         Cursos curso = cursoRepository.findById(cursoId)
-                .orElseThrow(() -> new RuntimeException("Curso não encontrado"));
+                .orElseThrow(() -> new BusinessException("Curso não encontrado", true, HttpStatus.NOT_FOUND));
 
         boolean jaComprou = compraRepository
                 .existsByUsuarioIdAndCursoId(usuario.getId(), cursoId);
@@ -60,11 +60,11 @@ public class CompraService {
 
     public boolean jaComprouCurso(Long userId, Long cursoId){
         User usuario = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+                .orElseThrow(() -> new BusinessException("Usuário não encontrado", true, HttpStatus.NOT_FOUND));
                 
 
         cursoRepository.findById(cursoId)
-                .orElseThrow(() -> new RuntimeException("Curso não encontrado"));
+                .orElseThrow(() -> new BusinessException("Curso não encontrado", true, HttpStatus.NOT_FOUND));
 
         boolean jaComprou = compraRepository
                 .existsByUsuarioIdAndCursoId(usuario.getId(), cursoId);

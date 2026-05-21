@@ -9,17 +9,18 @@ import com.plataforma.cursos.DTO.ViewCursosDTO;
 import com.plataforma.cursos.DTO.CriarCursoDTO;
 import com.plataforma.cursos.service.CursosService;
 import org.springframework.http.HttpStatus;
+import com.plataforma.cursos.controller.docs.CursosControllerDocs;
 
 @RestController
 @RequestMapping("/cursos")
-public class CursosController {
+public class CursosController implements CursosControllerDocs {
 
     private final CursosService service;
 
     public CursosController(CursosService service) {
         this.service = service;
     }
-
+    
     @GetMapping
     public List<CursosDTO> list() {
         return service.findAll();

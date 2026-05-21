@@ -39,6 +39,11 @@ public class UserService {
     }
 
     public String login(String email, String password) {
+
+        if(email == null || email.isBlank() || password == null || password.isBlank()){
+            throw new BusinessException("Dados incompletos para login", true, HttpStatus.UNPROCESSABLE_CONTENT);
+        }
+
         User user = repository.findByEmail(email);
 
         if (user == null || !passwordService.matches(password, user.getPassword())) {
@@ -49,8 +54,10 @@ public class UserService {
     }
 
     public User register(User user) {
-        if(user.getNome() == null || user.getEmail() == null || user.getPassword() == null){
-            throw new BusinessException("Dados incompletos para cadastro", true,HttpStatus.BAD_REQUEST);
+        if(user.getNome() == null || user.getNome().isBlank() ||
+            user.getEmail() == null || user.getEmail().isBlank() ||
+            user.getPassword() == null || user.getPassword().isBlank()){
+            throw new BusinessException("Dados incompletos para cadastro", true,HttpStatus.UNPROCESSABLE_CONTENT);
         }
 
         if(repository.findByEmail(user.getEmail()) != null){

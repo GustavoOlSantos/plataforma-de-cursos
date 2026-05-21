@@ -3,11 +3,17 @@ package com.plataforma.cursos.controller;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import com.plataforma.cursos.domain.documents.AvaliacoesCurso;
+import com.plataforma.cursos.exception.BusinessException;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import com.plataforma.cursos.service.AvaliacoesCursoService;
+
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import com.plataforma.cursos.controller.docs.AvaliacoesCursoControllerDocs;
 
 @RestController
 @RequestMapping("/avaliacoes/curso")
-public class AvaliacoesCursoController {
+public class AvaliacoesCursoController implements AvaliacoesCursoControllerDocs {
 
     private final AvaliacoesCursoService service;
 
@@ -16,9 +22,16 @@ public class AvaliacoesCursoController {
     }
 
     @PostMapping
-    public AvaliacoesCurso create(@RequestBody AvaliacoesCurso avaliacao) {
-        return service.register(avaliacao);
+    @SecurityRequirement(name = "bearerAuth")
+    public AvaliacoesCurso create(@RequestBody AvaliacoesCurso avaliacao, Authentication authentication) {
+        if(authentication == null || authentication.getName() == null) {
+            throw new BusinessException("Usuário não autenticado", true, HttpStatus.UNAUTHORIZED);
+        }
+        
+        int userId = Integer.parseInt(authentication.getName());
+        return service.register(avaliacao, userId);
     }
+
 
     @GetMapping("id-curso/{id}")
     public List<AvaliacoesCurso> obterAvaliacoes(@PathVariable Integer id) {
