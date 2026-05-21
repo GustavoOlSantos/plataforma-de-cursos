@@ -26,17 +26,41 @@ Este projeto está em desenvolvimento contínuo e vem sendo utilizado como ambie
 
 ---
 
+##  Deploy da aplicação
+
+A plataforma está totalmente deployada e integrada com serviços cloud reais.
+
+### Acessar aplicação
+- [🌐 Frontend (Vercel)](https://project-pritz.vercel.app/)
+- [⚙️ Backend API (Render)](https://plataforma-de-cursos-eeow.onrender.com)  (Render possui cold start, o primeiro request pode ter um delay)
+- [📚 Documentação da API (Swagger)](https://plataforma-de-cursos-eeow.onrender.com/swagger-ui/index.html)
+
+
+---
+
+## Infraestrutura utilizada
+
+| Serviço | Plataforma |
+|---|---|
+| Frontend | Vercel |
+| Backend | Render |
+| Banco Relacional | Aiven MySQL |
+| Banco NoSQL | MongoDB Atlas |
+| Armazenamento de imagens | Cloudinary |
+
+---
+
 ## Funcionalidades
 
-- Cadastro e autenticação de usuários
-- Login com JWT Authentication
-- Rotas protegidas
-- Integração frontend + backend
-- Sistema de categorias e subcategorias
+- Cadastro e autenticação JWT
+- Compra de cursos
 - Estrutura para avaliações de cursos
-- Persistência relacional e não relacional
-- Tratamento global de exceções
-- Organização em arquitetura por camadas
+- Player de vídeo integrado ao YouTube
+- Salvamento automático de progresso
+- Continuação de aulas por timestamp
+- Persistência de progresso do usuário
+- Gerenciamento de imagens via Cloudinary
+- Integração MySQL + MongoDB
 
 ---
 
