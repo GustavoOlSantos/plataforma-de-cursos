@@ -1,12 +1,14 @@
-import React, {useState, useEffect} from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, {useState, useEffect, useContext} from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
+import { UserContext } from '../../app/providers/user-context';
 import BannerCards from './banner-cards';
 import CardCursos from '../../components/card-cursos';
 import FeatureCard from '../../components/feature-card'
 import api from '../../services/api';
 import "../../styles/cards-cursos.css";
 
+import { getCloudImageUrl } from '../../services/cloud_images';
 import sectionImg from "../../assets/section.jpg"
 
 function Home(){
@@ -14,6 +16,7 @@ function Home(){
     const navigate = useNavigate();
     const [currentIndex, setCurrentIndex] = useState(0);
     const [cursos, setCursos] = useState([]);
+    const { user } = useContext(UserContext);
 
     useEffect(() => {
         api.get("/cursos/maisVendidos")
@@ -47,6 +50,19 @@ function Home(){
             <header className='colored-banner'>
                 <BannerCards />
             </header>
+
+            {user && (
+                <section className="welcome-section">
+                    <img className="welcome-avatar" src={user.userImagePath ? getCloudImageUrl(user.userImagePath) : defaultIcon}
+                        onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = defaultIcon; }}
+                        alt={user.nome}   
+                    />
+                    <div className="welcome-text">
+                        <h2>Bem-vindo(a) de volta, {user.nome.split(" ")[0]}!</h2>
+                        <p><Link to="/meus-cursos" className='link'>Veja os seus cursos em andamento </Link> e continue de onde parou!</p>
+                    </div>
+                </section>
+            )}
 
             <section className="em-alta">
                 <h2>Nossos cursos mais vendidos</h2>
