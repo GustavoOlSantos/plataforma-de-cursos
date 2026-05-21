@@ -14,7 +14,7 @@ import com.plataforma.cursos.domain.entities.Subcategoria;
 public class Categoria {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
     private String slug;

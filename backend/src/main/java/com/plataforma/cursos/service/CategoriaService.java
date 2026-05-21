@@ -4,9 +4,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import com.plataforma.cursos.domain.entities.Categoria;
 import com.plataforma.cursos.DTO.CategoriaDTO;
+import com.plataforma.cursos.DTO.CategoriaRequestDTO;
 import com.plataforma.cursos.DTO.SubcategoriaDTO;
 import com.plataforma.cursos.exception.BusinessException;
 import com.plataforma.cursos.repository.CategoriaRepository;
+import org.springframework.http.HttpStatus;
 import java.util.Optional;
 import java.util.List;
 
@@ -45,22 +47,45 @@ public class CategoriaService {
         
         return categorias.stream().map(cat -> {
 
-        List<SubcategoriaDTO> subcategorias = cat.getSubcategorias().stream()
-        .map(sub -> new SubcategoriaDTO(
-            sub.getId(),
-            sub.getNome(),
-            sub.getSlug()
-        ))
-        .distinct()
-        .limit(4)
-        .toList();
+            List<SubcategoriaDTO> subcategorias = cat.getSubcategorias().stream()
+            .map(sub -> new SubcategoriaDTO(
+                sub.getId(),
+                sub.getNome(),
+                sub.getSlug()
+            ))
+            .distinct()
+            .limit(4)
+            .toList();
 
-        return new CategoriaDTO(
-            cat.getNome(),
-            cat.getSlug(),
-            subcategorias
-        );
+            return new CategoriaDTO(
+                cat.getNome(),
+                cat.getSlug(),
+                subcategorias
+            );
 
-    }).toList();
+        }).toList();
+    }
+
+    public Categoria save(CategoriaRequestDTO dto) {
+        Categoria categoria = new Categoria();
+        categoria.setNome(dto.getNome());
+        categoria.setSlug(dto.getSlug());
+        return repository.save(categoria);
+    }
+
+    public Categoria update(Long id, CategoriaRequestDTO dto) {
+        Categoria categoria = repository.findById(id)
+            .orElseThrow(() -> new BusinessException("Categoria não encontrada", true, HttpStatus.NOT_FOUND));
+
+        if (dto.getNome() != null) categoria.setNome(dto.getNome());
+        if (dto.getSlug() != null) categoria.setSlug(dto.getSlug());
+
+        return repository.save(categoria);
+    }
+
+    public void delete(Long id) {
+        if (!repository.existsById(id))
+            throw new BusinessException("Categoria não encontrada", true, HttpStatus.NOT_FOUND);
+        repository.deleteById(id);
     }
 }
