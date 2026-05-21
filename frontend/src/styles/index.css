@@ -167,6 +167,42 @@ main{
   margin: 0 40px;
 }
 
+.link{
+  color: #0143be;
+  text-decoration-style: dashed;
+  font-weight: 600;
+}
+
+.welcome-section {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 10px;
+    padding: 24px 32px;
+    background: linear-gradient(135deg, #001aff11, #00d9ff11);
+    border-radius: 12px;
+    border-left: 4px solid #0b62fe;
+}
+
+.welcome-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #0b62fe;
+}
+
+.welcome-text h2 {
+    margin: 0;
+    font-size: 1.3rem;
+}
+
+.welcome-text p {
+    margin: 4px 0 0;
+    font-size: 0.9rem;
+    color: #666;
+}
+
 .colored-banner {
   position: relative;
   height: 50vh;
@@ -1109,6 +1145,43 @@ ul.unstyled-list.black li{
 .image.loaded::before {
   opacity: 0;
   animation: none;
+}
+
+.disabled{
+  cursor: not-allowed !important;
+  opacity: 0.5;
+}
+
+.dropdown  {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  z-index: 999;
+
+  display: flex;
+  flex-direction: column;
+  
+  list-style: none;
+  min-width: 180px;
+  margin: 0;
+  padding: 5px 0;
+
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.dropdown li {
+  display: flex;
+  align-items: center;
+  height: 4vh;
+  cursor: pointer;
+  transition: background-color 0.5s ease;
+}
+
+.dropdown li:hover {
+  background-color: #acacac6c;
 }
 
 @keyframes shimmer {
