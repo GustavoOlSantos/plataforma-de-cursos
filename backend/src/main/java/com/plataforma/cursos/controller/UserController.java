@@ -9,6 +9,12 @@ import com.plataforma.cursos.DTO.UserDTO;
 import com.plataforma.cursos.service.UserService;
 import com.plataforma.cursos.controller.docs.UserControllerDocs;
 
+/**
+ * Esse {@link RestController} é responsável por gerenciar as operações relacionadas aos usuários, incluindo cadastro, login 
+ * e recuperação de informações do usuário.
+ * A implementação de documentação da API é feita através da interface {@link UserControllerDocs}, que define os contratos de cada endpoint.
+ * @author Gustavo Santos
+ */
 @RestController
 @RequestMapping("/auth")
 public class UserController implements UserControllerDocs {
@@ -23,7 +29,7 @@ public class UserController implements UserControllerDocs {
     public List<UserDTO> list() {
         return service.findAll();
     }
-
+    
     @GetMapping("/id/{id}")
     public UserDTO findById(@PathVariable Long id) {
         return service.findById(id);

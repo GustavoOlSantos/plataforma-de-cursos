@@ -12,6 +12,12 @@ import com.plataforma.cursos.exception.BusinessException;
 import com.plataforma.cursos.service.CompraService;
 import com.plataforma.cursos.controller.docs.CompraControllerDocs;
 
+/**
+ * Esse {@link RestController} é responsável por gerenciar as operações relacionadas às compras, incluindo consulta e realização de compras.
+ * A implementação de documentação da API é feita através da interface {@link CompraControllerDocs}, que define os contratos de cada endpoint.
+ * 
+ * @author Gustavo Santos
+ */
 @RestController
 @RequestMapping("/compras")
 public class CompraController implements CompraControllerDocs {

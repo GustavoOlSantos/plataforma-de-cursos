@@ -9,6 +9,13 @@ import com.plataforma.cursos.domain.entities.Subcategoria;
 import com.plataforma.cursos.service.SubcategoriaService;
 import com.plataforma.cursos.controller.docs.SubcategoriaControllerDocs;
 
+
+/**
+ * Esse {@link RestController} é responsável por gerenciar as operações relacionadas às subcategorias, incluindo cadastro, atualização e remoção.
+ * A implementação de documentação da API é feita através da interface {@link SubcategoriaControllerDocs}, que define os contratos de cada endpoint.
+ * 
+ * @author Gustavo Santos
+ */
 @RestController
 @RequestMapping("/subcategorias")
 public class SubcategoriaController implements SubcategoriaControllerDocs {

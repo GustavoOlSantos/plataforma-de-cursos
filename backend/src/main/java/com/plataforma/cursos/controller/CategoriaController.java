@@ -10,6 +10,12 @@ import com.plataforma.cursos.DTO.CategoriaRequestDTO;
 import com.plataforma.cursos.service.CategoriaService;
 import com.plataforma.cursos.controller.docs.CategoriaControllerDocs;
 
+/**
+ * Esse {@link RestController} é responsável por gerenciar as operações relacionadas às categorias, incluindo cadastro, atualização e remoção.
+ * A implementação de documentação da API é feita através da interface {@link CategoriaControllerDocs}, que define os contratos de cada endpoint.
+ * 
+ * @author Gustavo Santos
+ */
 @RestController
 @RequestMapping("/categorias")
 public class CategoriaController implements CategoriaControllerDocs {

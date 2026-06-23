@@ -11,6 +11,12 @@ import com.plataforma.cursos.service.AvaliacoesCursoService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import com.plataforma.cursos.controller.docs.AvaliacoesCursoControllerDocs;
 
+/**
+ * Esse {@link RestController} é responsável por gerenciar as operações relacionadas às avaliações dos cursos, incluindo cadastro e consulta.
+ * A implementação de documentação da API é feita através da interface {@link AvaliacoesCursoControllerDocs}, que define os contratos de cada endpoint.
+ * 
+ * @author Gustavo Santos
+ */
 @RestController
 @RequestMapping("/avaliacoes/curso")
 public class AvaliacoesCursoController implements AvaliacoesCursoControllerDocs {

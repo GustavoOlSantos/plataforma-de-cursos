@@ -11,6 +11,13 @@ import com.plataforma.cursos.service.CursosService;
 import org.springframework.http.HttpStatus;
 import com.plataforma.cursos.controller.docs.CursosControllerDocs;
 
+
+/**
+ * Esse {@link RestController} é responsável por gerenciar as operações relacionadas aos cursos, incluindo cadastro, atualização e remoção.
+ * A implementação de documentação da API é feita através da interface {@link CursosControllerDocs}, que define os contratos de cada endpoint.
+ * 
+ * @author Gustavo Santos
+ */
 @RestController
 @RequestMapping("/cursos")
 public class CursosController implements CursosControllerDocs {

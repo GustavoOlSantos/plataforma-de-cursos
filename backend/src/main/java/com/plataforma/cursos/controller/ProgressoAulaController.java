@@ -11,6 +11,12 @@ import com.plataforma.cursos.DTO.ProgressoRequestDTO;
 import com.plataforma.cursos.service.ProgressoAulaService;
 import com.plataforma.cursos.controller.docs.ProgressoAulaControllerDocs;
 
+/**
+ * Esse {@link RestController} é responsável por gerenciar as operações relacionadas ao progresso das aulas, incluindo consulta e salvamento do progresso.
+ * A implementação de documentação da API é feita através da interface {@link ProgressoAulaControllerDocs}, que define os contratos de cada endpoint.
+ * 
+ * @author Gustavo Santos
+ */
 @RestController
 @RequestMapping("/progresso")
 public class ProgressoAulaController implements ProgressoAulaControllerDocs {

@@ -14,12 +14,21 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "Users", description = "Gerenciamento de usuários")
 public interface UserControllerDocs {
 
+    /**
+     * Encontra todos os usuários cadastrados (rota protegida).
+     * @return Lista de usuários cadastrados.
+     */
     @Operation(summary = "Encontrar todos usuários", description = "Encontra todos os usuários cadastrados (rota protegida)")
     @ApiResponses({
         @ApiResponse(responseCode = "403", description = "não autorizado"),
     })
     public List<UserDTO> list();
 
+    /**
+     * Encontra um usuário pelo ID.
+     * @param id Id do usuário a ser encontrado.
+     * @return {@link UserDTO}, contendo as informações do usuário encontrado.
+     */
     @Operation(summary = "Encontrar usuário", description = "Encontra um usuário pelo ID")
     @ApiResponses({
         @ApiResponse(responseCode = "200", description = "Usuário encontrado com sucesso"),
@@ -27,6 +36,11 @@ public interface UserControllerDocs {
     })
     public UserDTO findById(@PathVariable Long id);
 
+    /**
+     * Cria um novo usuário.
+     * @param user {@link User}, contendo as informações do usuário a ser criado.
+     * @return {@link ResponseEntity<User>}, contendo o usuário criado.
+     */
     @Operation(summary = "Criar usuário", description = "Cria um novo usuário")
     @ApiResponses({
         @ApiResponse(responseCode = "201", description = "Usuário criado com sucesso"),
@@ -35,6 +49,11 @@ public interface UserControllerDocs {
     })
     public ResponseEntity<User> create(@RequestBody User user);
 
+    /**
+     * Realiza o login do usuário.
+     * @param user {@link User}, contendo as informações do usuário a ser autenticado.
+     * @return {@link String}, contendo o token JWT.
+     */
     @Operation(summary = "Login do usuário", description = "Realiza o login do usuário")
     @ApiResponses({
         @ApiResponse(responseCode = "200", description = "{token jwt}"),

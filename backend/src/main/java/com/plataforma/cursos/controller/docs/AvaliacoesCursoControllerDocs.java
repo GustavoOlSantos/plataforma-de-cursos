@@ -15,6 +15,11 @@ import io.swagger.v3.oas.annotations.media.*;
 @SecurityRequirement(name = "bearerAuth")
 public interface AvaliacoesCursoControllerDocs {
 
+    /**
+     * Registra uma nova avaliação para um curso.
+     * @param avaliacao {@link AvaliacoesCurso}, que contém os detalhes da avaliação a ser registrada.
+     * @param authentication Objeto de autenticação JWT, que contém informações sobre o usuário autenticado.
+     */
     @Operation(summary = "Registrar nova avaliação", description = "Registra uma nova avaliação para um curso")
     @ApiResponses({
         @ApiResponse(responseCode = "201", 
@@ -31,6 +36,11 @@ public interface AvaliacoesCursoControllerDocs {
     })
     public AvaliacoesCurso create(@RequestBody AvaliacoesCurso avaliacao, Authentication authentication);
 
+    /**
+     * Obter todas as avaliações de um curso específico.
+     * @param id ID do curso para qual as avaliações devem ser obtidas.
+     * @return Lista de avaliações do curso.
+     */
     @Operation(summary = "Obter avaliações por curso", description = "Obtém todas as avaliações de um curso específico")
     @ApiResponses({
         @ApiResponse(responseCode = "200", 

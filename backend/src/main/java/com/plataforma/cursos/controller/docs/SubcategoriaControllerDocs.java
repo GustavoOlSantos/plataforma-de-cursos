@@ -12,6 +12,11 @@ import io.swagger.v3.oas.annotations.responses.*;
 @Tag(name = "Subcategorias", description = "Gerenciamento de subcategorias de cursos")
 public interface SubcategoriaControllerDocs {
 
+    /**
+     * Encontra uma subcategoria pelo slug.
+     * @param slug Slug/apelido único da subcategoria a ser encontrada.
+     * @return {@link ResponseEntity<Subcategoria>}, contendo a subcategoria encontrada.
+     */
     @Operation(summary = "Encontrar subcategoria por slug", description = "Encontra uma subcategoria pelo slug")
     @ApiResponses({
         @ApiResponse(responseCode = "200", description = "Subcategoria encontrada com sucesso"),
@@ -19,6 +24,11 @@ public interface SubcategoriaControllerDocs {
     })
     public ResponseEntity<Subcategoria> findBySlug(@PathVariable String slug);
 
+    /**
+     * Cria uma nova subcategoria.
+     * @param dto {@link SubcategoriaRequestDTO}, contendo as informações da subcategoria a ser criada.
+     * @return {@link ResponseEntity<Subcategoria>}, contendo a subcategoria criada.
+     */
     @Operation(summary = "Criar subcategoria", description = "Cria uma nova subcategoria")
     @ApiResponses({
         @ApiResponse(responseCode = "201", description = "Subcategoria criada com sucesso"),
@@ -27,6 +37,12 @@ public interface SubcategoriaControllerDocs {
     })
     public ResponseEntity<Subcategoria> save(@RequestBody SubcategoriaRequestDTO dto);
 
+    /**
+     * Atualiza uma subcategoria existente.
+     * @param id Id da subcategoria a ser atualizada.
+     * @param dto {@link SubcategoriaRequestDTO}, contendo as informações atualizadas da subcategoria.
+     * @return {@link ResponseEntity<Subcategoria>}, contendo a subcategoria atualizada.
+     */
     @Operation(summary = "Atualizar subcategoria", description = "Atualiza uma subcategoria existente")
     @ApiResponses({ 
         @ApiResponse(responseCode = "200", description = "Subcategoria atualizada com sucesso"),
@@ -34,6 +50,11 @@ public interface SubcategoriaControllerDocs {
     })
     public ResponseEntity<Subcategoria> update(@PathVariable Long id, @RequestBody SubcategoriaRequestDTO dto);
 
+    /**
+     * Exclui uma subcategoria existente.
+     * @param id ID da subcategoria a ser deletada.
+     * @return {@link ResponseEntity<Void>}, indicando o sucesso ou falha da operação.
+     */
     @Operation(summary = "Excluir subcategoria", description = "Exclui uma subcategoria existente")
     @ApiResponses({
         @ApiResponse(responseCode = "204", description = "Subcategoria excluída com sucesso"),
