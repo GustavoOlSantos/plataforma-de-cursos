@@ -116,16 +116,19 @@ jobs:
       # Ligar o backend e o frontend em background (sinal &) antes de testar
       - name: Executar Testes E2E com Cypress
         run: |
-          java -jar backend/target/*.jar &
+          java -jar ../backend/target/*.jar &
           sleep 20
           
-          npx serve -s frontend/build -p 3000 &
+          mysql -h 127.0.0.1 -P 3306 -u root -proot meubanco_teste < ../.github/scripts/seed.sql
+
+          npx --yes serve -s build -p 3000 &
           sleep 10
           
-          npm run cypress:run
+          npx cypress run
         working-directory: ./frontend
         env:
           # Variáveis necessárias pro backend conseguir ligar durante os testes
+          JWT_SECRET: ${{ vars.JWT_SECRET }}
           SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/meubanco_teste
           SPRING_DATASOURCE_USERNAME: root
           SPRING_DATASOURCE_PASSWORD: root

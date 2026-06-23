@@ -1,6 +1,6 @@
-import userTest from '../fixtures/userTest.json';
-
 describe('Teste da Home Page', () =>{
+
+    const userTest = Cypress.env('testUser');
 
     beforeEach(() => {
         cy.visit('/');
