@@ -63,7 +63,7 @@ function MeusCursos() {
     }, [cursos]);
 
     if(loading) {
-        return <Loading texto="sualista de cursos"/>;
+        return <Loading texto="sua lista de cursos"/>;
     }
 
     return(
