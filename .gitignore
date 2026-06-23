@@ -18,6 +18,7 @@ frontend/build/
 frontend/dist/
 frontend/.env
 frontend/.env.*
+frontend/cypress.env.json
 frontend.cache/
 frontend/.parcel-cache/
 frontend/.eslintcache

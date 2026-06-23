@@ -1,0 +1,135 @@
+name: Pipeline de Build e Testes
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  build-frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+
+      - name: Instalar dependências
+        run: npm ci
+        working-directory: ./frontend
+
+      - name: Gerar build do Frontend
+        run: npm run build
+        working-directory: ./frontend
+        env:
+          REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}
+          REACT_APP_URL: ${{ secrets.REACT_APP_URL }}
+          REACT_APP_CLOUDINARY_CLOUD_NAME: ${{ secrets.REACT_APP_CLOUDINARY_CLOUD_NAME }}
+
+      - name: Salvar Artefato do Frontend
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-build
+          path: frontend/build/ 
+
+  build-backend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Dar permissão ao Maven Wrapper
+        run: chmod +x mvnw
+        working-directory: ./backend
+
+      - name: Gerar build do Backend (Sem testes)
+        run: ./mvnw clean package -DskipTests
+        working-directory: ./backend
+
+      - name: Salvar Artefato do Backend
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-jar
+          path: backend/target/*.jar
+
+  testes-cypress:
+    runs-on: ubuntu-latest
+    needs: [build-frontend, build-backend]
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: meubanco_teste
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+      mongodb:
+        image: mongo:latest
+        ports:
+          - 27017:27017
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+      - name: Configurar Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Baixar build do Frontend
+        uses: actions/download-artifact@v4
+        with:
+          name: frontend-build
+          path: frontend/build/
+
+      - name: Baixar jar do Backend
+        uses: actions/download-artifact@v4
+        with:
+          name: backend-jar
+          path: backend/target/
+
+      - name: Instalar dependências do Frontend
+        run: npm ci
+        working-directory: ./frontend
+
+      # Ligar o backend e o frontend em background (sinal &) antes de testar
+      - name: Executar Testes E2E com Cypress
+        run: |
+          java -jar backend/target/*.jar &
+          sleep 20
+          
+          npx serve -s frontend/build -p 3000 &
+          sleep 10
+          
+          npm run cypress:run
+        working-directory: ./frontend
+        env:
+          # Variáveis necessárias pro backend conseguir ligar durante os testes
+          SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/meubanco_teste
+          SPRING_DATASOURCE_USERNAME: root
+          SPRING_DATASOURCE_PASSWORD: root
+          SPRING_DATA_MONGODB_URI: mongodb://localhost:27017/meubanco_mongo_teste
+          REACT_APP_API_URL: http://localhost:8080/api/ # Aponta pro backend local
+          REACT_APP_URL: http://localhost:3000/
+          REACT_APP_CLOUDINARY_CLOUD_NAME: ${{ secrets.REACT_APP_CLOUDINARY_CLOUD_NAME }}
