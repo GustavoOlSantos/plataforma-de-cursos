@@ -1,7 +1,12 @@
 package com.plataforma.cursos.domain.entities;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
     
+@Getter
+@Setter
 @Entity
 @Table(name = "users")
 public class User {
@@ -34,18 +39,4 @@ public class User {
         this.telefone = telefone;
         this.userImagePath = userImagePath;
     }
-
-    public Long getId() { return id; }
-    public String getNome() { return nome; }
-    public String getEmail() { return email; }
-    public String getPassword() { return password; }
-    public String getTelefone() { return telefone; }
-    public String getUserImagePath() { return userImagePath; }
-
-    public void setId(Long id) { this.id = id; }
-    public void setNome(String nome) { this.nome = nome; }
-    public void setEmail(String email) { this.email = email; }
-    public void setPassword(String password) { this.password = password; }
-    public void setTelefone(String telefone) { this.telefone = telefone; }
-    public void setUserImagePath(String userImagePath) { this.userImagePath = userImagePath; }
 }

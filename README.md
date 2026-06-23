@@ -83,6 +83,7 @@ A plataforma está totalmente deployada e integrada com serviços cloud reais.
 | Tecnologia | Versão |
 |---|---|
 | Java | 21 |
+| Lombok | 1.18.46 |
 | Spring Boot | 4.0.5 |
 | Spring Security | 4.0.5 |
 | Spring Data JPA | 4.0.5 |

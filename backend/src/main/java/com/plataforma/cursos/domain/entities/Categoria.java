@@ -1,9 +1,14 @@
 package com.plataforma.cursos.domain.entities;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.Set;
 
 import com.plataforma.cursos.domain.entities.Subcategoria;
 
+@Getter
+@Setter
 @SuppressWarnings("unused")
 @Entity
 @Table(name = "categorias")
@@ -17,37 +22,4 @@ public class Categoria {
 
     @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL)
     private Set<Subcategoria> subcategorias;
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public String getSlug() {
-        return slug;
-    }
-
-    public Set<Subcategoria> getSubcategorias() {
-        return subcategorias;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public void setSlug(String slug) {
-        this.slug = slug;
-    }
-
-    public void setSubcategorias(Set<Subcategoria> subcategorias) {
-        this.subcategorias = subcategorias;
-    }
 }

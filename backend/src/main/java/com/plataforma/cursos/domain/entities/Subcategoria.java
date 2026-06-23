@@ -1,12 +1,17 @@
 package com.plataforma.cursos.domain.entities;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Set;
 
 import com.plataforma.cursos.domain.entities.Cursos;
 import com.plataforma.cursos.domain.entities.Categoria;
 
+@Getter
+@Setter
 @SuppressWarnings("unused")
 @Entity
 @Table(name = "subcategorias")
@@ -30,48 +35,4 @@ public class Subcategoria {
         inverseJoinColumns = @JoinColumn(name = "curso_id")
     )
     private Set<Cursos> cursos;
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public Categoria getCategoria() {
-        return categoria;
-    }
-
-    public String getSlug() {
-        return slug;
-    }
-
-
-    public Set<Cursos> getCursos() {
-        return cursos;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public void setCategoria(Categoria categoria) {
-        this.categoria = categoria;
-    }
-
-    public void setSlug(String slug) {
-        this.slug = slug;
-    }
-
-    public void setCursos(Set<Cursos> cursos) {
-        this.cursos = cursos;
-    }
-
-    
 }
