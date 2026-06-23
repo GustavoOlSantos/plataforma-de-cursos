@@ -10,6 +10,7 @@ import "../../styles/cards-cursos.css";
 
 import { getCloudImageUrl } from '../../services/cloud_images';
 import sectionImg from "../../assets/section.jpg"
+import defaultIcon from "../../assets/default-icon.jpg";
 
 function Home(){
 
