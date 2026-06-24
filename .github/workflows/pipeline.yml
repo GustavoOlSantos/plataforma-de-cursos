@@ -26,9 +26,10 @@ jobs:
         run: npm run build
         working-directory: ./frontend
         env:
-          REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}
-          REACT_APP_URL: ${{ secrets.REACT_APP_URL }}
-          REACT_APP_CLOUDINARY_CLOUD_NAME: ${{ secrets.REACT_APP_CLOUDINARY_CLOUD_NAME }}
+          REACT_APP_API_URL: ${{ vars.REACT_APP_API_URL }}
+          REACT_APP_URL: ${{ vars.REACT_APP_URL }}
+          REACT_APP_CLOUDINARY_CLOUD_NAME: ${{ vars.REACT_APP_CLOUDINARY_CLOUD_NAME }}
+          CYPRESS_testUser: '{"name": ${{secrets.NAME}},"email": ${{secrets.EMAIL}},"password": ${{secrets.PASSWORD}}}'
 
       - name: Salvar Artefato do Frontend
         uses: actions/upload-artifact@v4
@@ -132,7 +133,9 @@ jobs:
           SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/meubanco_teste
           SPRING_DATASOURCE_USERNAME: root
           SPRING_DATASOURCE_PASSWORD: root
+          SPRING_JPA_HIBERNATE_DDL_AUTO: update
           SPRING_DATA_MONGODB_URI: mongodb://localhost:27017/meubanco_mongo_teste
-          REACT_APP_API_URL: http://localhost:8080/api/ # Aponta pro backend local
+          REACT_APP_API_URL: http://localhost:8080/
           REACT_APP_URL: http://localhost:3000/
-          REACT_APP_CLOUDINARY_CLOUD_NAME: ${{ secrets.REACT_APP_CLOUDINARY_CLOUD_NAME }}
+          REACT_APP_CLOUDINARY_CLOUD_NAME: ${{ vars.REACT_APP_CLOUDINARY_CLOUD_NAME }}
+          CYPRESS_testUser: '{"name": "${{secrets.NAME}}","email": "${{secrets.EMAIL}}","password": "${{secrets.PASSWORD}}"}'
