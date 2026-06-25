@@ -21,7 +21,7 @@ O sistema simula uma plataforma EAD, permitindo gerenciamento e consumo de curso
 Este projeto está em desenvolvimento contínuo e vem sendo utilizado como ambiente de estudo, experimentação e evolução técnica em desenvolvimento full stack.
 
 <div align="center">
-  <img src="https://skillicons.dev/icons?i=java,spring,react,mysql,mongodb,nodejs" />
+  <img src="https://skillicons.dev/icons?i=java,spring,maven,react,mysql,mongodb,cypress,githubactions" />
 </div>
 
 ---
@@ -47,6 +47,8 @@ A plataforma está totalmente deployada e integrada com serviços cloud reais.
 | Banco Relacional | Aiven MySQL |
 | Banco NoSQL | MongoDB Atlas |
 | Armazenamento de imagens | Cloudinary |
+| Testes Automatizados | Cypress |
+| CI/CD | Workflows no Github Actions
 
 ---
 
@@ -75,6 +77,7 @@ A plataforma está totalmente deployada e integrada com serviços cloud reais.
 | Axios | 1.14.0 |
 | JWT Decode | 4.0.0 |
 | React Scripts | 5.0.1 |
+| Cypress | 15.17.0 |
 
 ---
 
@@ -88,7 +91,7 @@ A plataforma está totalmente deployada e integrada com serviços cloud reais.
 | Spring Security | 4.0.5 |
 | Spring Data JPA | 4.0.5 |
 | Spring Data MongoDB | 4.0.5 |
-| JWT (jjwt) | 0.11.5 |
+| JWT | 0.11.5 |
 | Maven | Wrapper |
 
 ---
@@ -102,7 +105,35 @@ A plataforma está totalmente deployada e integrada com serviços cloud reais.
 
 ---
 
+## Testes
+
+A aplicação possui testes end-to-end implementados com Cypress, cobrindo os principais fluxos do usuário:
+
+- Cadastro e login
+- Home page
+- Ciclo de vida dos cursos
+
+Os testes são executados localmente durante o desenvolvimento e automaticamente a cada push/PR através da pipeline de CI (veja a seção CI/CD), rodando contra uma instância real da aplicação com banco de dados populado via seed.
+
+## CI/CD
+
+A pipeline de CI foi implantada via Github Actions, disparando automaticamente em pushes nas branches `develop` e `main`, além de pull requests abertas contra `main`. Isso garante que toda alteração passe por build e testes automatizados antes de ser integrada, prevenindo regressões e dando mais segurança às entregas — inclusive bloqueando o merge de PRs até a pipeline passar.
+
+A pipeline é dividida em três jobs, onde as builds de frontend e backend rodam em paralelo e seus artefatos são reaproveitados pelo job de testes, evitando rebuild desnecessário:
+
+| Job | Função |
+|---|---|
+| build-frontend | Instala dependências, gera a build de produção do React e salva o resultado como artefato |
+| build-backend | Compila a aplicação Spring Boot via Maven Wrapper e salva o `.jar` gerado como artefato |
+| testes-cypress | Baixa os artefatos das builds anteriores, sobe instâncias temporárias de MySQL e MongoDB como *services*, popula o banco com dados de seed, levanta o backend e o frontend localmente e executa os testes E2E com Cypress contra a aplicação completa |
+
+Caso algum job falhe, a notificação é imediata, facilitando a identificação e correção de problemas antes da integração com a branch principal.
+
 ## Arquitetura do projeto
+
+<p align="center">
+  <img src="./screenshots/arquitetura.png" width="80%"/>
+</p>
 
 ```bash
 plataforma-de-cursos/
@@ -176,14 +207,14 @@ A autenticação da aplicação é baseada em **JWT (JSON Web Token)** utilizand
 ## Preview
 <p align="center">
   <img src="./screenshots/home-page.png" width="45%"/>
-  <img src="./screenshots/registro-page.png" width="45%"/>
+  <img src="./screenshots/assistir-curso.png" width="45%"/>
   <img src="./screenshots/detalhamento-curso.png" width="45%"/>
-  <img src="./screenshots/home-gif.gif" width="45%"/>
+  <img src="./screenshots/fluxo.gif" width="45%"/>
 </p>
 
 ## Como executar o projeto localmente
 
-## Pré-requisitos
+### Pré-requisitos
 
 Antes de iniciar, é necessário possuir instalado:
 
@@ -198,7 +229,7 @@ Antes de iniciar, é necessário possuir instalado:
 ### Clone o repositório
 
 ```bash
-git clone https://github.com/sGustavoOlSantos/plataforma-de-cursos.git
+git clone https://github.com/GustavoOlSantos/plataforma-de-cursos.git
 ```
 
 ---

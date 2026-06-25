@@ -1,0 +1,99 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "React",
+      "type": "process",
+      "command": "powershell",
+      "args": [
+        "-NoExit",
+        "-Command",
+        "npm run dev:frontend"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "panel": "new",
+        "reveal": "always",
+        "echo": true
+      },
+      "icon": {
+        "id": "vm",
+        "color": "terminal.ansiBlue"
+      },
+      "runOptions": {
+        "runOn": "folderOpen"
+      }
+    },
+    {
+      "label": "Spring",
+      "type": "process",
+      "command": "powershell",
+      "args": [
+        "-NoExit",
+        "-Command",
+        "Get-Content ./backend/.env -Raw | Invoke-Expression; npm run dev:backend"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "panel": "new",
+        "reveal": "always",
+        "echo": true
+      },
+      "icon": {
+        "id": "server",
+        "color": "terminal.ansiGreen"
+      },
+      "runOptions": {
+        "runOn": "folderOpen"
+      }
+    },
+    {
+      "label": "Backend",
+      "type": "shell",
+      "command": "powershell", 
+      "options": {
+        "cwd": "${workspaceFolder}/backend"
+      },
+      "presentation": {
+        "panel": "new",
+        "reveal": "always",
+        "echo": true
+      },
+      "icon": {
+        "id": "terminal",
+        "color": "terminal.ansiRed"
+      },
+      "runOptions": {
+        "runOn": "folderOpen"
+      }
+    },
+    {
+      "label": "Cypress",
+      "type": "shell",
+      "command": "C:\\Program Files\\Git\\bin\\bash.exe",
+      "args": [
+       "-c",
+        "npx cypress open ; exec bash -i"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}/frontend"
+      },
+      "presentation": {
+        "panel": "new",
+        "reveal": "always",
+        "echo": true
+      },
+      "icon": {
+        "id": "beaker",
+        "color": "terminal.ansiYellow"
+      },
+      "runOptions": {
+        "runOn": "folderOpen"
+      }
+    }
+  ]
+}
