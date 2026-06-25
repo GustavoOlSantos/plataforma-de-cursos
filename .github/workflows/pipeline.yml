@@ -33,7 +33,7 @@ jobs:
           REACT_APP_API_URL: ${{ vars.REACT_APP_API_URL }}
           REACT_APP_URL: ${{ vars.REACT_APP_URL }}
           REACT_APP_CLOUDINARY_CLOUD_NAME: ${{ vars.REACT_APP_CLOUDINARY_CLOUD_NAME }}
-          CYPRESS_testUser: '{"name": ${{secrets.NAME}},"email": ${{secrets.EMAIL}},"password": ${{secrets.PASSWORD}}}'
+          CYPRESS_testUser: '{"name": "${{secrets.NAME}}","email": "${{secrets.EMAIL}}","password": "${{secrets.PASSWORD}}"}'
 
       - name: Salvar Artefato do Frontend
         uses: actions/upload-artifact@v4
