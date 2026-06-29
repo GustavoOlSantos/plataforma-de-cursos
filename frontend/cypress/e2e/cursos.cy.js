@@ -120,6 +120,76 @@ describe('Teste de cobertura do ciclo de cursos', () => {
             cy.location('pathname').should('eq', '/ver-curso/java-completo');
         });
 
+        it('Deve exibir a listagem de cursos comprados', () => {
+            cy.intercept('GET', `${backendUrl}compras`, {
+                statusCode: 200,
+                body: [
+                        {
+                            "alunosMatriculados": 5000,
+                            "descricao": "\nBem-vindo ao curso mais completo de Java do mercado, com Programação Orientada a Objetos, UML, JDBC, Spring Boot, JPA, APIs REST, arquitetura de software e muito mais...\n\nJava continua sendo uma das linguagens mais utilizadas do mundo.\n\nGrandes empresas, bancos, sistemas corporativos, aplicações web e APIs modernas utilizam Java diariamente para construir soluções robustas, escaláveis e seguras.\n\nEste curso foi criado para levar você do nível intermediário ao avançado, dominando não apenas a linguagem Java, mas também o ecossistema profissional utilizado no mercado de trabalho.\n\nAo longo das aulas, você desenvolverá aplicações reais, entenderá como sistemas corporativos são estruturados e aprenderá as tecnologias mais exigidas por empresas e recrutadores.\n\n---\n\n####  O que você vai aprender neste curso\n\n- Dominar os fundamentos avançados da linguagem Java.\n- Trabalhar com Programação Orientada a Objetos na prática.\n- Modelar sistemas utilizando UML e boas práticas de arquitetura.\n- Criar aplicações conectadas a banco de dados com JDBC.\n- Desenvolver APIs REST profissionais com Spring Boot.\n- Trabalhar com JPA e Hibernate para persistência de dados.\n- Estruturar projetos reais seguindo padrões utilizados no mercado.\n- Implementar autenticação, validações e boas práticas de segurança.\n- Aprender princípios de Clean Code e organização de código.\n- Construir um portfólio completo com projetos profissionais.\n\n---\n\n#### Por que este curso é diferente?\n\n- Conteúdo completo cobrindo desde conceitos fundamentais até aplicações avançadas.\n- Foco total em prática e desenvolvimento de projetos reais.\n- Explicações claras e organizadas, ideais para consolidar o aprendizado.\n- Abordagem moderna utilizando Spring Boot, JPA e arquitetura profissional.\n- Curso pensado para preparar você para o mercado de trabalho real.\n\n---\n\n#### Para quem é este curso?\n\n- Desenvolvedores que já conhecem lógica ou Java básico e querem evoluir.\n- Programadores que desejam entrar no mercado Java profissional.\n- Estudantes que querem aprender backend moderno com Spring Boot.\n- Pessoas interessadas em desenvolver APIs, sistemas web e aplicações corporativas.\n- Profissionais que desejam fortalecer conhecimentos em arquitetura e banco de dados.\n\n---\n\n#### Benefícios do Curso\n\n- Desenvolvimento Backend Profissional: Aprenda a criar aplicações robustas e escaláveis.\n- Integração com Banco de Dados: Trabalhe com persistência de dados utilizando JDBC e JPA.\n- Criação de APIs REST: Desenvolva serviços modernos utilizados em aplicações reais.\n- Arquitetura e Boas Práticas: Aprenda padrões utilizados por empresas e times profissionais.\n- Experiência Prática: Desenvolva projetos completos para seu portfólio.\n\n---\n\n#### Resultado esperado\n\nAo final do curso, você será capaz de desenvolver aplicações Java completas utilizando tecnologias modernas do ecossistema Spring, criando APIs profissionais, conectando bancos de dados, organizando projetos de forma escalável e aplicando boas práticas utilizadas no mercado.\n\nIndependentemente do seu objetivo — conseguir um emprego, evoluir na carreira ou construir projetos próprios — este curso vai preparar você para atuar profissionalmente com Java.\n",
+                            "duracao": "16.66",
+                            "id": 1,
+                            "idioma": "Português",
+                            "imagemUrl": "java-image.jpg",
+                            "instrutor": "Gustavo Santos",
+                            "nivel": "Todos os níveis",
+                            "nome": "Java completo: do básico ao avançado",
+                            "numeroAulas": 41,
+                            "preco": 399.99,
+                            "requisitos": [
+                                "É necessário ter espaço o suficiente de armazenamento no sistema para a instalação do Java e outros softwares auxiliares, que serão indicados e com instalação guiada ao decorrer do curso"
+                            ],
+                            "slug": "java-completo",
+                            "subcategorias": [
+                                {
+                                    "id": 1,
+                                    "nome": "Java",
+                                    "slug": "java"
+                                }
+                            ],
+                            "subtitulo": "Bem vindo ao Curso mais completo de java do mercado, com OO, UML, JDBC, Spring, JPA e muito mais!",
+                            "ultimaAtualizacao": "2026-04-24T00:00:00.000Z"
+                        },
+                        {
+                            "alunosMatriculados": 4000,
+                            "descricao": "Aprenda fluxo profissional com Git e GitHub.",
+                            "duracao": "60",
+                            "id": 9,
+                            "idioma": "Português",
+                            "imagemUrl": "git-image.png",
+                            "instrutor": "Bruno Rocha",
+                            "nivel": "Básico",
+                            "nome": "Git e GitHub completo",
+                            "numeroAulas": 25,
+                            "preco": 79.99,
+                            "requisitos": [],
+                            "slug": "git-github",
+                            "subcategorias": [],
+                            "subtitulo": "Controle de versão do básico ao avançado",
+                            "ultimaAtualizacao": "2026-04-05T00:00:00.000Z"
+                        }
+                      ]
+            });
+
+            cy.visit('/meus-cursos')
+            cy.location('pathname').should('eq', '/meus-cursos');
+
+            cy.get('.cursos-adquiridos').should('have.length.greaterThan', 0);
+            cy.get('.cursos-adquiridos > :nth-child(1)').within(() =>{
+                cy.get('h2').should('be.visible').and('contain', 'Java completo: do básico ao avançado')
+                cy.get('.curso-infos').should('be.visible').and('contain', 'Gustavo Santos | 5000 alunos | Todos os níveis')
+                cy.get('.curso-avaliacao')
+                cy.get('.curso-progress')
+            })
+        })
+
+        it('Deve exibir a a mensagem de que não há cursos comprados', () => {
+            cy.visit('/meus-cursos')
+            cy.location('pathname').should('eq', '/meus-cursos');
+
+            cy.get('p').should('contain', 'Você ainda não adquiriu nenhum curso.')
+        })
+
         it.skip('Deve acessar o curso e adicionar ao carrinho com sucesso', () => {
             cy.get('.curso-actions > button.btn.regular.full-sized').click();
         })
