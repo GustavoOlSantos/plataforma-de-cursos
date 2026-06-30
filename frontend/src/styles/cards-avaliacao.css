@@ -66,3 +66,30 @@ p.card-avaliacao-data{
 }
 
 
+/* ===== MOBILE: 768px ===== */
+@media (max-width: 768px) {
+  .card-avaliacoes {
+    flex: 0 0 85%;
+  }
+
+  .card-avaliacao {
+    max-height: none;
+    padding: 16px;
+  }
+
+  .user-card-pic img {
+    width: 48px;
+    height: 48px;
+  }
+}
+
+/* ===== MOBILE: 480px ===== */
+@media (max-width: 480px) {
+  .card-avaliacoes {
+    flex: 0 0 90%;
+  }
+
+  .card-header {
+    gap: 8px;
+  }
+}

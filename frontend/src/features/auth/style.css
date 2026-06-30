@@ -22,7 +22,7 @@ p.dimmed{
     gap: 15px;
 
     width: 100vw;
-    height: 80%;
+    height:  calc(100vh - 70px);
 }
 
 .register-form{
@@ -68,4 +68,51 @@ input{
     margin-top: 50px;
     width: 75%;
     height: auto;
+}
+
+@media (max-width: 768px) {
+  .double-container {
+    flex-direction: column;
+    height: calc(100vh - 280px);
+    width: 100%;
+  }
+
+  .register-form {
+    width: 100%;
+    height: 100%;
+    padding: 0 !important;
+  }
+
+  .register-image {
+    display: none;
+  }
+
+  form {
+    width: 95%;
+  }
+
+  input {
+    width: 90%;
+  }
+
+  p.dimmed {
+    width: 100%;
+    padding: 0 16px !important;
+  }
+}
+
+@media (max-width: 480px) {
+
+    h1, p{
+        padding: 10px;
+    }
+
+    .register-form {
+        padding: 0 !important;
+    }
+
+    form,
+    input {
+        width: 90%;
+    }
 }

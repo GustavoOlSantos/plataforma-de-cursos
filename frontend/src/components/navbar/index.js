@@ -18,10 +18,13 @@ function NavBar() {
 
     const { user } = useContext(UserContext);
     const [openModal, setOpenModal] = useState(false);
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
 
     useEffect(() => {
         const handler = (e) => {
             if (!e.target.closest("[data-dropdown]")) setOpenModal(false);
+            if (!e.target.closest("[data-mobile-menu]")) setMobileMenuOpen(false);
         };
         document.addEventListener("mousedown", handler);
         return () => document.removeEventListener("mousedown", handler);
@@ -37,15 +40,43 @@ function NavBar() {
             />
 
             <ButtonText
-                className="btn textOnly disabled"
+                className="btn textOnly disabled desktop-only"
                 text="Descobrir"
                 /*onClick={() => navigate("/cursos")}*/
             />
 
-            <SearchBar />
+            <div className={`search-wrapper ${mobileSearchOpen ? "mobile-open" : ""}`}>
+                <SearchBar />
+            </div>
+
+            <button
+                className="btn-icon mobile-only"
+                onClick={() => setMobileSearchOpen(!mobileSearchOpen)}
+                aria-label="Buscar"
+            >
+                <i className="fa-solid fa-magnifying-glass"></i>
+            </button>
+
+            {user && (
+                <div className="mobile-only header-icons-mobile">
+                    <ButtonIcon
+                        className="disabled"
+                        icon="fa-solid fa-cart-shopping"
+                        /*onClick={() => navigate("/carrinho")}*/
+                        alt="Carrinho de compras"
+                    />
+
+                    <ButtonIcon
+                        className="disabled"
+                        icon="fa-regular fa-heart"
+                        /*onClick={() => navigate("/desejos")}*/
+                        alt="Cursos desejados"
+                    />
+                </div>
+            )}
 
             {!user ? (
-                <div className="header-container">
+                <div className="header-container desktop-only">
                     <ButtonText
                         className="btn textOnly"
                         text="Business"
@@ -71,7 +102,7 @@ function NavBar() {
                     />
                 </div>
             ) : (
-                <div className="header-container">
+                <div className="header-container desktop-only">
                     <ButtonText
                         className="btn textOnly"
                         text="Meus cursos"
@@ -120,8 +151,36 @@ function NavBar() {
                                 />
                             )}
                         </div>
-
                     </div>
+                </div>
+            )}
+
+            <button
+                className="btn-icon mobile-only hamburger-btn"
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                aria-label="Menu"
+                data-mobile-menu
+            >
+                <i className="fa-solid fa-bars"></i>
+            </button>
+
+            {mobileMenuOpen && (
+                <div className="mobile-menu-panel" data-mobile-menu>
+                    {!user ? (
+                        <>
+                            <ButtonText className="btn textOnly" text="Business" onClick={() => navigate("/empresas")} />
+                            <ButtonText className="btn textOnly" text="Ensine na SkillUp" onClick={() => navigate("/ensine-na-skillUp")} />
+                            <ButtonText className="btn regular" text="Fazer login" onClick={() => navigate("/entrar")} />
+                            <ButtonText className="btn full" text="Cadastre-se" onClick={() => navigate("/cadastro")} />
+                        </>
+                    ) : (
+                        <>
+                            <ButtonText className="btn textOnly" text="Meus cursos" onClick={() => navigate("/meus-cursos")} />
+                            <ButtonText className="btn textOnly disabled" text="Ensine na SkillUp" />
+                            <ButtonText className="btn textOnly" text="Perfil" onClick={() => navigate("/perfil")} />
+                            <ButtonText className="btn textOnly" text="Sair" onClick={() => authService.logout()} />
+                        </>
+                    )}
                 </div>
             )}
         </header>

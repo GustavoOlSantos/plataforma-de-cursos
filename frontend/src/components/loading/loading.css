@@ -1,5 +1,3 @@
-/* loading.css */
-
 .loading-container {
   position: fixed;
   inset: 0;
@@ -105,5 +103,17 @@
 
   50% {
     transform: translateY(-8px);
+  }
+}
+
+@media (max-width: 480px) {
+  .loading-content {
+    width: 90%;
+    padding: 1.5rem;
+  }
+
+  .loading-icon-wrapper {
+    width: 90px;
+    height: 90px;
   }
 }

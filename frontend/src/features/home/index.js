@@ -18,6 +18,7 @@ function Home(){
     const [currentIndex, setCurrentIndex] = useState(0);
     const [cursos, setCursos] = useState([]);
     const { user } = useContext(UserContext);
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
     useEffect(() => {
         api.get("/cursos/maisVendidos")
@@ -29,9 +30,20 @@ function Home(){
         });
     }, []);
 
-    const visibleCards = 4;
-    const step = 3;
-    const maxIndex = cursos.length - visibleCards;
+    useEffect(() => {
+        const handleResize = () => {
+            const mobile = window.innerWidth <= 768;
+            setIsMobile(mobile);
+            setCurrentIndex(0);
+        };
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
+    const visibleCards = isMobile ? 1 : 4;
+    const step = isMobile ? 1 : 3;
+    const cardWidthPercent = isMobile ? 10 : 13;
+    const maxIndex = Math.max(0, cursos.length - visibleCards);
 
     const nextSlide = () => {
         setCurrentIndex((prev) =>
@@ -45,7 +57,6 @@ function Home(){
         );
     };
 
-   
     return(
         <main className="home-page">
             <header className='colored-banner'>
@@ -70,7 +81,7 @@ function Home(){
                 <div className="carousel cursos-em-alta">
                     <button onClick={prevSlide} className="btn-prev cursos">‹</button>
                     
-                    <div className="carousel-track" style={{ transform: `translateX(-${currentIndex * 11}%)` }}>
+                    <div className="carousel-track" style={{ transform: `translateX(-${currentIndex * cardWidthPercent}%)` }}>
                         {cursos.map(curso => (
                             <CardCursos key={curso.id} curso={curso} maisVendidos={true} />
                         ))}
@@ -82,7 +93,7 @@ function Home(){
 
             <section className="evolucao double-container">
                 <figure>
-                    <img  src={sectionImg}></img>
+                    <img src={sectionImg}></img>
                 </figure>
 
                 <article>
@@ -103,6 +114,5 @@ function Home(){
             </section>
         </main>
     )
-    
 }
 export default Home;

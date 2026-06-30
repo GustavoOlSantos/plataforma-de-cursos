@@ -202,3 +202,58 @@
     background-color: #125dff;
 }
 
+@media (max-width: 768px) {
+  .card-curso {
+    flex: 0 0 45%;
+    max-width: 45%;
+    padding: 14px;
+    gap: 12px;
+    margin-right: 12px;
+  }
+
+  .card-image {
+    height: 130px;
+  }
+
+  .card-curso h2 {
+    font-size: 16px;
+  }
+
+  .curso-infos {
+    font-size: 13px;
+  }
+
+  .cursos-adquiridos .card-curso {
+    flex: 0 0 70%;
+    max-width: 70%;
+  }
+}
+
+@media (max-width: 480px) {
+  .card-curso {
+    flex: 0 0 10%;
+    max-width: 40%;
+    padding: 12px;
+    gap: 5px
+  }
+
+  .card-image {
+    height: auto;
+    width: 200px;
+  }
+
+  .card-curso h2 {
+    font-size: 18px !important;
+    text-wrap: wrap;
+  }
+
+  .tag {
+    font-size: 10px;
+    padding: 5px 4px;
+  }
+
+  .cursos-adquiridos .card-curso {
+    flex: 0 0 85%;
+    max-width: 85%;
+  }
+}

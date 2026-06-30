@@ -1,5 +1,6 @@
 import react, {useState, useEffect, useContext} from "react"
 import { useNavigate, useParams } from "react-router-dom";
+import ReactDOM from "react-dom";
 import { Navigate } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 
@@ -29,42 +30,39 @@ function CursoPage() {
   const [avaliacoesNum, setAvaliacoesNum] = useState(0);
   const [jaComprou, setJaComprou] = useState(null);
   const [modalAberto, setModalAberto] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
   const [compraReturn, setCompraReturn] = useState("");
   const [compraReturnClass, setCompraReturnClass] = useState("");
+
   useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
+  useEffect(() => {
     setLoading(true);
-
     api.get(`cursos/slug/${slug}`)
-    .then(res =>{
-      setCurso(res.data[0]);
-
-    })
+    .then(res => { setCurso(res.data[0]); })
     .catch(err => {
       console.error("Falha ao obter curso: ", err);
       setLoading(false);
-      setNotFound(true)
+      setNotFound(true);
     });
   }, [slug])
 
   useEffect(() => {
-     if (!curso) return;
-
-      if(user != null){
-        api.get(`compras/${curso.id}`)
-        .then(res => {
-            setJaComprou(res.data);
-        })
-        .catch(err => {
-            console.error("Não foi possível verificar se o usuário ja comprou este curso", err);
-        })
-      }
-
-     api.get(`avaliacoes/curso/id-curso/${curso.id}`)
-    .then(res =>{
+    if (!curso) return;
+    if(user != null){
+      api.get(`compras/${curso.id}`)
+      .then(res => { setJaComprou(res.data); })
+      .catch(err => { console.error("Não foi possível verificar se o usuário ja comprou este curso", err); })
+    }
+    api.get(`avaliacoes/curso/id-curso/${curso.id}`)
+    .then(res => {
       setAvaliacoes(res.data);
       setLoading(false);
     })
@@ -75,255 +73,196 @@ function CursoPage() {
   }, [curso])
 
   useEffect(() => {
-    if(!avaliacoes || avaliacoes.length === 0 ) return;
-
+    if(!avaliacoes || avaliacoes.length === 0) return;
     const total = avaliacoes.reduce((acc, avaliacao) => acc + avaliacao.nota, 0);
     setAvaliacoesNum(avaliacoes.length);
     setNota((total / avaliacoes.length).toFixed(1));
-
   }, [avaliacoes])
 
- useEffect(() => {
-  if (jaComprou) {
-    navigate(`/ver-curso/${slug}`);
-  }
-}, [jaComprou, navigate, slug]);
+  useEffect(() => {
+    if (jaComprou) { navigate(`/ver-curso/${slug}`); }
+  }, [jaComprou, navigate, slug]);
 
-  if (loading) {
-    return <Loading texto="curso"/>;
-  }
+  if (loading) return <Loading texto="curso"/>;
+  if (notFound) return <NotFound />;
 
-  if(notFound){
-    return <NotFound />
-  }
+  const visibleCards = 3;
+  const step = 1;
+  const maxIndex = avaliacoes.length - visibleCards;
 
-    const visibleCards = 3;
-    const step = 1;
-    const maxIndex = avaliacoes.length - visibleCards;
+  const nextSlide = () => {
+    setCurrentIndex((prev) => prev + step > maxIndex ? 0 : prev + step);
+  };
 
-    const nextSlide = () => {
-        setCurrentIndex((prev) =>
-            prev + step > maxIndex ? 0 : prev + step
-        );
-    };
+  const prevSlide = () => {
+    setCurrentIndex((prev) => prev - step < 0 ? maxIndex : prev - step);
+  };
 
-    const prevSlide = () => {
-        setCurrentIndex((prev) =>
-            prev - step < 0 ? maxIndex : prev - step
-        );
-    };
-
-    function ConfirmarCompra(){
-      if(jaComprou){
-        console.error("Esse usuário já comprou esse curso anteriormente.");
-        return;
+  function ConfirmarCompra(){
+    if(jaComprou || user == null || curso == null) return;
+    api.post(`compras/${curso.id}`)
+    .then(res => {
+      if(res.status == 200){
+        setCompraReturn("Compra efetuada com sucesso!");
+        setCompraReturnClass("success");
+        setTimeout(() => { navigate(`/ver-curso/${slug}`); }, 2000);
       }
+    })
+    .catch(err => {
+      setCompraReturn("Falha ao comprar curso!");
+      setCompraReturnClass("error");
+      console.error("Falha ao comprar o curso: ", err);
+    })
+  }
 
-      if(user == null || curso == null){
-        console.error("Usuário ou curso não existem");
-        return;
-      }
+  // Sidebar extraída como JSX reutilizável nos dois contextos
+  const sidebarContent = (
+    <aside className="curso-sidebar">
+      <div className="curso-card-compra">
+        <div className="curso-card-info">
+          <span className="curso-card-label">Adquira este curso</span>
+          <h1 className="curso-preco">R$ {curso.preco.toLocaleString()}</h1>
+          <div className="curso-beneficio">
+            <span className="beneficio-row">
+              <i className="fa-solid fa-chalkboard"></i>
+              <span>{curso.numeroAulas} aulas</span>
+            </span>
+            <span className="beneficio-row">
+              <i className="fa-solid fa-film"></i>
+              <span>{curso.duracao} horas de vídeo</span>
+            </span>
+            <span className="beneficio-row">
+              <i className="fa-solid fa-infinity"></i>
+              <span>Acesso vitalício</span>
+            </span>
+            <span className="beneficio-row">
+              <i className="fa-solid fa-certificate"></i>
+              <span>Certificado de conclusão</span>
+            </span>
+            <span className="beneficio-row">
+              <i className="fa-regular fa-clock"></i>
+              <span>Cancelamento gratuito em até 7 dias</span>
+            </span>
+          </div>
+        </div>
 
-      api.post(`compras/${curso.id}`)
-      .then(res =>{
-        if(res.status == 200){
-          setCompraReturn("Compra efetuada com sucesso!");
-          setCompraReturnClass("success");
+        <div className="curso-actions">
+          <ButtonText className="btn full full-sized" text="Comprar agora"
+            onClick={user==null ? () => navigate("/entrar") : () => setModalAberto(true)}/>
+          <ButtonText disabled={true} className="btn regular full-sized" text="Adicionar ao carrinho"
+            onClick={user==null ? () => navigate("/entrar") : null}/>
+        </div>
+      </div>
 
-          setTimeout(() => {
-            navigate(`/ver-curso/${slug}`);
-          }, 2000);
-        }
+      <hr style={{marginBottom: 15}}></hr>
 
-      })
-      .catch(err =>{
-        setCompraReturn("Falha ao comprar curso!");
-        setCompraReturnClass("error");
-        console.error("Falha ao comprar o curso: ", err);
-      })
-    }
-  
+      <div className="outras-actions">
+        <div className="action-row">
+          <i className="fa-solid fa-share-nodes"></i>
+          <span>Compartilhe este curso</span>
+        </div>
+      </div>
+    </aside>
+  );
 
   return (
-    <main className="curso-page">
-
-      <section>
-        <section className="curso-hero">
-
-          <figure className="curso-banner image">
-            <img
-              src={getCloudImageUrl(curso.imagemUrl)}
-              alt={curso.nome}
-            />
-          </figure>
-
-          <div className="curso-hero-content">
-
-            <span> 
-              <h1>{curso.nome}</h1>
-
-              <p className="curso-subtitulo">
-                {curso.subtitulo}
-              </p>
-
-              <div className="curso-tags">
-                <Tags icone="fa-solid fa-award" texto={curso.nivel} 
-                className={curso.nivel.normalize("NFD")
-                  .replace(/[\u0300-\u036f]/g, "") 
-                  .toLowerCase()                 
-                  .replace(/[^a-z0-9 ]/g, "")
-                  .replaceAll(" ", "-")} />
-
-                {curso.subcategorias.map(categoria => (
-                  <Tags texto={categoria.nome} />
-                ))}
-              </div>
-
-              <div className="curso-atualizacao">
-                <i className="fa-solid fa-chalkboard-user"></i>
-                <span>Instruído por  <u>{curso.instrutor}</u></span>
-              </div>
-
-              <div className="curso-atualizacao">
-                <i className="fa-solid fa-user"></i>
-                <span>Se junte a {curso.alunosMatriculados} alunos</span>
-              </div>
-            </span>
-            
-            <div className="curso-atualizacao">
-              <i className="fa-regular fa-calendar-days"></i>
-              <span>Última atualização em  {new Date(curso.ultimaAtualizacao).toLocaleDateString("pt-BR")}</span>
-            </div>
-          </div>
-        </section>
-
-        <section className="curso-avaliacoes">
-          <h2>Avaliação do curso: <i className="fa-solid fa-star star"></i> <span className="h2-slim"> {nota} |  {avaliacoesNum} Avaliações</span></h2>  
-        </section>
-
+    <>
+      <main className="curso-page">
         <section>
-          <div className="curso-info">
-            <h2>Requisitos:</h2>
-            
-            <ul>
-              {curso.requisitos.map(req =>(
-                  <li>{req}</li>
-              ))}
-            </ul>
+          <section className="curso-hero">
+            <figure className="curso-banner image">
+              <img src={getCloudImageUrl(curso.imagemUrl)} alt={curso.nome} />
+            </figure>
 
-            <h2>Descrição:</h2>
-
-              <div className="curso-descricao">
-                <ReactMarkdown>
-                  {curso.descricao}
-                </ReactMarkdown>
+            <div className="curso-hero-content">
+              <span>
+                <h1>{curso.nome}</h1>
+                <p className="curso-subtitulo">{curso.subtitulo}</p>
+                <div className="curso-tags">
+                  <Tags icone="fa-solid fa-award" texto={curso.nivel}
+                    className={curso.nivel.normalize("NFD")
+                      .replace(/[\u0300-\u036f]/g, "")
+                      .toLowerCase()
+                      .replace(/[^a-z0-9 ]/g, "")
+                      .replaceAll(" ", "-")} />
+                  {curso.subcategorias.map(categoria => (
+                    <Tags texto={categoria.nome} />
+                  ))}
+                </div>
+                <div className="curso-atualizacao">
+                  <i className="fa-solid fa-chalkboard-user"></i>
+                  <span>Instruído por <u>{curso.instrutor}</u></span>
+                </div>
+                <div className="curso-atualizacao">
+                  <i className="fa-solid fa-user"></i>
+                  <span>Se junte a {curso.alunosMatriculados} alunos</span>
+                </div>
+              </span>
+              <div className="curso-atualizacao">
+                <i className="fa-regular fa-calendar-days"></i>
+                <span>Última atualização em {new Date(curso.ultimaAtualizacao).toLocaleDateString("pt-BR")}</span>
               </div>
-          </div>
+            </div>
+          </section>
 
-          <hr></hr>
+          <section className="curso-avaliacoes">
+            <h2>Avaliação do curso: <i className="fa-solid fa-star star"></i>
+              <span className="h2-slim"> {nota} | {avaliacoesNum} Avaliações</span>
+            </h2>
+          </section>
 
-          <div className="curso-avaliacoes">
-            <h2>Avaliações:</h2>
-            <div className="carousel card-avaliacoes">
-              
-              <button onClick={prevSlide} className="btn-prev avaliacoes">‹</button>
-                
-              <div className="carousel-track-avaliacoes" style={{ transform: `translateX(-${currentIndex * 300}px)` }}>
-                {avaliacoes.map(avaliacao => (
+          <section>
+            <div className="curso-info">
+              <h2>Requisitos:</h2>
+              <ul>
+                {curso.requisitos.map(req => (<li>{req}</li>))}
+              </ul>
+              <h2>Descrição:</h2>
+              <div className="curso-descricao">
+                <ReactMarkdown>{curso.descricao}</ReactMarkdown>
+              </div>
+            </div>
+
+            <hr></hr>
+
+            <div className="curso-avaliacoes">
+              <h2>Avaliações:</h2>
+              <div className="carousel card-avaliacoes">
+                <button onClick={prevSlide} className="btn-prev avaliacoes">‹</button>
+                <div className="carousel-track-avaliacoes" style={{ transform: `translateX(-${currentIndex * 300}px)` }}>
+                  {avaliacoes.map(avaliacao => (
                     <AvaliacoesCard avaliacao={avaliacao} />
                   ))}
+                </div>
+                <button onClick={nextSlide} className="btn-next avaliacoes">›</button>
               </div>
-
-              <button onClick={nextSlide} className="btn-next avaliacoes">›</button>
             </div>
-          </div>
-
-          <div className="cursos-relacionados">
-              
-          </div>
-        </section>
-      </section>
-
-      <aside className="curso-sidebar">
-
-        <div className="curso-card-compra">
-          
-          <div>
-            <span className="curso-card-label">
-              Adquira este curso
-            </span>
-
-            <h1 className="curso-preco">
-              R$ {curso.preco.toLocaleString()}
-            </h1>
-          
-
-            <div className="curso-beneficio">
-
-              <span className="beneficio-row">
-                <i className="fa-solid fa-chalkboard"></i>
-                <span>{curso.numeroAulas} aulas</span>
-              </span>
-
-              <span className="beneficio-row">
-                <i className="fa-solid fa-film"></i>
-                <span>{curso.duracao} horas de vídeo</span>
-              </span>
-
-              <span className="beneficio-row">
-                <i className="fa-solid fa-infinity"></i>
-                <span>Acesso vitalício</span>
-              </span>
-
-              <span className="beneficio-row">
-                <i className="fa-solid fa-certificate"></i>
-                <span>Certificado de conclusão</span>
-              </span>
-
-              <span className="beneficio-row">
-                <i className="fa-regular fa-clock"></i>
-                <span>Cancelamento gratuito em até 7 dias</span>
-              </span>
-            </div>
-          </div>
-
-          <div className="curso-actions">
-            <ButtonText className="btn full full-sized" text="Comprar agora" onClick={user==null ? ()=> {navigate("/entrar")} : () => setModalAberto(true)}/>
-            <ButtonText disabled={true} className="btn regular full-sized" text="Adicionar ao carrinho" onClick={user==null ? ()=> {navigate("/entrar")} : null} />
-          </div>
-        </div>
-
-        <hr style={{marginBottom: 15}}></hr>
-
-        <div className="outras-actions">
-          <div className="action-row">
-            <i className="fa-solid fa-share-nodes"></i>
-            <span>Compartilhe este curso</span>
-          </div>
-        </div>
-
-      </aside>
-
-      <Modal titulo="Deseja comprar este curso?" aberto={modalAberto} onFechar={() => setModalAberto(false)}>
-        
-        <section className="pagamentos">
-          <ButtonIcon icon="fa-brands fa-pix"></ButtonIcon>
-          <ButtonIcon icon="fa-brands fa-cc-visa"></ButtonIcon>
-          <ButtonIcon icon="fa-brands fa-cc-mastercard"></ButtonIcon>
-          <ButtonIcon icon="fa-brands fa-cc-paypal"></ButtonIcon>
+          </section>
         </section>
 
-        <section className="pagamentos">
-          <p className={compraReturnClass}>{compraReturn}</p>
-        </section>
+        {/* Desktop: sidebar dentro do grid */}
+        {!isMobile && sidebarContent}
 
-        <section className="pagamentos">
-          <ButtonText text="Comprar"  className="btn full" onClick={ConfirmarCompra}></ButtonText>
-          <ButtonText text="Desistir" className="btn regular" onClick={() => setModalAberto(false)}></ButtonText>
-        </section>
-      </Modal>
+        <Modal titulo="Deseja comprar este curso?" aberto={modalAberto} onFechar={() => setModalAberto(false)}>
+          <section className="pagamentos">
+            <ButtonIcon icon="fa-brands fa-pix"></ButtonIcon>
+            <ButtonIcon icon="fa-brands fa-cc-visa"></ButtonIcon>
+            <ButtonIcon icon="fa-brands fa-cc-mastercard"></ButtonIcon>
+            <ButtonIcon icon="fa-brands fa-cc-paypal"></ButtonIcon>
+          </section>
+          <section className="pagamentos">
+            <p className={compraReturnClass}>{compraReturn}</p>
+          </section>
+          <section className="pagamentos">
+            <ButtonText text="Comprar" className="btn full" onClick={ConfirmarCompra}></ButtonText>
+            <ButtonText text="Desistir" className="btn regular" onClick={() => setModalAberto(false)}></ButtonText>
+          </section>
+        </Modal>
+      </main>
 
-    </main>
+      {/* Mobile: sidebar via Portal, fora do <main>, no body direto */}
+      {isMobile && ReactDOM.createPortal(sidebarContent, document.body)}
+    </>
   );
 }
 
