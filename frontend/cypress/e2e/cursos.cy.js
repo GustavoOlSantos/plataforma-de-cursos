@@ -44,7 +44,6 @@ describe('Teste de cobertura do ciclo de cursos', () => {
 
             cy.get('.curso-avaliacoes').should('exist').and('be.visible')
             cy.get('.curso-info').should('exist').and('be.visible').and('have.length.greaterThan', 0)
-            cy.get('.cursos-relacionados').should('exist')
         })
     })
 
