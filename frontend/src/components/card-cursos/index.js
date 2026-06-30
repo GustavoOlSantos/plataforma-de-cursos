@@ -8,31 +8,7 @@ import Tags from "../tags-cursos";
 function CardCursos({ curso, maisVendidos, origin, aulasConcluidas }) {
 
     const navigate = useNavigate();
-    const [avaliacoes, setAvaliacoes] = useState(null);
-    const [nota, setNota] = useState(0);
-    const [avaliacoesNum, setAvaliacoesNum] = useState(0);
     const [imgLoaded, setImgLoaded] = useState(false);
-    
-
-    useEffect(() => {
-        api.get(`avaliacoes/curso/id-curso/${curso.id}`)
-        .then(res =>{
-        setAvaliacoes(res.data);
-        })
-        .catch(err => {
-        console.error("Falha ao obter avaliações do curso: ", err);
-        });
-    }, [])
-
-    useEffect(() => {
-        if(!avaliacoes || avaliacoes.length === 0 ) return;
-
-        const total = avaliacoes.reduce((acc, avaliacao) => acc + avaliacao.nota, 0);
-        setAvaliacoesNum(avaliacoes.length);
-        setNota((total / avaliacoes.length).toFixed(1));
-
-    }, [avaliacoes])
-
 
     
     return (
@@ -49,8 +25,8 @@ function CardCursos({ curso, maisVendidos, origin, aulasConcluidas }) {
 
             <section className="curso-avaliacao">  
                {maisVendidos && <Tags className="mais-vendidos" texto="Mais vendidos" />}
-               <Tags icone="fa-solid fa-star star" dado={nota}/>
-               <Tags dado={avaliacoesNum} texto="Avaliações"/>
+               <Tags icone="fa-solid fa-star star" dado={curso.mediaAvaliacao}/>
+               <Tags dado={curso.quantidadeAvaliacoes} texto="Avaliações"/>
             </section>
 
             {origin == null || origin == undefined ?

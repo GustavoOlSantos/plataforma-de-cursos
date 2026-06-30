@@ -10,5 +10,6 @@ public interface AvaliacoesCursoRepository
     extends MongoRepository<AvaliacoesCurso, String> {
 
     List<AvaliacoesCurso> findByCursoId(Integer cursoId);
+    List<AvaliacoesCurso> findByCursoIdIn(List<Integer> cursoIds);
     
 }

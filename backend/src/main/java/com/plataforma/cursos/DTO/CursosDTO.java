@@ -6,8 +6,14 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import com.plataforma.cursos.domain.entities.Cursos;
+
+import lombok.Getter;
+import lombok.Setter;
+
 import com.plataforma.cursos.DTO.SubcategoriaDTO;
 
+@Getter
+@Setter
 @SuppressWarnings("unused")
 public class CursosDTO {
 
@@ -27,6 +33,9 @@ public class CursosDTO {
     public float preco;
     public List<SubcategoriaDTO> subcategorias;
     public Set<String> requisitos;
+    
+    public Float mediaAvaliacao;
+    public Integer quantidadeAvaliacoes;
 
     public CursosDTO() {  
     }
@@ -57,20 +66,10 @@ public class CursosDTO {
             return dto;
     }
 
-    public Long getId() { return id; }
-    public String getSlug() {return slug; }
-    public String getNome() { return nome; }
-    public String getSubtitulo() { return subtitulo; }
-    public String getDescricao() { return descricao; }
-    public String getInstrutor() { return instrutor; }
-    public String getDuracao() { return duracao; }
-    public int getNumeroAulas() { return numeroAulas; }
-    public String getImagemUrl() { return imagemUrl; }
-    public Date getUltimaAtualizacao() { return ultimaAtualizacao; }
-    public String getIdioma() { return idioma; }
-    public String getNivel() { return nivel; }
-    public int getAlunosMatriculados() { return alunosMatriculados; }
-    public float getPreco() { return preco; }
-    public List<SubcategoriaDTO> getSubcategorias() { return subcategorias; }
-    public Set<String> getRequisitos() { return requisitos; }
+    public static CursosDTO fromEntity(Cursos curso, AvaliacaoResumoDTO resumo) {
+        CursosDTO dto = fromEntity(curso);
+        dto.mediaAvaliacao = resumo != null ? resumo.media() : 0f;
+        dto.quantidadeAvaliacoes = resumo != null ? resumo.quantidade() : 0;
+        return dto;
+    }
 }

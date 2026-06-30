@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.*;
 import java.util.List;
+import java.util.Map;
 import java.util.Arrays;
 import java.util.stream.Stream;
 import com.plataforma.cursos.domain.entities.Cursos;
@@ -12,6 +13,7 @@ import com.plataforma.cursos.DTO.ViewCursosDTO;
 import com.plataforma.cursos.domain.entities.ModuloCurso;
 import com.plataforma.cursos.domain.entities.Subcategoria;
 import com.plataforma.cursos.domain.entities.AulaCurso;
+import com.plataforma.cursos.DTO.AvaliacaoResumoDTO;
 import com.plataforma.cursos.DTO.CriarCursoDTO;
 import com.plataforma.cursos.repository.SubcategoriaRepository;
 import com.plataforma.cursos.utils.NullPropertyUtils;
@@ -24,10 +26,12 @@ public class CursosService {
 
     private final CursosRepository repository;
     private final SubcategoriaRepository subcategoriaRepository;
+    private final AvaliacoesCursoService avaliacoesCursoService;
 
-    public CursosService(CursosRepository repository, SubcategoriaRepository subcategoriaRepository) {
+    public CursosService(CursosRepository repository, SubcategoriaRepository subcategoriaRepository, AvaliacoesCursoService avaliacoesCursoService) {
         this.repository = repository;
         this.subcategoriaRepository = subcategoriaRepository;
+        this.avaliacoesCursoService = avaliacoesCursoService;
     }
 
     public List<CursosDTO> findAll() {
@@ -45,18 +49,20 @@ public class CursosService {
             throw new BusinessException("Nenhum curso encontrado", true,  HttpStatus.NOT_FOUND, "find-best-cursos");
         }
 
+        List<Integer> cursoIds = cursos.stream().map(curso -> curso.getId().intValue()).toList();
+        Map<Integer, AvaliacaoResumoDTO> resumosPorCurso = avaliacoesCursoService.findResumoByCursoIds(cursoIds);
+
         return cursos.stream()
-        .map(CursosDTO::fromEntity)
-        .toList();
+            .map(curso -> CursosDTO.fromEntity(curso, resumosPorCurso.get(curso.getId().intValue())))
+            .toList();
     }
 
     public CursosDTO findById(Long id) {
-        Optional<Cursos> curso = repository.findById(id);
-        if (curso.isEmpty()) {
-            throw new BusinessException("Curso não encontrado", true, HttpStatus.NOT_FOUND, "find-curso");
-        }
+        Cursos curso = repository.findById(id)
+            .orElseThrow(() -> new BusinessException("Curso não encontrado", true, HttpStatus.NOT_FOUND, "find-curso"));
 
-       return CursosDTO.fromEntity(curso.get());
+        AvaliacaoResumoDTO resumo = avaliacoesCursoService.findResumoByCursoId(id.intValue());
+        return CursosDTO.fromEntity(curso, resumo);
     }
 
     public List<CursosDTO> findByName(String name) {
@@ -80,9 +86,12 @@ public class CursosService {
             throw new BusinessException("Nenhum curso encontrado", true,  HttpStatus.NOT_FOUND, "find-slug-curso");
         }
 
+        List<Integer> cursoIds = cursos.stream().map(curso -> curso.getId().intValue()).toList();
+        Map<Integer, AvaliacaoResumoDTO> resumosPorCurso = avaliacoesCursoService.findResumoByCursoIds(cursoIds);
+
         return cursos.stream()
-        .map(CursosDTO::fromEntity)
-        .toList();
+            .map(curso -> CursosDTO.fromEntity(curso, resumosPorCurso.get(curso.getId().intValue())))
+            .toList();
     }
 
     public List<ViewCursosDTO> findAulasBySlug(String name) {
