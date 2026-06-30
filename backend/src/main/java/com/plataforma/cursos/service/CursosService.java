@@ -42,7 +42,7 @@ public class CursosService {
         List<Cursos> cursos = repository.findTop10ByOrderByAlunosMatriculadosDesc();
         
         if (cursos.isEmpty()) {
-            throw new BusinessException("Nenhum curso encontrado", true,  HttpStatus.NOT_FOUND);
+            throw new BusinessException("Nenhum curso encontrado", true,  HttpStatus.NOT_FOUND, "find-best-cursos");
         }
 
         return cursos.stream()
@@ -53,7 +53,7 @@ public class CursosService {
     public CursosDTO findById(Long id) {
         Optional<Cursos> curso = repository.findById(id);
         if (curso.isEmpty()) {
-            throw new BusinessException("Curso não encontrado", true, HttpStatus.NOT_FOUND);
+            throw new BusinessException("Curso não encontrado", true, HttpStatus.NOT_FOUND, "find-curso");
         }
 
        return CursosDTO.fromEntity(curso.get());
@@ -64,7 +64,7 @@ public class CursosService {
         List<Cursos> cursos = repository.findByNomeContainingIgnoreCase(name);
 
         if (cursos.isEmpty()) {
-            throw new BusinessException("Nenhum curso encontrado", true,  HttpStatus.NOT_FOUND);
+            throw new BusinessException("Nenhum curso encontrado", true,  HttpStatus.NOT_FOUND, "find-name-curso");
         }
 
         return cursos.stream()
@@ -77,7 +77,7 @@ public class CursosService {
         List<Cursos> cursos = repository.findBySlugContainingIgnoreCase(name);
 
         if (cursos.isEmpty()) {
-            throw new BusinessException("Nenhum curso encontrado", true,  HttpStatus.NOT_FOUND);
+            throw new BusinessException("Nenhum curso encontrado", true,  HttpStatus.NOT_FOUND, "find-slug-curso");
         }
 
         return cursos.stream()
@@ -90,7 +90,7 @@ public class CursosService {
         List<Cursos> cursos = repository.findBySlugContainingIgnoreCase(name);
 
         if (cursos.isEmpty()) {
-            throw new BusinessException("Nenhum curso encontrado", true,  HttpStatus.NOT_FOUND);
+            throw new BusinessException("Nenhum curso encontrado", true,  HttpStatus.NOT_FOUND, "find-aulas-curso");
         }
 
         return cursos.stream()
@@ -120,7 +120,7 @@ public class CursosService {
             List<Subcategoria> subcategorias = dto.subcategorias.stream()
                 .map(ref -> subcategoriaRepository.findById(ref.id)
                     .orElseThrow(() -> new BusinessException(
-                        "Subcategoria informada não encontrada: " + ref.id, true, HttpStatus.BAD_REQUEST)))
+                        "Subcategoria informada não encontrada: " + ref.id, true, HttpStatus.BAD_REQUEST, "create-full-curso")))
                 .toList();
             curso.setSubcategorias(subcategorias);
         }
@@ -160,11 +160,11 @@ public class CursosService {
 
     public Cursos register(Cursos curso) {
         if(curso.isValido()){
-            throw new BusinessException("Dados incompletos para cadastro", true,  HttpStatus.BAD_REQUEST);
+            throw new BusinessException("Dados incompletos para cadastro", true,  HttpStatus.BAD_REQUEST, "create-curso");
         }
 
         if(!repository.findByNomeContainingIgnoreCase(curso.getNome()).isEmpty()){
-            throw new BusinessException("Curso com esse nome já cadastrado no sistema", true, HttpStatus.BAD_REQUEST);
+            throw new BusinessException("Curso com esse nome já cadastrado no sistema", true, HttpStatus.BAD_REQUEST, "create-curso");
         }
 
         return repository.save(curso);
@@ -174,7 +174,7 @@ public class CursosService {
         Optional<Cursos> curso = repository.findById(id);
 
         if (curso.isEmpty()) {
-            throw new BusinessException("Curso não encontrado", true, HttpStatus.NOT_FOUND);
+            throw new BusinessException("Curso não encontrado", true, HttpStatus.NOT_FOUND, "update-curso");
         }
 
         String[] ignoredProperties = Stream.concat(
@@ -193,7 +193,7 @@ public class CursosService {
     public void deleteById(Long id){
         Optional<Cursos> curso = repository.findById(id);
         if (curso.isEmpty()) {
-            throw new BusinessException("Curso não encontrado", true, HttpStatus.NOT_FOUND);
+            throw new BusinessException("Curso não encontrado", true, HttpStatus.NOT_FOUND, "delete-curso");
         }
 
         repository.deleteById(id);

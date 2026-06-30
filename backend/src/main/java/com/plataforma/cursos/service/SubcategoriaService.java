@@ -23,11 +23,11 @@ public class SubcategoriaService {
 
         if(dto.getNome() == null || dto.getSlug() == null || dto.getCategoriaId() == null || dto.getNome().isEmpty() || dto.getSlug().isEmpty()
         || dto.getCategoriaId() == 0) {
-            throw new BusinessException("Dados incompletos para cadastro", true, HttpStatus.UNPROCESSABLE_CONTENT);
+            throw new BusinessException("Dados incompletos para cadastro", true, HttpStatus.UNPROCESSABLE_CONTENT, "create-subcategoria");
         }
 
         Categoria categoria = categoriaRepository.findById(dto.getCategoriaId())
-            .orElseThrow(() -> new BusinessException("Categoria não encontrada", true, HttpStatus.NOT_FOUND));
+            .orElseThrow(() -> new BusinessException("Categoria não encontrada", true, HttpStatus.NOT_FOUND, "create-subcategoria"));
 
         Subcategoria subcategoria = new Subcategoria();
         subcategoria.setNome(dto.getNome());
@@ -39,19 +39,19 @@ public class SubcategoriaService {
 
     public Subcategoria findBySlug(String slug) {
         return repository.findBySlug(slug)
-            .orElseThrow(() -> new BusinessException("Subcategoria não encontrada", true, HttpStatus.NOT_FOUND));
+            .orElseThrow(() -> new BusinessException("Subcategoria não encontrada", true, HttpStatus.NOT_FOUND, "find-slug-subcategoria"));
     }
 
     public Subcategoria update(Long id, SubcategoriaRequestDTO dto) {
         Subcategoria subcategoria = repository.findById(id)
-            .orElseThrow(() -> new BusinessException("Subcategoria não encontrada", true, HttpStatus.NOT_FOUND));
+            .orElseThrow(() -> new BusinessException("Subcategoria não encontrada", true, HttpStatus.NOT_FOUND, "update-subcategoria"));
 
         if (dto.getNome() != null) subcategoria.setNome(dto.getNome());
         if (dto.getSlug() != null) subcategoria.setSlug(dto.getSlug());
 
         if (dto.getCategoriaId() != null) {
             Categoria categoria = categoriaRepository.findById(dto.getCategoriaId())
-                .orElseThrow(() -> new BusinessException("Categoria não encontrada", true, HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new BusinessException("Categoria não encontrada", true, HttpStatus.NOT_FOUND, "update-subcategoria"));
             subcategoria.setCategoria(categoria);
         }
 
@@ -60,7 +60,7 @@ public class SubcategoriaService {
 
     public void delete(Long id) {
         if (!repository.existsById(id))
-            throw new BusinessException("Subcategoria não encontrada", true, HttpStatus.NOT_FOUND);
+            throw new BusinessException("Subcategoria não encontrada", true, HttpStatus.NOT_FOUND, "delete-subcategoria");
         repository.deleteById(id);
     }
 }

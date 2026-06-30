@@ -20,11 +20,11 @@ public class AvaliacoesCursoService {
 
     public AvaliacoesCurso register(AvaliacoesCurso avaliacao, int userId) {
         if(avaliacao == null || avaliacao.getCursoId() == null || avaliacao.getMensagem() == null || avaliacao.getMensagem().trim().isEmpty()) {
-            throw new BusinessException("Preencha a sua avaliação", true,HttpStatus.UNPROCESSABLE_CONTENT);
+            throw new BusinessException("Preencha a sua avaliação", true,HttpStatus.UNPROCESSABLE_CONTENT, "create-avaliacao");
         }
 
         if(avaliacao.getNota() > 5 || avaliacao.getNota() <= 0){
-            throw new BusinessException("A nota deve ser entre 1 e 5", true,HttpStatus.UNPROCESSABLE_CONTENT);
+            throw new BusinessException("A nota deve ser entre 1 e 5", true,HttpStatus.UNPROCESSABLE_CONTENT, "create-avaliacao");
         }
 
         avaliacao.setUserId(userId);

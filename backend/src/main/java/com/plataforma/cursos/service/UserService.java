@@ -33,7 +33,7 @@ public class UserService {
 
     public UserDTO findById(Long id) {
         User user = repository.findById(id)
-        .orElseThrow(() -> new BusinessException("Usuário não encontrado", true, HttpStatus.NOT_FOUND));
+        .orElseThrow(() -> new BusinessException("Usuário não encontrado", true, HttpStatus.NOT_FOUND, "find-user"));
 
         return UserDTO.fromEntity(user);
     }
@@ -41,13 +41,13 @@ public class UserService {
     public String login(String email, String password) {
 
         if(email == null || email.isBlank() || password == null || password.isBlank()){
-            throw new BusinessException("Dados incompletos para login", true, HttpStatus.UNPROCESSABLE_CONTENT);
+            throw new BusinessException("Dados incompletos para login", true, HttpStatus.UNPROCESSABLE_CONTENT, "login-user");
         }
 
         User user = repository.findByEmail(email);
 
         if (user == null || !passwordService.matches(password, user.getPassword())) {
-            throw new BusinessException("Credenciais inválidas", true, HttpStatus.BAD_REQUEST);
+            throw new BusinessException("Credenciais inválidas", true, HttpStatus.BAD_REQUEST, "login-user");
         }
 
         return tokenService.generateToken(user);
@@ -57,11 +57,11 @@ public class UserService {
         if(user.getNome() == null || user.getNome().isBlank() ||
             user.getEmail() == null || user.getEmail().isBlank() ||
             user.getPassword() == null || user.getPassword().isBlank()){
-            throw new BusinessException("Dados incompletos para cadastro", true,HttpStatus.UNPROCESSABLE_CONTENT);
+            throw new BusinessException("Dados incompletos para cadastro", true,HttpStatus.UNPROCESSABLE_CONTENT, "create-user");
         }
 
         if(repository.findByEmail(user.getEmail()) != null){
-            throw new BusinessException("Usuário já cadastrado no sistema", false, HttpStatus.BAD_REQUEST);
+            throw new BusinessException("Usuário já cadastrado no sistema", false, HttpStatus.BAD_REQUEST, "create-user");
         }
 
         user.setPassword(passwordService.hash(user.getPassword()));

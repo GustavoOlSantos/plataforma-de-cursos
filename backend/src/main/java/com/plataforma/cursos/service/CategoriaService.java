@@ -67,7 +67,7 @@ public class CategoriaService {
     public Categoria save(CategoriaRequestDTO dto) {
 
         if(dto.getNome() == null || dto.getNome().isEmpty() || dto.getSlug() == null || dto.getSlug().isEmpty()){
-            throw new BusinessException("Dados incompletos para cadastro", true, HttpStatus.UNPROCESSABLE_CONTENT);
+            throw new BusinessException("Dados incompletos para cadastro", true, HttpStatus.UNPROCESSABLE_CONTENT, "create_categorias");
         }
 
         Categoria categoria = new Categoria();
@@ -78,7 +78,7 @@ public class CategoriaService {
 
     public Categoria update(Long id, CategoriaRequestDTO dto) {
         Categoria categoria = repository.findById(id)
-            .orElseThrow(() -> new BusinessException("Categoria não encontrada", true, HttpStatus.NOT_FOUND));
+            .orElseThrow(() -> new BusinessException("Categoria não encontrada", true, HttpStatus.NOT_FOUND, "update_categorias"));
 
         if (dto.getNome() != null) categoria.setNome(dto.getNome());
         if (dto.getSlug() != null) categoria.setSlug(dto.getSlug());
@@ -88,7 +88,7 @@ public class CategoriaService {
 
     public void delete(Long id) {
         if (!repository.existsById(id))
-            throw new BusinessException("Categoria não encontrada", true, HttpStatus.NOT_FOUND);
+            throw new BusinessException("Categoria não encontrada", true, HttpStatus.NOT_FOUND, "delete-categorias");
         repository.deleteById(id);
     }
 }

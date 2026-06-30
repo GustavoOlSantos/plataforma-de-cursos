@@ -28,7 +28,7 @@ public class CompraController implements CompraControllerDocs {
     @GetMapping
     public List<CursosDTO> getCursoByUserId(Authentication authentication){
         if (authentication == null || !authentication.isAuthenticated()) {
-            throw new BusinessException("Usuário não autenticado", true, HttpStatus.UNAUTHORIZED);
+            throw new BusinessException("Usuário não autenticado", true, HttpStatus.UNAUTHORIZED, "find-cursos-comprados");
         }
 
         Long userId = Long.parseLong(authentication.getName());
@@ -38,7 +38,7 @@ public class CompraController implements CompraControllerDocs {
     @PostMapping("/{cursoId}")
     public ResponseEntity<?> comprarCurso(@PathVariable Long cursoId, Authentication authentication) {
         if (authentication == null || !authentication.isAuthenticated()) {
-            throw new BusinessException("Usuário não autenticado", true, HttpStatus.UNAUTHORIZED);
+            throw new BusinessException("Usuário não autenticado", true, HttpStatus.UNAUTHORIZED, "buy-curso");
         }
 
         Long userId = Long.parseLong(authentication.getName());

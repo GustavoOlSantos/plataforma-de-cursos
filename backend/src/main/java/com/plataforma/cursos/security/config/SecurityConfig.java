@@ -11,17 +11,17 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.http.HttpMethod;
 import com.plataforma.cursos.security.service.TokenService;
 import com.plataforma.cursos.security.filter.JwtFilter;
-
+import com.plataforma.cursos.config.RequestLoggingFilter; // ajuste pro pacote real
 import java.util.List;
 
 @Configuration
 public class SecurityConfig {
-
     private final TokenService tokenService;
+    private final RequestLoggingFilter requestLoggingFilter;
 
-    @Autowired
-    public SecurityConfig(TokenService tokenService) {
+    public SecurityConfig(TokenService tokenService, RequestLoggingFilter requestLoggingFilter) {
         this.tokenService = tokenService;
+        this.requestLoggingFilter = requestLoggingFilter;
     }
 
     @Bean
@@ -43,24 +43,22 @@ public class SecurityConfig {
                 .anyRequest().authenticated()
             )
             .httpBasic(httpBasic -> httpBasic.disable())
-            .formLogin(form -> form.disable());
+            .formLogin(form -> form.disable())
+            .addFilterBefore(new JwtFilter(tokenService), UsernamePasswordAuthenticationFilter.class)
+            .addFilterBefore(requestLoggingFilter, JwtFilter.class);
 
-        http.addFilterBefore(new JwtFilter(tokenService), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-
         config.setAllowedOrigins(List.of("http://localhost:3000", "https://project-pritz.vercel.app/"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
-
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
-
         return source;
     }
 }

@@ -31,7 +31,7 @@ public class AvaliacoesCursoController implements AvaliacoesCursoControllerDocs 
     @SecurityRequirement(name = "bearerAuth")
     public AvaliacoesCurso create(@RequestBody AvaliacoesCurso avaliacao, Authentication authentication) {
         if(authentication == null || authentication.getName() == null) {
-            throw new BusinessException("Usuário não autenticado", true, HttpStatus.UNAUTHORIZED);
+            throw new BusinessException("Usuário não autenticado", true, HttpStatus.UNAUTHORIZED, "create-avaliacoes");
         }
         
         int userId = Integer.parseInt(authentication.getName());

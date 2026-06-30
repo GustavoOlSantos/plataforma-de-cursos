@@ -39,10 +39,10 @@ public class ProgressoAulaService {
         public boolean salvar(ProgressoRequestDTO progresso, Long userId){
 
                 User usuario = userRepository.findById(userId)
-                        .orElseThrow(() -> new BusinessException("Usuário não encontrado", true, HttpStatus.NOT_FOUND));
+                        .orElseThrow(() -> new BusinessException("Usuário não encontrado", true, HttpStatus.NOT_FOUND, "save-progresso"));
 
                 AulaCurso aula = aulaCursoRepository.findById(progresso.getAulaId())
-                        .orElseThrow(() -> new BusinessException("Aula não encontrada", true, HttpStatus.NOT_FOUND));
+                        .orElseThrow(() -> new BusinessException("Aula não encontrada", true, HttpStatus.NOT_FOUND, "save-progresso"));
 
                 ProgressoAula progressoAula = progressoAulaRepository
                         .findByUsuarioIdAndAulaId(userId, progresso.getAulaId())
