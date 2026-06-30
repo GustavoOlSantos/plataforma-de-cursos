@@ -63,6 +63,8 @@ A plataforma está totalmente deployada e integrada com serviços cloud reais.
 - Persistência de progresso do usuário
 - Gerenciamento de imagens via Cloudinary
 - Integração MySQL + MongoDB
+- Interface responsiva com suporte a dispositivos mobile
+- Health check via `/health` utilizado pelo Render para monitoramento e restart automático por `cron-job.org` para evitar cold start por inatividade no plano gratuito
 
 ---
 
@@ -92,6 +94,7 @@ A plataforma está totalmente deployada e integrada com serviços cloud reais.
 | Spring Data JPA | 4.0.5 |
 | Spring Data MongoDB | 4.0.5 |
 | JWT | 0.11.5 |
+| Logstash Logback Encoder | 7.4 |
 | Maven | Wrapper |
 
 ---
@@ -202,6 +205,50 @@ A autenticação da aplicação é baseada em **JWT (JSON Web Token)** utilizand
 * autorização de requisições
 * integração segura entre frontend e backend
 
+
+---
+## Observabilidade
+
+O backend conta com logging estruturado implementado via SLF4J + Logback, com comportamento diferenciado por ambiente através de `logback-spring.xml` e Spring Profiles.
+
+### Comportamento por ambiente
+
+| Ambiente | Formato | Ativação |
+|---|---|---|
+| Local (`default`) | Texto legível com timestamp e nível colorido | Padrão ao rodar sem profile ativo |
+| Produção (`prod`) | JSON estruturado via `LogstashEncoder` | `SPRING_PROFILES_ACTIVE=prod` no Render |
+
+O formato JSON em produção permite que os logs sejam consumidos por ferramentas externas de observabilidade (Grafana Loki, Better Stack, Datadog) sem necessidade de parsing manual.
+
+### Rastreamento de requisições
+
+Um `RequestLoggingFilter` intercepta automaticamente todas as requisições HTTP, registrando método, URI, status e tempo de resposta:
+
+```
+INFO  método=POST uri=/auth/login status=200 duração_ms=102
+INFO  método=GET  uri=/cursos/maisVendidos status=200 duração_ms=35
+```
+
+### Como os logs revelaram um problema de N+1
+
+Durante o desenvolvimento, ao observar os logs de requisição na home page, foi identificado um padrão de múltiplas chamadas ao endpoint `/avaliacoes/curso/id-curso/{id}` — uma requisição separada por curso exibido no carrossel, totalizando 16+ chamadas HTTP para carregar uma única página.
+
+#### Antes da correção
+```
+INFO  método=GET uri=/cursos/maisVendidos status=200 duração_ms=454
+INFO  método=GET uri=/avaliacoes/curso/id-curso/1  status=200 duração_ms=83
+INFO  método=GET uri=/avaliacoes/curso/id-curso/2  status=200 duração_ms=85
+INFO  método=GET uri=/avaliacoes/curso/id-curso/3  status=200 duração_ms=84
+... (13 requisições adicionais)
+```
+
+#### Após a correção
+```
+INFO  método=GET uri=/cursos/maisVendidos status=200 duração_ms=35
+```
+
+A causa era o componente `CardCursos` disparando um `useEffect` individual por curso para buscar avaliações do MongoDB. A correção consolidou a busca no backend: o endpoint `/cursos/maisVendidos` passou a retornar média e quantidade de avaliações embutidas no payload, usando uma query `$in` no MongoDB para buscar todas as avaliações em uma única chamada e agregação em memória com `Collectors.teeing` para calcular média e contagem por curso simultaneamente.
+
 ---
 
 ## Preview
@@ -212,6 +259,14 @@ A autenticação da aplicação é baseada em **JWT (JSON Web Token)** utilizand
   <img src="./screenshots/fluxo.gif" width="45%"/>
 </p>
 
+### Responsividade
+
+A interface foi adaptada para dispositivos móveis com breakpoints em **768px** (tablet) e **480px** (celular), cobrindo:
+
+- Navbar com menu hambúrguer e busca expansível por ícone
+- Carrossel de cursos com scroll lateral (1 card por vez em mobile)
+- Sidebar de compra convertida em barra fixa no rodapé via React Portal
+- Seção hero redimensionada e elementos secundários ocultados em telas pequenas
 ## Como executar o projeto localmente
 
 ### Pré-requisitos
