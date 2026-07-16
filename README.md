@@ -10,7 +10,14 @@
 
 </div>
 
----
+<p align="center">
+  <img src="./screenshots/home-page.png" width="45%"/>
+  <img src="./screenshots/assistir-curso.png" width="45%"/>
+  <img src="./screenshots/detalhamento-curso.png" width="45%"/>
+  <img src="./screenshots/fluxo.gif" width="45%"/>
+</p>
+
+
 
 ## Sobre o projeto
 
@@ -251,22 +258,6 @@ A causa era o componente `CardCursos` disparando um `useEffect` individual por c
 
 ---
 
-## Preview
-<p align="center">
-  <img src="./screenshots/home-page.png" width="45%"/>
-  <img src="./screenshots/assistir-curso.png" width="45%"/>
-  <img src="./screenshots/detalhamento-curso.png" width="45%"/>
-  <img src="./screenshots/fluxo.gif" width="45%"/>
-</p>
-
-### Responsividade
-
-A interface foi adaptada para dispositivos móveis com breakpoints em **768px** (tablet) e **480px** (celular), cobrindo:
-
-- Navbar com menu hambúrguer e busca expansível por ícone
-- Carrossel de cursos com scroll lateral (1 card por vez em mobile)
-- Sidebar de compra convertida em barra fixa no rodapé via React Portal
-- Seção hero redimensionada e elementos secundários ocultados em telas pequenas
 ## Como executar o projeto localmente
 
 ### Pré-requisitos
@@ -337,7 +328,7 @@ npm run dev
 
 ## Roadmap
 
-* As próximas melhorias podem ser vistas no Quadro de Tarefas na seção `Projects` do repositório
+* As próximas melhorias podem ser vistas no [Quadro de Tarefas](https://github.com/users/GustavoOlSantos/projects/2).
 
 ---
 
