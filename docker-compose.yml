@@ -1,0 +1,56 @@
+services:
+  frontend:
+    container_name: skillUp-frontend
+    build: ./frontend
+    ports:
+     - "3000:3000"
+    depends_on:
+    - backend
+
+  backend:
+    container_name: skillUp-backend
+    build: ./backend
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/sistem-cursos?useSSL=false&&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: app
+      SPRING_DATASOURCE_PASSWORD: 123456
+      MONGO_URI: mongodb://mongodb:27017/skillup
+      JWT_SECRET: ebay-embolism-gully-factual-subpanel-unstamped-sugar-camcorder
+    ports:
+     - "8080:8080"
+    depends_on:
+      mysql:
+        condition: service_healthy
+      mongodb:
+        condition: service_started
+
+  mysql:
+    container_name: skillUp-mysql
+    image: mysql:8.4
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: sistem-cursos
+      MYSQL_USER: app
+      MYSQL_PASSWORD: 123456
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  mongodb:
+    container_name: skillUp-mongo
+    image: mongo:8
+    ports:
+      - "27018:27017"
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mysql_data:
+  mongo_data:
