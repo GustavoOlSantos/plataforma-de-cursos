@@ -55,7 +55,8 @@ A plataforma está totalmente deployada e integrada com serviços cloud reais.
 | Banco NoSQL | MongoDB Atlas |
 | Armazenamento de imagens | Cloudinary |
 | Testes Automatizados | Cypress |
-| CI/CD | Workflows no Github Actions
+| CI/CD | Workflows no Github Actions |
+| Docker | Docker compose para dev |
 
 ---
 
@@ -260,18 +261,6 @@ A causa era o componente `CardCursos` disparando um `useEffect` individual por c
 
 ## Como executar o projeto localmente
 
-### Pré-requisitos
-
-Antes de iniciar, é necessário possuir instalado:
-
-* Node.js
-* Java 21+
-* MySQL
-* MongoDB
-* Maven (opcional, o projeto utiliza Maven Wrapper)
-
----
-
 ### Clone o repositório
 
 ```bash
@@ -280,7 +269,68 @@ git clone https://github.com/GustavoOlSantos/plataforma-de-cursos.git
 
 ---
 
-### Executando o backend
+### Executando com Docker Compose (recomendado)
+
+O projeto pode ser executado por completo — frontend, backend, MySQL e MongoDB — com um único comando, sem necessidade de instalar Java, Node, MySQL ou MongoDB localmente. Basta ter Docker e Docker Compose instalados.
+
+Na raiz do projeto:
+
+```bash
+docker compose up --build
+```
+
+Esse comando constrói as imagens do frontend e do backend e sobe os seguintes serviços:
+
+| Serviço | Container | Porta local | Descrição |
+|---|---|---|---|
+| Frontend | skillUp-frontend | `3000` | Aplicação React |
+| Backend | skillUp-backend | `8080` | API Spring Boot |
+| MySQL | skillUp-mysql | `3307` (interno `3306`) | Dados de usuários, cursos e compras |
+| MongoDB | skillUp-mongo | `27018` (interno `27017`) | Avaliações e comentários |
+
+O backend aguarda o MySQL reportar-se saudável (via `healthcheck`) antes de subir, evitando falhas de conexão durante a inicialização.
+
+#### Acessando a aplicação
+
+- Frontend: [http://localhost:3000](http://localhost:3000)
+- Backend (API): [http://localhost:8080](http://localhost:8080)
+- Documentação da API (Swagger): [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
+
+#### Populando o banco com dados de teste (seed)
+
+Com os containers no ar e o profile `dev` ativo (`SPRING_PROFILES_ACTIVE=dev` já configurado no `docker-compose.yml`), o MySQL pode ser populado com dados de teste através do endpoint:
+
+```
+GET http://localhost:8080/dev/seed
+```
+
+Esse endpoint só existe quando o profile `dev` está ativo e não fica disponível em produção.
+
+#### Encerrando os containers
+
+```bash
+docker compose down
+```
+
+Para remover também os volumes, apagando os dados persistidos do MySQL e MongoDB:
+
+```bash
+docker compose down -v
+```
+
+---
+
+### Executando manualmente (sem Docker)
+
+Alternativamente, é possível rodar cada serviço manualmente, desde que os pré-requisitos listados abaixo estejam instalados:
+
+* Node.js
+* Java 21+
+* MySQL
+* MongoDB
+* Maven (opcional, o projeto utiliza Maven Wrapper)
+
+#### Executando o backend
 
 ```bash
   npm run dev:backend 
@@ -322,7 +372,8 @@ npm run dev
 - Implementar autenticação e autorização com JWT
 - Desenvolver uma API REST segura e organizada em camadas
 - Explorar persistência híbrida com MySQL e MongoDB
-- Evoluir arquitetura, componentização e integração frontend/backend
+- Evoluir arquitetura, componentização, integração frontend/backend
+- Explorar e aplicar conceitos de infraestrutura e qualidade
   
 ---
 
