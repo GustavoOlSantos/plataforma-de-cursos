@@ -264,7 +264,7 @@ A causa era o componente `CardCursos` disparando um `useEffect` individual por c
 ### Clone o repositório
 
 ```bash
-git clone https://github.com/GustavoOlSantos/plataforma-de-cursos.git
+git clone https://github.com/GustavoOlSantos/skill-up.git
 ```
 
 ---
