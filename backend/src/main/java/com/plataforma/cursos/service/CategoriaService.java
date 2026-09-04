@@ -8,6 +8,8 @@ import com.plataforma.cursos.DTO.CategoriaRequestDTO;
 import com.plataforma.cursos.DTO.SubcategoriaDTO;
 import com.plataforma.cursos.exception.BusinessException;
 import com.plataforma.cursos.repository.CategoriaRepository;
+
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 
 @Service
@@ -40,6 +42,7 @@ public class CategoriaService {
             }).toList();
     }
 
+    @Cacheable("categoriasFooter")
     public List<CategoriaDTO> buscarCategoriasFiltradasFooter(List<String> nomes){
         List<Categoria> categorias = repository.findByNomeIn(nomes);
         
