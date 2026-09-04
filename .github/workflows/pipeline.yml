@@ -11,6 +11,7 @@ on:
 
 jobs:
   build-frontend:
+    name: Build e Verificações (Frontend)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout do código
@@ -25,6 +26,18 @@ jobs:
       - name: Instalar dependências
         run: npm ci
         working-directory: ./frontend
+
+      # NOVO: Análise de Segurança do NPM
+      - name: Análise de Segurança (npm audit)
+        run: npm audit
+        working-directory: ./frontend
+        continue-on-error: true
+
+      # NOVO: Análise Estática de Código do React
+      - name: Análise Estática (ESLint)
+        run: npm run lint
+        working-directory: ./frontend
+        continue-on-error: true
 
       - name: Gerar build do Frontend
         run: npm run build
@@ -42,6 +55,7 @@ jobs:
           path: frontend/build/ 
 
   build-backend:
+    name: Build e Verificações (Backend)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout do código
@@ -58,6 +72,18 @@ jobs:
         run: chmod +x mvnw
         working-directory: ./backend
 
+      # NOVO: Análise de Segurança das dependências Java (Requer secret NVD_API_KEY)
+      - name: Análise de Segurança (OWASP Dependency-Check)
+        run: ./mvnw dependency-check:check -DnvdApiKey=${{ secrets.NVD_API_KEY }}
+        working-directory: ./backend
+        continue-on-error: true
+
+      # NOVO: Análise Estática de Código do Java
+      - name: Análise Estática (SpotBugs)
+        run: ./mvnw spotbugs:check
+        working-directory: ./backend
+        continue-on-error: true
+
       - name: Gerar build do Backend (Sem testes)
         run: ./mvnw clean package -DskipTests
         working-directory: ./backend
@@ -69,6 +95,7 @@ jobs:
           path: backend/target/*.jar
 
   testes-cypress:
+    name: Testes E2E (Cypress)
     runs-on: ubuntu-latest
     needs: [build-frontend, build-backend]
 
@@ -96,6 +123,7 @@ jobs:
         with:
           node-version: '24'
           cache: 'npm'
+
       - name: Configurar Java
         uses: actions/setup-java@v4
         with:
@@ -118,7 +146,6 @@ jobs:
         run: npm ci
         working-directory: ./frontend
 
-      # Ligar o backend e o frontend em background (sinal &) antes de testar
       - name: Executar Testes E2E com Cypress
         run: |
           java -jar ../backend/target/*.jar &
@@ -132,7 +159,6 @@ jobs:
           npx cypress run
         working-directory: ./frontend
         env:
-          # Variáveis necessárias pro backend conseguir ligar durante os testes
           JWT_SECRET: ${{ vars.JWT_SECRET }}
           SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/meubanco_teste
           SPRING_DATASOURCE_USERNAME: root
