@@ -1,10 +1,4 @@
-import React from "react";
-import { useNavigate } from 'react-router-dom';
-
-function buttonIcon({ icon, onClick, alt, className, children }) {
-
-    const navigate = useNavigate();
-
+function ButtonIcon({ icon, onClick, alt, className, children }) {
     return(
         <>
             <button className={`btn-icon ${className || ''}`} onClick={onClick} alt={alt}>
@@ -14,4 +8,4 @@ function buttonIcon({ icon, onClick, alt, className, children }) {
         </>
     )
 }
-export default buttonIcon;
+export default ButtonIcon;

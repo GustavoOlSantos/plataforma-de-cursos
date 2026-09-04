@@ -202,7 +202,7 @@ function VerCurso(){
         });
 
         curso.modulos.forEach(modulo => {
-            if (modulo == null || modulo.ordem != 1) return;
+            if (modulo === null || modulo.ordem !== 1) return;
             setMenorAulaId(modulo.aulas[0].id);
         });
     }, [curso])
