@@ -24,7 +24,7 @@ function FooterCategorias(){
 
     return (
         <section className="categories">
-            {categorias.map((cat, index) => (
+            {categorias?.map((cat, index) => (
                 <nav key={index} aria-labelledby={`cat-${cat.slug}-heading`}>
                 <h3 id={`cat-${cat.slug}-heading`}>{cat.nome}</h3>
 

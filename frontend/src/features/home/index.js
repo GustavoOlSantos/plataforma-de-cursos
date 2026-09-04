@@ -82,7 +82,7 @@ function Home(){
                     <button onClick={prevSlide} className="btn-prev cursos">‹</button>
                     
                     <div className="carousel-track" style={{ transform: `translateX(-${currentIndex * cardWidthPercent}%)` }}>
-                        {cursos.map(curso => (
+                        {cursos?.map(curso => (
                             <CardCursos key={curso.id} curso={curso} maisVendidos={true} />
                         ))}
                     </div>
